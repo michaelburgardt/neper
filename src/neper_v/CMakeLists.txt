@@ -80,11 +80,13 @@ add_library (neper_v
 ./nev_print/nev_print_tesr/nev_print_tesr1.c
 ./nev_print/nev_print_point/nev_print_point1.c
 ./nev_print/nev_print2.c
+./nev_prc/nev_prc.cpp
 )
 
 set (EXTRA_LIBS ${EXTRA_LIBS} ut)
 set (EXTRA_LIBS ${EXTRA_LIBS} neut)
 set (EXTRA_LIBS ${EXTRA_LIBS} orilib)
+set (EXTRA_LIBS ${EXTRA_LIBS} prc)
   
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
@@ -109,6 +111,12 @@ if (HAVE_NLOPT)
   find_package (NLOPT REQUIRED)
   set (EXTRA_LIBS ${EXTRA_LIBS} ${NLOPT_LIBRARIES})
   include_directories (${NLOPT_INCLUDE_DIRS})
+endif ()
+
+if (HAVE_LIBZ)
+  find_package (zlib REQUIRED)
+  set (EXTRA_LIBS ${EXTRA_LIBS} ${ZLIB_LIBRARIES})
+  include_directories (${ZLIB_INCLUDE_DIRS})
 endif ()
 
 target_link_libraries (neper_v ${EXTRA_LIBS})
