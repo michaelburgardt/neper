@@ -194,7 +194,7 @@ nev_print (char **expargv, int *pi, struct PRINT Print,
   if (PointData.ColDataType != NULL
       && !strcmp (PointData.ColDataType, "scal"))
   {
-    ut_print_message (0, 2, "Printing scale for points...\n", i);
+    ut_print_message (0, 2, "Printing scale for points %d...\n", i);
 
     sprintf (filename2, "%s-scalep.pov", expargv[(*pi)]);
 

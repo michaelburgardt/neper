@@ -9,8 +9,23 @@
 
 #include"ut.h"
 #include"neut_v.h"
+//#include "../nev_print/nev_print_mesh/nev_print_mesh_.h"
+//#include "../nev_print/nev_print_mesh/nev_print_mesh_3d/nev_print_mesh_3d_.h"
+//#include "../nev_print/nev_print_mesh/nev_print_mesh_2d/nev_print_mesh_2d.h"
+//#include "../nev_print/nev_print_mesh/nev_print_mesh_nodes/nev_print_mesh_nodes.h"
+
+
 
 #include "oPRCFile.h"
+
+extern "C" void nev_print_mesh_2d_compress (struct MESH Mesh2D, int *,
+                                        struct MESH *pM1D);
+
+extern "C" void nev_print_mesh_3d_compress (struct PRINT Print, struct NODES
+                                        Nodes, struct MESH Mesh3D,
+                                        struct NODES *, struct MESH *,
+                                        int ***pprintelt3dface, int **,
+                                        int **);
 
 extern "C" void nev_prc (char **, int *, struct PRINT,
                        struct TESS, struct TESSDATA,
@@ -21,3 +36,4 @@ extern "C" void nev_prc (char **, int *, struct PRINT,
                        struct NODEDATA *, struct MESHDATA **,
                        int **SElt2dElt3d,
                        struct CSYSDATA, struct POINT, struct POINTDATA);
+
