@@ -650,6 +650,18 @@ neut_debug_seedset (FILE * file, struct SEEDSET SSet)
   else
     ut_array_1d_int_fprintf (file, SSet.Periodic, 3, "%d");
 
+  fprintf (file, "PeriodicDist =\n");
+  if (!SSet.PeriodicDist)
+    printf ("is NULL.\n");
+  else
+    ut_array_1d_fprintf (file, SSet.PeriodicDist, 3, "%f");
+
+  fprintf (file, "Size =\n");
+  if (!SSet.Size)
+    printf ("is NULL.\n");
+  else
+    ut_array_2d_fprintf (file, SSet.Size, 3, 2, "%f");
+
   return;
 }
 
