@@ -247,8 +247,8 @@ neut_seedset_seed_update_fromseedcoo0 (struct SEEDSET *pSSet, int id)
       if ((*pSSet).Periodic[i])
 	(*pSSet).SeedCoo[id][i]
 	  = (*pSSet).SeedCoo0[id][i]
-	  - (*pSSet).Periodic[i]
-	  * floor ((*pSSet).SeedCoo0[id][i] / (*pSSet).Periodic[i]);
+	  - (*pSSet).Periodic[i] * (*pSSet).PeriodicDist[i]
+	  * floor ((*pSSet).SeedCoo0[id][i] / ((*pSSet).Periodic[i] * (*pSSet).PeriodicDist[i]));
       else
 	(*pSSet).SeedCoo[id][i] = (*pSSet).SeedCoo0[id][i];
     }
