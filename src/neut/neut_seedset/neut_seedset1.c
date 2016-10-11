@@ -166,7 +166,7 @@ neut_seedset_slave_setprop (struct SEEDSET *pSSet, int id)
   ut_array_1d_memcpy ((*pSSet).SeedCoo[id], 3, (*pSSet).SeedCoo[master]);
   for (i = 0; i < 3; i++)
     (*pSSet).SeedCoo[id][i] +=
-      (*pSSet).PerSeedShift[id][i] * (*pSSet).Size[i][1];
+      (*pSSet).PerSeedShift[id][i] * (*pSSet).PeriodicDist[i];
 
   (*pSSet).SeedWeight[id] = (*pSSet).SeedWeight[master];
 
@@ -237,7 +237,7 @@ neut_seedset_seedcootoseedcoo0 (struct SEEDSET *pSSet)
 int
 neut_seedset_seed_update_fromseedcoo0 (struct SEEDSET *pSSet, int id)
 {
-  int i;
+  int i, alpha;
 
   if (!strcmp ((*pSSet).Type, "standard"))
     ut_array_1d_memcpy ((*pSSet).SeedCoo[id], 3, (*pSSet).SeedCoo0[id]);
@@ -245,10 +245,12 @@ neut_seedset_seed_update_fromseedcoo0 (struct SEEDSET *pSSet, int id)
     for (i = 0; i < (*pSSet).Dim; i++)
     {
       if ((*pSSet).Periodic[i])
-	(*pSSet).SeedCoo[id][i]
-	  = (*pSSet).SeedCoo0[id][i]
-	  - (*pSSet).Periodic[i] * (*pSSet).PeriodicDist[i]
-	  * floor ((*pSSet).SeedCoo0[id][i] / ((*pSSet).Periodic[i] * (*pSSet).PeriodicDist[i]));
+      {
+	alpha = ((*pSSet).SeedCoo0[id][i] - (*pSSet).Size[i][0])
+	        / (*pSSet).PeriodicDist[i];
+	(*pSSet).SeedCoo[id][i] = (*pSSet).SeedCoo0[id][i]
+	                        + alpha * (*pSSet).PeriodicDist[i];
+      }
       else
 	(*pSSet).SeedCoo[id][i] = (*pSSet).SeedCoo0[id][i];
     }
