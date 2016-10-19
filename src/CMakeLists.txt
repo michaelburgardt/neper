@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(neper)
 
-set (NEPER_VERSION \"3.0.1-4\")
+set (NEPER_VERSION \"3.0.1-5\")
 set (NEPER_EMAIL \"neper-users@lists.sourceforge.net\")
 
 # should we use the optional libraries?
@@ -116,7 +116,9 @@ add_test (T_morpho_voronoi        ./neper -T -n 5 -morpho voronoi)
 add_test (T_morpho_gg             ./neper -T -n 5 -morpho gg)
 add_test (T_morpho_centroidal     ./neper -T -n 5 -morpho centroidal)
 add_test (T_morpho_cube           ./neper -T -n from_morpho -morpho "cube(2)")
+add_test (T_morpho_cube3          ./neper -T -n from_morpho -morpho "cube(2,3,4)")
 add_test (T_morpho_square         ./neper -T -n from_morpho -dim 2 -morpho "square(2)")
+add_test (T_morpho_square2        ./neper -T -n from_morpho -dim 2 -morpho "square(2,3)")
 add_test (T_morpho_lamellar_w     ./neper -T -n from_morpho -morpho "lamellar(w=0.1)")
 add_test (T_morpho_lamellar_w2    ./neper -T -n from_morpho -morpho "lamellar(w=0.1:0.02)")
 # add_test (T_morpho_tesr)

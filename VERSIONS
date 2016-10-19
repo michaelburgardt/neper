@@ -1,5 +1,6 @@
-New in 3.0.1-4 (11 Oct 2016):
-- module -T: fixed up options -periodic and -morphooptialgoneigh qsort.
+New in 3.0.1-5 (19 Oct 2016):
+- module -T: fixed up options -periodic and -morphooptialgoneigh qsort,
+  added -morpho cube(N1,N2,N3) and -morpho square(N1,N2).
 
 New in 3.0.0 (12 Sep 2016):
 - module -T: added 3 major capabilities: (i) tessellation generation
