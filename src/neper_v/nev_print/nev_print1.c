@@ -20,10 +20,9 @@ nev_print (char **expargv, int *pi, struct PRINT Print,
   char *filename = ut_alloc_1d_char (strlen (expargv[(*pi) + 1]) + 10);
   char *filename2 = ut_alloc_1d_char (strlen (expargv[(*pi) + 1]) + 100);
   char *command = ut_alloc_1d_char (1000);
-  int i;
+  int i, qty;
   int imageheight, imagewidth;
   char **vals = NULL;
-  int qty;
 
   ut_string_separate (Print.imagesize, NEUT_SEP_DEP, &vals, &qty);
 
@@ -211,8 +210,14 @@ nev_print (char **expargv, int *pi, struct PRINT Print,
       remove (filename2);
   }
 
-  ut_free_1d_char (ent);
+  // PRC file
+  if (ut_string_inlist (Print.format, NEUT_SEP_NODEP, "prc"))
+    nev_print_prc (expargv, &i, Print, Tess, TessData,
+	     Tesr, TesrData, Nodes, Mesh,
+	     NodeData, MeshData, SQty, SNodes, SMesh2D, SNodeData,
+	     SMeshData, SElt2dElt3d, CsysData, Point, PointData);
 
+  ut_free_1d_char (ent);
   ut_free_1d_char (command);
   ut_free_1d_char (filename);
   ut_free_1d_char (filename2);

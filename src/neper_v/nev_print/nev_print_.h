@@ -16,6 +16,9 @@
 #include "nev_print_tesr/nev_print_tesr.h"
 #include "nev_print_foot/nev_print_foot.h"
 #include "nev_print_point/nev_print_point.h"
+
+#include "nev_print_prc/nev_print_prc.h"
+
 #include "../nev_data/nev_data.h"
 
 #include "nev_print.h"

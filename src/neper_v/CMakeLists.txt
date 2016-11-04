@@ -80,7 +80,7 @@ add_library (neper_v
 ./nev_print/nev_print_tesr/nev_print_tesr1.c
 ./nev_print/nev_print_point/nev_print_point1.c
 ./nev_print/nev_print2.c
-./nev_prc/nev_prc.cpp
+./nev_print/nev_print_prc/nev_print_prc.cpp
 )
 
 set (EXTRA_LIBS ${EXTRA_LIBS} ut)

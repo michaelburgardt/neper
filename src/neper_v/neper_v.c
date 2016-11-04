@@ -136,19 +136,6 @@ neper_v (int fargc, char **fargv, int argc, char **argv)
 		   NodeData, MeshData, SQty, SNodes, SMesh, SNodeData,
 		   SMeshData, SElt2dElt3d, CsysData, Point, PointData);
       }
-      // print prc image(s) ------------------------------------------------
-      else if (strncmp (expargv[i], "-prc", 4) == 0)
-      {
-	nev_data_init (Tess, &TessData, Tesr, &TesrData, Nodes, Mesh,
-		       Point, &NodeData, MeshData, &CsysData, &PointData);
-
-	nev_show_init (Tess, Tesr, Nodes, Mesh, SQty, Point, &Print);
-
- 	nev_prc (expargv, &i, Print, Tess, TessData,
- 	         Tesr, TesrData, Nodes, Mesh,
- 	         NodeData, MeshData, SQty, SNodes, SMesh, SNodeData,
- 	         SMeshData, SElt2dElt3d, CsysData, Point, PointData);
-      }
 
       // process image(s) ------------------------------------------------
       else if (strncmp (expargv[i], "-processimage", 13) == 0)

@@ -20,6 +20,5 @@
 #include"nev_show/nev_show.h"
 #include"nev_processimage/nev_processimage.h"
 #include"nev_povray/nev_povray.h"
-#include"nev_prc/nev_prc.h"
 
 #include"neper_v.h"

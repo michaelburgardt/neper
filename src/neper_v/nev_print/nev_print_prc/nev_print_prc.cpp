@@ -2,10 +2,10 @@
 /* Copyright (C) 2003-2015, Romain Quey. */
 /* See the COPYING file in the top-level directory. */
 
-#include "nev_prc_.h"
+#include "nev_print_prc_.h"
 
 void
-nev_prc (char **expargv, int *pi, struct PRINT Print,
+nev_print_prc (char **expargv, int *pi, struct PRINT Print,
 	 struct TESS Tess, struct TESSDATA TessData,
 	 struct TESR Tesr, struct TESRDATA TesrData,
 	 struct NODES Nodes, struct MESH *Mesh,
