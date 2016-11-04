@@ -13,4 +13,20 @@
 #include "nev_print_tess.h"
 #include "../nev_print.h"
 
-extern void nev_print_tess_header (FILE *, struct TESSDATA);
+extern void nev_print_tess_pre (struct PRINT Print, struct TESS Tess,
+    struct TESSDATA TessData, int **pseedlist, int **pverlist, int
+    **pedgelist, int **pfacelist, int **ppolylist, int **ppolyfacelist,
+    int *ppolyfaceqty);
+
+extern void nev_print_tess_polyfaces (FILE *file, struct PRINT Print, struct TESS
+    Tess, struct TESSDATA TessData, int *polyfacelist, int
+    polyfaceqty);
+
+extern void nev_print_tess_faces (FILE *file, struct PRINT Print, struct
+    TESS Tess, struct TESSDATA TessData, int *facelist);
+extern void nev_print_tess_edges (FILE *file, struct PRINT Print, struct
+    TESS Tess, struct TESSDATA TessData, int *edgelist);
+extern void nev_print_tess_vers  (FILE *file, struct PRINT Print, struct
+    TESS Tess, struct TESSDATA TessData, int *verlist);
+extern void nev_print_tess_seeds (FILE *file, struct PRINT Print, struct
+    TESS Tess, struct TESSDATA TessData, int *seedlist);

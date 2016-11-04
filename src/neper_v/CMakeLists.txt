@@ -77,6 +77,7 @@ add_library (neper_v
 ./nev_print/nev_print_mesh/nev_print_mesh_3d/nev_print_mesh_3d2.c
 ./nev_print/nev_print_mesh/nev_print_mesh_3d/nev_print_mesh_3d3.c
 ./nev_print/nev_print_tess/nev_print_tess1.c
+./nev_print/nev_print_tess/nev_print_tess2.c
 ./nev_print/nev_print_tesr/nev_print_tesr1.c
 ./nev_print/nev_print_point/nev_print_point1.c
 ./nev_print/nev_print2.c
