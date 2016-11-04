@@ -9,8 +9,7 @@ nev_print_tess_pre (struct PRINT Print, struct TESS Tess,
 		    struct TESSDATA TessData,
 		    int **pseedlist, int **pverlist,
 		    int **pedgelist, int **pfacelist,
-		    int **ppolylist, int **ppolyfacelist,
-		    int *ppolyfaceqty)
+		    int **ppolylist, int **ppolyfacelist)
 {
   int i, j, status, neighqty, allneigh;
   int *neigh = NULL;
@@ -69,7 +68,6 @@ nev_print_tess_pre (struct PRINT Print, struct TESS Tess,
 	}
 
     // from the (*ppolylist), determining the face list
-    (*ppolyfaceqty) = 0;
     (*ppolyfacelist) = ut_alloc_1d_int (Tess.FaceQty + 1);
 
     for (i = 1; i <= Tess.FaceQty; i++)
@@ -80,7 +78,7 @@ nev_print_tess_pre (struct PRINT Print, struct TESS Tess,
 	  status = 1;
 
       if (status && !Print.showface[i])
-	(*ppolyfacelist)[(*ppolyfaceqty)++] = i;
+	(*ppolyfacelist)[++(*ppolyfacelist[0])] = i;
     }
   }
 
@@ -92,8 +90,7 @@ nev_print_tess_pre (struct PRINT Print, struct TESS Tess,
 
 void
 nev_print_tess_polyfaces (FILE *file, struct PRINT Print, struct TESS Tess,
-			  struct TESSDATA TessData, int *polyfacelist,
-			  int polyfaceqty)
+			  struct TESSDATA TessData, int *polyfacelist)
 {
   int i, j, face, poly;
   double ambient = (Print.showshadow == 1) ? 0.6 : 1;
@@ -103,7 +100,7 @@ nev_print_tess_polyfaces (FILE *file, struct PRINT Print, struct TESS Tess,
 
   // Writing poly faces
   if (Tess.Dim == 3)
-    for (i = 0; i < polyfaceqty; i++)
+    for (i = 1; i <= polyfacelist[0]; i++)
     {
       face = polyfacelist[i];
 

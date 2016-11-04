@@ -10,13 +10,11 @@ nev_print_tess (FILE * file, struct PRINT Print, struct TESS Tess,
 {
   int *polylist = NULL, *polyfacelist = NULL, *facelist = NULL,
       *edgelist = NULL, *verlist = NULL, *seedlist = NULL;
-  int polyfaceqty;
 
   nev_print_tess_pre (Print, Tess, TessData, &seedlist, &verlist, &edgelist,
-		      &facelist, &polylist, &polyfacelist, &polyfaceqty);
+		      &facelist, &polylist, &polyfacelist);
 
-  nev_print_tess_polyfaces (file, Print, Tess, TessData, polyfacelist,
-			    polyfaceqty);
+  nev_print_tess_polyfaces (file, Print, Tess, TessData, polyfacelist);
 
   nev_print_tess_faces (file, Print, Tess, TessData, facelist);
 
