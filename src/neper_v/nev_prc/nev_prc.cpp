@@ -16,11 +16,25 @@ void
            int **SElt2dElt3d, struct CSYSDATA CsysData,
            struct POINT Point, struct POINTDATA PointData)
 {
-
+  int i;
   char *filename = ut_alloc_1d_char (strlen (expargv[(*pi) + 1]) + 10);
   sprintf(filename,"%s.prc",expargv[++(*pi)]);
   ut_print_message (0, 1, "Generating prc file %s...\n",filename);
   prc::oPRCFile file(filename);
+
+  (void) Tesr;
+  (void) TesrData;
+  (void) NodeData;
+  (void) MeshData;
+  (void) SQty;
+  (void) SNodes;
+  (void) SMesh2D;
+  (void) SNodeData;
+  (void) SMeshData;
+  (void) SElt2dElt3d;
+  (void) CsysData;
+  (void) Point;
+  (void) PointData;
 
   // tessellation ------------------------------------------------------
   if (Print.showtess == 1)
@@ -48,24 +62,27 @@ void
         points[1][1] = Tess.VerCoo[Tess.EdgeVerNb[edge][1]][1];
         points[1][2] = Tess.VerCoo[Tess.EdgeVerNb[edge][1]][2];
 
-        file.addLine(2, points, prc::RGBAColour(0.0,0.0,0.0)); 
+        file.addLine(2, points, prc::RGBAColour(0.0,0.0,0.0));
       }
     }
 
     file.endgroup();
-  
+
     for (int poly=1; poly<= Tess.PolyQty; poly++) {
       char name[50];
       sprintf(name,"G%d",poly);
       file.begingroup(name,&grpopt);
-      float Color[3] = {TessData.Col[3][poly][0]/255.,TessData.Col[3][poly][1]/255.,TessData.Col[3][poly][2]/255.};
+      float Color[3];
+
+      for (i = 0; i < 3; i++)
+	Color[i] = TessData.Col[3][poly][i]/255.;
 
       prc::PRCmaterial materialGrain(prc::RGBAColour(     Color[0],      Color[1],      Color[2], 1),  // Diffuse
       				     prc::RGBAColour( 0.9*Color[0],  0.9*Color[1],  0.9*Color[2], 1),  // Specular
 				     prc::RGBAColour( 0.2*Color[0],  0.2*Color[1],  0.2*Color[2], 1),  // Emissive
 				     prc::RGBAColour(0.05*Color[0], 0.05*Color[1], 0.05*Color[2], 1),  // Ambiant
 				     1. - TessData.trs[3][poly] /* transparency */,  0.7 /* Shininess */);
-    
+
       for (int face=1; face<= Tess.PolyFaceQty[poly]; face++) {
         for(int ver=1; ver+2<= Tess.FaceVerQty[ Tess.PolyFaceNb[poly][face] ]; ver++) {
           double points[3][3];
@@ -85,7 +102,7 @@ void
       }
       file.endgroup();
     }
-  
+
   }
 
   if (Print.showmesh == 1) {
@@ -95,7 +112,7 @@ void
 
     for (int node = 1; node <= Nodes.NodeQty; node++)
        file.addPoint(Nodes.NodeCoo[node], prc::RGBAColour(0.0,0.0,0.0));
-      
+
     for(int poly = 1; poly <= Tess.PolyQty; poly++)
     {
       neut_mesh_set_zero (&Skin);
@@ -112,7 +129,10 @@ void
       char name[50];
       sprintf(name,"G%d",poly);
       file.begingroup(name,&grpopt);
-      float Color[3] = {TessData.Col[3][poly][0]/255.,TessData.Col[3][poly][1]/255.,TessData.Col[3][poly][2]/255.};
+      float Color[3];
+
+      for (i = 0; i < 3; i++)
+	Color[i] = TessData.Col[3][poly][i]/255.;
 
       prc::PRCmaterial materialGrain(prc::RGBAColour(     Color[0],      Color[1],      Color[2], 1),  // Diffuse
                                      prc::RGBAColour( 0.9*Color[0],  0.9*Color[1],  0.9*Color[2], 1),  // Specular
@@ -122,15 +142,15 @@ void
 
       for (int elt=1; elt <= Skin.EltQty; elt++) {
           double points[3][3];
-          points[0][0] = Nodes.NodeCoo[ Skin.EltNodes[elt][0] ][0];
-          points[0][1] = Nodes.NodeCoo[ Skin.EltNodes[elt][0] ][1];
-          points[0][2] = Nodes.NodeCoo[ Skin.EltNodes[elt][0] ][2];
-          points[1][0] = Nodes.NodeCoo[ Skin.EltNodes[elt][1] ][0];
-          points[1][1] = Nodes.NodeCoo[ Skin.EltNodes[elt][1] ][1];
-          points[1][2] = Nodes.NodeCoo[ Skin.EltNodes[elt][1] ][2];
-          points[2][0] = Nodes.NodeCoo[ Skin.EltNodes[elt][2] ][0];
-          points[2][1] = Nodes.NodeCoo[ Skin.EltNodes[elt][2] ][1];
-          points[2][2] = Nodes.NodeCoo[ Skin.EltNodes[elt][2] ][2];
+          points[0][0] = Nodes.NodeCoo[ Skin.EltNodes[elt][0]][0];
+          points[0][1] = Nodes.NodeCoo[ Skin.EltNodes[elt][0]][1];
+          points[0][2] = Nodes.NodeCoo[ Skin.EltNodes[elt][0]][2];
+          points[1][0] = Nodes.NodeCoo[ Skin.EltNodes[elt][1]][0];
+          points[1][1] = Nodes.NodeCoo[ Skin.EltNodes[elt][1]][1];
+          points[1][2] = Nodes.NodeCoo[ Skin.EltNodes[elt][1]][2];
+          points[2][0] = Nodes.NodeCoo[ Skin.EltNodes[elt][2]][0];
+          points[2][1] = Nodes.NodeCoo[ Skin.EltNodes[elt][2]][1];
+          points[2][2] = Nodes.NodeCoo[ Skin.EltNodes[elt][2]][2];
           uint32_t  PPI[1][3] = {{0,1,2}};
           file.addTriangles(3 /*points*/,points,
                             1 /* tris */,PPI,materialGrain,0,NULL,NULL,0,NULL,NULL,0,NULL,NULL,0,NULL,NULL,25.8419);
@@ -211,10 +231,13 @@ void
       points[1][1] = N.NodeCoo[M1D.EltNodes[edge][1]][1];
       points[1][2] = N.NodeCoo[M1D.EltNodes[edge][1]][2];
 
-      file.addLine(2, points, prc::RGBAColour(0.0,0.0,0.0)); 
+      file.addLine(2, points, prc::RGBAColour(0.0,0.0,0.0));
     }
 
-    float Color[3] = {TessData.Col[3][1][0]/255.,TessData.Col[3][1][1]/255.,TessData.Col[3][1][2]/255.};
+    float Color[3];
+    for (i = 0; i < 3; i++)
+      Color[i] = TessData.Col[3][1][i]/255.;
+
     prc::PRCmaterial materialGrain(prc::RGBAColour(     Color[0],      Color[1],      Color[2], 1),  // Diffuse
                                    prc::RGBAColour( 0.9*Color[0],  0.9*Color[1],  0.9*Color[2], 1),  // Specular
                                    prc::RGBAColour( 0.2*Color[0],  0.2*Color[1],  0.2*Color[2], 1),  // Emissive
@@ -223,21 +246,21 @@ void
 
     for (int elt=1; elt <= M2D.EltQty; elt++) {
       double points[3][3];
-      points[0][0] = N.NodeCoo[ M2D.EltNodes[elt][0] ][0];
-      points[0][1] = N.NodeCoo[ M2D.EltNodes[elt][0] ][1];
-      points[0][2] = N.NodeCoo[ M2D.EltNodes[elt][0] ][2];
-      points[1][0] = N.NodeCoo[ M2D.EltNodes[elt][1] ][0];
-      points[1][1] = N.NodeCoo[ M2D.EltNodes[elt][1] ][1];
-      points[1][2] = N.NodeCoo[ M2D.EltNodes[elt][1] ][2];
-      points[2][0] = N.NodeCoo[ M2D.EltNodes[elt][2] ][0];
-      points[2][1] = N.NodeCoo[ M2D.EltNodes[elt][2] ][1];
-      points[2][2] = N.NodeCoo[ M2D.EltNodes[elt][2] ][2];
+      points[0][0] = N.NodeCoo[M2D.EltNodes[elt][0]][0];
+      points[0][1] = N.NodeCoo[M2D.EltNodes[elt][0]][1];
+      points[0][2] = N.NodeCoo[M2D.EltNodes[elt][0]][2];
+      points[1][0] = N.NodeCoo[M2D.EltNodes[elt][1]][0];
+      points[1][1] = N.NodeCoo[M2D.EltNodes[elt][1]][1];
+      points[1][2] = N.NodeCoo[M2D.EltNodes[elt][1]][2];
+      points[2][0] = N.NodeCoo[M2D.EltNodes[elt][2]][0];
+      points[2][1] = N.NodeCoo[M2D.EltNodes[elt][2]][1];
+      points[2][2] = N.NodeCoo[M2D.EltNodes[elt][2]][2];
       uint32_t  PPI[1][3] = {{0,1,2}};
       file.addTriangles(3 /*points*/,points,
                         1 /* tris */,PPI,materialGrain,0,NULL,NULL,0,NULL,NULL,0,NULL,NULL,0,NULL,NULL,25.8419);
     }
     file.endgroup();
-  
+
     ut_free_1d_int (nodes_new_old);
 
   }

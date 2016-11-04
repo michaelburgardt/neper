@@ -114,7 +114,7 @@ if (HAVE_NLOPT)
 endif ()
 
 if (HAVE_LIBZ)
-  find_package (zlib REQUIRED)
+  find_package (ZLIB REQUIRED)
   set (EXTRA_LIBS ${EXTRA_LIBS} ${ZLIB_LIBRARIES})
   include_directories (${ZLIB_INCLUDE_DIRS})
 endif ()

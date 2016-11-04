@@ -83,12 +83,6 @@ set (EXTRA_LIBS ${EXTRA_LIBS} ann) # must be after neut
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
-if (HAVE_GSL)
-  find_package (gsl REQUIRED)
-  set (EXTRA_LIBS ${EXTRA_LIBS} ${GSL_LIBRAIRIES})
-  include_directories (${GSL_INCLUDE_DIRS})
-endif ()
-
 if (HAVE_LIBSCOTCH)
   find_package (LIBSCOTCH REQUIRED)
   set (EXTRA_LIBS ${EXTRA_LIBS} ${Scotch_LIBRARIES})
@@ -101,11 +95,6 @@ endif ()
 if (HAVE_PTHREAD)
   find_package (Threads REQUIRED)
   set (EXTRA_LIBS ${EXTRA_LIBS} ${CMAKE_THREAD_LIBS_INIT})
-endif ()
-
-if (HAVE_LIBZ)
-  find_package (zlib REQUIRED)
-  set (EXTRA_LIBS ${EXTRA_LIBS} ${LIBZ_LIBRAIRIES})
 endif ()
 
 target_link_libraries (neper ${EXTRA_LIBS})
