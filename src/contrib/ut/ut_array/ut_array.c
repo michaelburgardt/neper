@@ -3725,6 +3725,29 @@ ut_array_1d_int_set_3 (int *array, int v1, int v2, int v3)
 }
 
 int
+ut_array_1d_int_set_4 (int *array, int v1, int v2, int v3, int v4)
+{
+  array[0] = v1;
+  array[1] = v2;
+  array[2] = v3;
+  array[3] = v4;
+
+  return 0;
+}
+
+int
+ut_array_1d_int_set_5 (int *array, int v1, int v2, int v3, int v4, int v5)
+{
+  array[0] = v1;
+  array[1] = v2;
+  array[2] = v3;
+  array[3] = v4;
+  array[4] = v5;
+
+  return 0;
+}
+
+int
 ut_array_1d_set_2 (double *array, double v1, double v2)
 {
   array[0] = v1;
