@@ -7,7 +7,7 @@ extern "C"
 {
 #endif
 
-  extern void nev_print_prc (char **, int *, struct PRINT,
+  extern void nev_print_prc (char *, struct PRINT,
 		       struct TESS, struct TESSDATA,
 		       struct TESR, struct TESRDATA,
 		       struct NODES, struct MESH *,

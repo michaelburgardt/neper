@@ -32,3 +32,7 @@ extern void nev_print_scale (FILE *, char *, char *, char *);
 extern void nev_print_rectangle (FILE * file, double *coo, double *size,
 				 char *texture, char *edge_rad,
 				 char *edge_texture);
+
+extern void nev_print_pov2png (char *povray, char *filename,
+			       int imagewidth, int imageheight,
+			       int imageantialias, int messagetag);

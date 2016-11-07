@@ -63,6 +63,7 @@ add_library (neper_v
 ./nev_print/nev_print_utils/nev_print_utils1.c
 ./nev_print/nev_print_utils/nev_print_utils2.c
 ./nev_print/nev_print1.c
+./nev_print/nev_print2.c
 ./nev_print/nev_print_foot/nev_print_foot1.c
 ./nev_print/nev_print_csys/nev_print_csys1.c
 ./nev_print/nev_print_header/nev_print_header1.c
@@ -80,7 +81,6 @@ add_library (neper_v
 ./nev_print/nev_print_tess/nev_print_tess2.c
 ./nev_print/nev_print_tesr/nev_print_tesr1.c
 ./nev_print/nev_print_point/nev_print_point1.c
-./nev_print/nev_print2.c
 ./nev_print/nev_print_prc/nev_print_prc.cpp
 )
 

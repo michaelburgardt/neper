@@ -24,3 +24,14 @@
 #include "nev_print.h"
 
 extern void nev_print_pov2png (char *, char *, int, int, int, int);
+
+extern void nev_print_pov (char *body, struct PRINT Print, struct TESS
+			   Tess, struct TESSDATA TessData, struct TESR
+			   Tesr, struct TESRDATA TesrData, struct NODES
+			   Nodes, struct MESH* Mesh, struct NODEDATA
+			   NodeData, struct MESHDATA *MeshData, int
+			   SQty, struct NODES *SNodes, struct MESH*
+			   SMesh2D, struct NODEDATA *SNodeData, struct
+			   MESHDATA **SMeshData, int **SElt2dElt3d,
+			   struct CSYSDATA CsysData, struct POINT Point,
+			   struct POINTDATA PointData);

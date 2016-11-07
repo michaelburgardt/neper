@@ -5,7 +5,7 @@
 #include "nev_print_prc_.h"
 
 void
-nev_print_prc (char **expargv, int *pi, struct PRINT Print,
+nev_print_prc (char *body, struct PRINT Print,
 	 struct TESS Tess, struct TESSDATA TessData,
 	 struct TESR Tesr, struct TESRDATA TesrData,
 	 struct NODES Nodes, struct MESH *Mesh,
@@ -21,10 +21,10 @@ nev_print_prc (char **expargv, int *pi, struct PRINT Print,
   float Color[3];
   char name[50];
   struct MESH Skin;
-  char *filename = ut_alloc_1d_char (strlen (expargv[(*pi) + 1]) + 10);
+  char *filename = ut_alloc_1d_char (strlen (body) + 10);
 
-  sprintf (filename, "%s.prc", expargv[++(*pi)]);
-  ut_print_message (0, 1, "Generating prc file %s...\n", filename);
+  sprintf (filename, "%s.prc", body);
+
   prc::oPRCFile file (filename);
 
   (void) Tesr;
