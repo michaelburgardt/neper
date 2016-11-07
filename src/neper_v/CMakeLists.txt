@@ -60,8 +60,8 @@ add_library (neper_v
 ./nev_camera/nev_camera2.c
 ./nev_camera/nev_camera1.c
 ./nev_povray/nev_povray1.c
-./nev_print/nev_print_utils/nev_print_utils1.c
-./nev_print/nev_print_utils/nev_print_utils2.c
+./nev_print/nev_print_utils/nev_print_utils1.cpp
+./nev_print/nev_print_utils/nev_print_utils2.cpp
 ./nev_print/nev_print1.c
 ./nev_print/nev_print2.c
 ./nev_print/nev_print_foot/nev_print_foot1.c

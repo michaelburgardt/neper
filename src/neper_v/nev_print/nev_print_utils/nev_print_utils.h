@@ -2,6 +2,11 @@
 /* Copyright (C) 2003-2016, Romain Quey. */
 /* See the COPYING file in the top-level directory. */
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 extern void nev_print_segment (FILE *, double *, double *, char *, char *);
 extern void nev_print_segment_wsph (FILE *, double *, double *, char *,
 				    char *);
@@ -36,3 +41,7 @@ extern void nev_print_rectangle (FILE * file, double *coo, double *size,
 extern void nev_print_pov2png (char *povray, char *filename,
 			       int imagewidth, int imageheight,
 			       int imageantialias, int messagetag);
+
+#ifdef __cplusplus
+}
+#endif

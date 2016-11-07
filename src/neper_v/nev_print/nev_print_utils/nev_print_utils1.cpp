@@ -633,11 +633,11 @@ nev_print_scale (FILE * file, char *ColScheme, char *scale, char *scaletitle)
       ut_color_scheme_val_color (ColScheme, min, max, nodescal[i], rgb[i]);
   else
     for (i = 1; i <= N.NodeQty; i++)
-      ut_color_scheme_val_color ("blue,cyan,yellow,red", min, max,
+      ut_color_scheme_val_color ((char *) "blue,cyan,yellow,red", min, max,
 				 nodescal[i], rgb[i]);
 
   nev_print_header (file, Print);
-  nev_print_mesh2d (file, N, M, NULL, rgb, "elt", Print.showshadow);
+  nev_print_mesh2d (file, N, M, NULL, rgb, (char *) "elt", Print.showshadow);
   nev_print_foot (file, Print);
 
   fprintf (file, "union {\n");
