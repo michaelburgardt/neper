@@ -194,10 +194,10 @@ nev_print_prc (char *body, struct PRINT Print,
 
     ut_print_message (0, 3, "Reducing data...\n");
 
-    nev_print_mesh_3d_compress (Print, Nodes, M3D,
+    nev_print_pov_mesh_3d_compress (Print, Nodes, M3D,
 				&N, &M2D, &printelt3dface, &elt2delt3d,
 				&nodes_new_old);
-    nev_print_mesh_2d_compress (M2D, NULL, &M1D);
+    nev_print_pov_mesh_2d_compress (M2D, NULL, &M1D);
 
     ut_print_message (0, 4,
 		      "Number of 3D elt faces reduced by %2.0f\%% (to %d).\n",

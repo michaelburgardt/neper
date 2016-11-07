@@ -21,10 +21,10 @@ extern "C"
 {
 #endif
 
-  extern void nev_print_mesh_2d_compress (struct MESH Mesh2D, int *,
+  extern void nev_print_pov_mesh_2d_compress (struct MESH Mesh2D, int *,
 					  struct MESH *pM1D);
 
-  extern void nev_print_mesh_3d_compress (struct PRINT Print, struct NODES
+  extern void nev_print_pov_mesh_3d_compress (struct PRINT Print, struct NODES
 					  Nodes, struct MESH Mesh3D,
 					  struct NODES *, struct MESH *,
 					  int ***pprintelt3dface, int **,
