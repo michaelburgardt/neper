@@ -132,14 +132,16 @@ nev_print_pov_mesh_3d_compress (struct PRINT Print, struct NODES Nodes,
       max = i;
 
   int *nodes_old_new = ut_alloc_1d_int (max + 1);
-  (*pnodes_new_old) = ut_alloc_1d_int (Nodes.NodeQty + 1);
-  int id = 0;
+  if (pnodes_new_old)
+    (*pnodes_new_old) = ut_alloc_1d_int (Nodes.NodeQty + 1);
 
+  int id = 0;
   for (i = 1; i <= max; i++)
     if (node_status[i] == 1)
     {
       nodes_old_new[i] = ++id;
-      (*pnodes_new_old)[id] = i;
+      if (pnodes_new_old)
+	(*pnodes_new_old)[id] = i;
       neut_nodes_addnode (pN, Nodes.NodeCoo[i], 0);
     }
 
