@@ -70,8 +70,6 @@ neut_print_set_default (struct PRINT *pPrint)
   (*pPrint).showshadow = -1;
   (*pPrint).showcsys = -1;
 
-  (*pPrint).datareduction = 1;
-
   (*pPrint).format = ut_alloc_1d_char (10);
   sprintf ((*pPrint).format, "png");
 

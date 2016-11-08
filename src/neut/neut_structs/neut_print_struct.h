@@ -57,9 +57,6 @@ extern "C"
     int showshadow;
     int showcsys;
 
-    // miscellaneous
-    int datareduction;
-
     char *format;
 
     char *includepov;

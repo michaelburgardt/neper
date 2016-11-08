@@ -27,10 +27,9 @@ nev_print_pov_mesh_3d_compress (struct PRINT Print, struct NODES Nodes,
   int *nodes = NULL;
   int elt3dfaceqty;
 
-  (*pM2D).EltType = ut_alloc_1d_char (strlen (Mesh3D.EltType) + 1);
   (*pM2D).Dimension = 2;
   (*pM2D).EltOrder = 1;
-  strcpy ((*pM2D).EltType, Mesh3D.EltType);
+  ut_string_string (Mesh3D.EltType, &(*pM2D).EltType);
 
   neut_elt_boundlist (Mesh3D.EltType, 3, &seq3, &elt3dfaceqty, NULL);
   elt2dnodeqty = neut_elt_nodeqty (Mesh3D.EltType, 2, 1);
@@ -46,30 +45,22 @@ nev_print_pov_mesh_3d_compress (struct PRINT Print, struct NODES Nodes,
   if (eltqty > 0)
     ut_array_1d_int_inv (elts, eltqty, &eltsinv, &eltmax);
 
-  if (Print.datareduction == 1)
-  {
-    ut_array_1d_int_set (elset_full + 1, Mesh3D.ElsetQty, 1);
-    for (i = 1; i <= Mesh3D.ElsetQty; i++)
-      for (j = 1; j <= Mesh3D.Elsets[i][0]; j++)
-	if (Print.showelt3d[Mesh3D.Elsets[i][j]] == 0)
-	{
-	  elset_full[i] = 0;
-	  break;
-	}
+  ut_array_1d_int_set (elset_full + 1, Mesh3D.ElsetQty, 1);
+  for (i = 1; i <= Mesh3D.ElsetQty; i++)
+    for (j = 1; j <= Mesh3D.Elsets[i][0]; j++)
+      if (Print.showelt3d[Mesh3D.Elsets[i][j]] == 0)
+      {
+	elset_full[i] = 0;
+	break;
+      }
 
-    if (eltqty > 0)
-      neut_mesh_elts_boundelts (Mesh3D, elts, eltqty, &leftelts, &lefteltqty);
-    else
-      lefteltqty = 0;
-
-    for (i = 0; i < lefteltqty; i++)
-      printelt3d[leftelts[i]] = 1;
-  }
+  if (eltqty > 0)
+    neut_mesh_elts_boundelts (Mesh3D, elts, eltqty, &leftelts, &lefteltqty);
   else
-  {
-    lefteltqty = eltqty;
-    leftelts = elts;
-  }
+    lefteltqty = 0;
+
+  for (i = 0; i < lefteltqty; i++)
+    printelt3d[leftelts[i]] = 1;
 
   for (i = 0; i < lefteltqty; i++)
   {
