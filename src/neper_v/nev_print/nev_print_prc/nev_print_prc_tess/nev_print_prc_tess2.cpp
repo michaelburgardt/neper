@@ -72,6 +72,68 @@ nev_print_prc_tess_polys (prc::oPRCFile *pfile, struct PRINT Print, struct TESS 
 }
 
 void
+nev_print_prc_tess_faces (prc::oPRCFile *pfile, struct PRINT Print, struct TESS Tess,
+			  struct TESSDATA TessData)
+{
+  int i, j, k, l;
+  double col[3];
+  char name[20];
+  double pts[3][3];
+  uint32_t PPI[1][3] = { {0, 1, 2} };
+  struct NODES N;
+  struct MESH M;
+  neut_nodes_set_zero (&N);
+  neut_mesh_set_zero (&M);
+
+  prc::PRCoptions grpopt;
+  grpopt.no_break = true;
+  grpopt.do_break = false;
+  grpopt.tess = true;
+
+  (*pfile).begingroup ("faces", &grpopt);
+
+  for (i = 1; i <= Tess.FaceQty; i++)
+    if (Print.showface[i])
+    {
+      sprintf (name, "face%d", i);
+      (*pfile).begingroup (name, &grpopt);
+
+      for (j = 0; j < 3; j++)
+	col[j] = TessData.Col[2][i][j] / 255.;
+
+      // arguments: diffuse, specular, emissive, ambiant, transparency, shininess
+      prc::PRCmaterial materialGrain (prc::RGBAColour (col[0], col[1], col[2], 1),
+				      prc::RGBAColour (0.9 * col[0], 0.9 * col[1], 0.9 * col[2], 1),
+				      prc::RGBAColour (0.2 * col[0], 0.2 * col[1], 0.2 * col[2], 1),
+				      prc::RGBAColour (0.05 * col[0], 0.05 * col[1], 0.05 * col[2], 1),
+				      1. - TessData.trs[2][j],
+				      0.7);
+
+      neut_tess_face_interpolmesh (Tess, i, &N, &M);
+
+      for (k = 1; k <= M.EltQty; k++)
+      {
+	for (l = 0; l < 3; l++)
+	  ut_array_1d_memcpy (pts[l], 3, N.NodeCoo[M.EltNodes[k][l]]);
+
+	(*pfile).addTriangles (3, pts,
+			   1, PPI, materialGrain, 0, NULL, NULL,
+			   0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL,
+			   25.8419);
+      }
+
+      neut_nodes_free (&N);
+      neut_mesh_free (&M);
+
+      (*pfile).endgroup ();
+    }
+
+  (*pfile).endgroup ();
+
+  return;
+}
+
+void
 nev_print_prc_tess_edges (prc::oPRCFile *pfile, struct PRINT Print, struct TESS Tess,
 			  struct TESSDATA TessData)
 {

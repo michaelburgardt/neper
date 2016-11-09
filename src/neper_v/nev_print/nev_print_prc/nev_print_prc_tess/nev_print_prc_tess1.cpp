@@ -17,6 +17,8 @@ nev_print_prc_tess (prc::oPRCFile *pfile, struct PRINT Print, struct TESS Tess,
 
   nev_print_prc_tess_polys (pfile, Print, Tess, TessData);
 
+  nev_print_prc_tess_faces (pfile, Print, Tess, TessData);
+
   nev_print_prc_tess_edges (pfile, Print, Tess, TessData);
 
   nev_print_prc_tess_vers (pfile, Print, Tess, TessData);

@@ -17,6 +17,11 @@ extern void nev_print_prc_tess_polys (prc::oPRCFile *file,
 				     struct TESS Tess,
 				     struct TESSDATA TessData);
 
+extern void nev_print_prc_tess_faces (prc::oPRCFile *file,
+				     struct PRINT Print,
+				     struct TESS Tess,
+				     struct TESSDATA TessData);
+
 extern void nev_print_prc_tess_edges (prc::oPRCFile *file,
 				     struct PRINT Print,
 				     struct TESS Tess,
