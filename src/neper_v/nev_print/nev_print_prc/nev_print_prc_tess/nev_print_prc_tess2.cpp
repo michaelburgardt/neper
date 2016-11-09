@@ -8,10 +8,15 @@ void
 nev_print_prc_tess_polys (prc::oPRCFile *pfile, struct PRINT Print, struct TESS Tess,
 			  struct TESSDATA TessData)
 {
-  int i, j, k;
+  int i, j, k, l, face;
   double col[3];
   char name[20];
   double pts[3][3];
+  uint32_t PPI[1][3] = { {0, 1, 2} };
+  struct NODES N;
+  struct MESH M;
+  neut_nodes_set_zero (&N);
+  neut_mesh_set_zero (&M);
 
   prc::PRCoptions grpopt;
   grpopt.no_break = true;
@@ -38,39 +43,25 @@ nev_print_prc_tess_polys (prc::oPRCFile *pfile, struct PRINT Print, struct TESS 
 				      0.7);
 
       for (j = 1; j <= Tess.PolyFaceQty[i]; j++)
-	for (k = 1;
-	     k + 2 <= Tess.FaceVerQty[Tess.PolyFaceNb[i][j]]; k++)
+      {
+	face = Tess.PolyFaceNb[i][j];
+
+	neut_tess_face_interpolmesh (Tess, face, &N, &M);
+
+	for (k = 1; k <= M.EltQty; k++)
 	{
-	  pts[0][0] =
-	    Tess.VerCoo[Tess.FaceVerNb[Tess.PolyFaceNb[i][j]][1]][0];
-	  pts[0][1] =
-	    Tess.VerCoo[Tess.FaceVerNb[Tess.PolyFaceNb[i][j]][1]][1];
-	  pts[0][2] =
-	    Tess.VerCoo[Tess.FaceVerNb[Tess.PolyFaceNb[i][j]][1]][2];
-	  pts[1][0] =
-	    Tess.VerCoo[Tess.
-			FaceVerNb[Tess.PolyFaceNb[i][j]][k + 1]][0];
-	  pts[1][1] =
-	    Tess.VerCoo[Tess.
-			FaceVerNb[Tess.PolyFaceNb[i][j]][k + 1]][1];
-	  pts[1][2] =
-	    Tess.VerCoo[Tess.
-			FaceVerNb[Tess.PolyFaceNb[i][j]][k + 1]][2];
-	  pts[2][0] =
-	    Tess.VerCoo[Tess.
-			FaceVerNb[Tess.PolyFaceNb[i][j]][k + 2]][0];
-	  pts[2][1] =
-	    Tess.VerCoo[Tess.
-			FaceVerNb[Tess.PolyFaceNb[i][j]][k + 2]][1];
-	  pts[2][2] =
-	    Tess.VerCoo[Tess.
-			FaceVerNb[Tess.PolyFaceNb[i][j]][k + 2]][2];
-	  uint32_t PPI[1][3] = { {0, 1, 2} };
+	  for (l = 0; l < 3; l++)
+	    ut_array_1d_memcpy (pts[l], 3, N.NodeCoo[M.EltNodes[k][l]]);
+
 	  (*pfile).addTriangles (3, pts,
 			     1, PPI, materialGrain, 0, NULL, NULL,
 			     0, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL,
 			     25.8419);
 	}
+      }
+
+      neut_nodes_free (&N);
+      neut_mesh_free (&M);
 
       (*pfile).endgroup ();
     }
