@@ -38,6 +38,12 @@ nev_print_prc (char *body, struct PRINT Print,
 
   ut_print_message (0, 1, "Printing image (prc)...\n");
 
+  if (Print.showtess == 1)
+  {
+    ut_print_message (0, 2, "Printing tessellation...\n");
+    nev_print_prc_tess (&file, Print, Tess, TessData);
+  }
+
   if (Print.showmesh == 1)
   {
     ut_print_message (0, 2, "Printing mesh...\n");

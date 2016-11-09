@@ -83,6 +83,8 @@ add_library (neper_v
 ./nev_print/nev_print_pov/nev_print_pov_point/nev_print_pov_point1.c
 ./nev_print/nev_print_prc/nev_print_prc_utils/nev_print_prc_utils1.cpp
 ./nev_print/nev_print_prc/nev_print_prc.cpp
+./nev_print/nev_print_prc/nev_print_prc_tess/nev_print_prc_tess1.cpp
+./nev_print/nev_print_prc/nev_print_prc_tess/nev_print_prc_tess2.cpp
 ./nev_print/nev_print_prc/nev_print_prc_mesh/nev_print_prc_mesh1.cpp
 ./nev_print/nev_print_prc/nev_print_prc_mesh/nev_print_prc_mesh_nodes/nev_print_prc_mesh_nodes1.cpp
 ./nev_print/nev_print_prc/nev_print_prc_mesh/nev_print_prc_mesh_3d/nev_print_prc_mesh_3d1.cpp
