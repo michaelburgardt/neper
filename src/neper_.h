@@ -14,3 +14,7 @@
 #include"neper_t/neper_t.h"
 #include"neper_m/neper_m.h"
 #include"neper_v/neper_v.h"
+
+#ifdef HAVE_OPENMP
+#include <omp.h>
+#endif

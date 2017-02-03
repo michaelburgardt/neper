@@ -12,6 +12,7 @@ set (UT_VERSION_PATCH 0)
 option (HAVE_GSL      "Use the GNU Scientific Library (GSL)" ON)
 option (HAVE_MUPARSER "Use muparser"                   ON)
 option (HAVE_NLOPT      "Use NLOPT" ON)
+option (HAVE_OPENMP   "Use OpenMP"                           ON)
 option (DEVEL_OPTIMIZATION "Enable optimization (ON for production use)" ON)
 option (DEVEL_DEBUGGING_FLAG "Enable debugging compilation flag (OFF for production use)" OFF)
 
@@ -74,6 +75,11 @@ if (HAVE_GSL)
   set (EXTRA_LIBS ${EXTRA_LIBS} ${GSL_LIBRARIES})
   include_directories (${GSL_INCLUDE_DIRS})
 endif (HAVE_GSL)
+
+if (HAVE_OPENMP)
+  find_package (OpenMP REQUIRED)
+  add_definitions(${OpenMP_C_FLAGS})
+endif ()
 
 target_link_libraries (ut ${EXTRA_LIBS})
 

@@ -10,6 +10,10 @@ extern "C"
 #include<stdio.h>
 #include<stdlib.h>
 
+#ifdef HAVE_OPENMP
+#include<omp.h>
+#endif
+
 #include"neut_t.h"
 #include"net_polycomp.h"
 

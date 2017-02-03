@@ -137,6 +137,10 @@ manager (binary and development packages); alternatively, the source
 code version can be downloaded from
 @uref{http://ab-initio.mit.edu/wiki/index.php/NLopt}.
 
+@item the OpenMP library (optional, enabled by default).
+It is likely to be available on your system or from your system package
+manager.
+
 @item the libScotch library (version @code{5.1.12} or higher, optional,
 disabled by default).  It is needed by @mM{} for mesh partitioning.
 The source code can be downloaded from

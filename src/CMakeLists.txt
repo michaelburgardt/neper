@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(neper)
 
-set (NEPER_VERSION \"3.0.3-34-clean_dct\")
+set (NEPER_VERSION \"3.0.3-35-clean_dct\")
 set (NEPER_EMAIL \"neper-users@lists.sourceforge.net\")
 
 # should we use the optional libraries?
@@ -13,6 +13,7 @@ option (HAVE_GSL           "Use the GNU Scientific Library (GSL)"        ON )
 option (HAVE_NLOPT         "Use NLopt"                                   ON )
 option (HAVE_LIBSCOTCH     "Use libscotch"                               OFF)
 option (HAVE_PTHREAD       "Use pthread"                                 OFF)
+option (HAVE_OPENMP        "Use OpenMP"                                  ON )
 option (DEVEL_OPTIMIZATION "Enable optimization (ON for production use)" ON )
 option (DEVEL_DEBUGGING_TEST "Enable debugging tests (OFF for production use)"   OFF)
 option (DEVEL_DEBUGGING_FLAG "Enable debugging compilation flag (OFF for production use)"   OFF)
@@ -96,6 +97,12 @@ endif ()
 if (HAVE_PTHREAD)
   find_package (Threads REQUIRED)
   set (EXTRA_LIBS ${EXTRA_LIBS} ${CMAKE_THREAD_LIBS_INIT})
+endif ()
+
+if (HAVE_OPENMP)
+  find_package (OpenMP REQUIRED)
+  set (EXTRA_LIBS ${EXTRA_LIBS} ${OpenMP_C_FLAGS})
+  add_definitions(${OpenMP_C_FLAGS})
 endif ()
 
 target_link_libraries (neper ${EXTRA_LIBS})
