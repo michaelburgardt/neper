@@ -1,6 +1,6 @@
 /* This file is part of the Neper software package. */
 /* Copyright (C) 2003-2017, Romain Quey. */
-/* See the CGEOMYING file in the top-level directory. */
+/* See the COPYING file in the top-level directory. */
 
 #ifdef __cplusplus
 extern "C"
@@ -53,13 +53,15 @@ extern "C"
   extern void neut_tesr_cell_points (struct TESR Tesr, int cell,
 				     int ***pts, int *pptqty);
   extern void neut_tesr_cell_coos (struct TESR Tesr, int cell,
-				     double ***coos, int *pcooqty);
+				   double ***coos, int *pcooqty);
 
   extern void neut_tesr_cell_boundpoints (struct TESR Tesr, int cell,
-					  int ***pts, int *pptqty, int connectivity);
+					  int ***pts, int *pptqty,
+					  int connectivity);
 
-  extern int neut_tesr_cell_boundpoints_test(struct TESR Tesr, int cell,
-         int i, int j, int k, int connectivity);
+  extern int neut_tesr_cell_boundpoints_test (struct TESR Tesr, int cell,
+					      int i, int j, int k,
+					      int connectivity);
 
   extern void neut_tesr_cell_cornerpoints (struct TESR Tesr, int cell,
 					   int ***pts, int *pptqty);
@@ -69,7 +71,8 @@ extern "C"
 
   extern void neut_tesr_cell_aniso (struct TESR Tesr, int cell,
 				    double **evect, double *eval);
-  extern void neut_tesr_cell_anisoxyz (struct TESR Tesr, int cell, double *fact);
+  extern void neut_tesr_cell_anisoxyz (struct TESR Tesr, int cell,
+				       double *fact);
   extern void neut_tesr_cells_anisoxyz (struct TESR Tesr, double *fact);
 
 #include"net_utils/net_utils.h"

@@ -153,6 +153,7 @@ add_library (neut
 ./neut_tesr/neut_tesr_op/neut_tesr_op2.c
 ./neut_tesr/neut_tesr_op/neut_tesr_op3.c
 ./neut_tesr/neut_tesr_geom/neut_tesr_geom1.c
+./neut_tesr/neut_tesr_geom/neut_tesr_geom2.c
 ./neut_tesr/neut_tesr_gen/neut_tesr_gen1.c
 ./neut_topt/neut_topt.c
 ./neut_sopt/neut_sopt.c

@@ -20,9 +20,7 @@ net_tess_opt_init_target_cdf (int disbinqty, double binwidth, double *pdf,
 void
 net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
 {
-  int i, j;
-
-  int **pts = NULL;
+  int i, j, **pts = NULL;
 
   char *message = ut_alloc_1d_char (100);
 
@@ -44,7 +42,7 @@ net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
       neut_tesr_cell_points ((*pTOpt).tartesr, i,
 			     &pts, &(*pTOpt).tarcellptqty[i]);
 
-    (*pTOpt).tarcellpts[i] = ut_alloc_2d_double ((*pTOpt).tarcellptqty[i], 3);
+    (*pTOpt).tarcellpts[i] = ut_alloc_2d ((*pTOpt).tarcellptqty[i], 3);
 
     for (j = 0; j < (*pTOpt).tarcellptqty[i]; j++)
       neut_tesr_pos_coo ((*pTOpt).tartesr, pts[j], (*pTOpt).tarcellpts[i][j]);

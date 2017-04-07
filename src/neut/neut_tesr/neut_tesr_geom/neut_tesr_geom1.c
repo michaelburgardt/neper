@@ -1,5 +1,5 @@
 /* This file is part of the Neper software package. */
-/* Cgeomyright (C) 2003-2017, Romain Quey. */
+/* Copyright (C) 2003-2017, Romain Quey. */
 /* See the COPYING file in the tgeom-level directory. */
 
 #include "neut_tesr_geom_.h"
@@ -232,7 +232,8 @@ neut_tesr_cell_points (struct TESR Tesr, int cell, int ***ppts, int *pptqty)
 }
 
 void
-neut_tesr_cell_coos (struct TESR Tesr, int cell, double ***pcoos, int *pcooqty)
+neut_tesr_cell_coos (struct TESR Tesr, int cell, double ***pcoos,
+		     int *pcooqty)
 {
   int i, **pts = NULL;
 
@@ -262,68 +263,14 @@ neut_tesr_cell_boundpoints (struct TESR Tesr, int cell, int ***ppts,
     for (j = Tesr.CellBBox[cell][1][0]; j <= Tesr.CellBBox[cell][1][1]; j++)
       for (i = Tesr.CellBBox[cell][0][0]; i <= Tesr.CellBBox[cell][0][1]; i++)
 	if (Tesr.VoxCell[i][j][k] == cell)
-	{
-	  if (neut_tesr_cell_boundpoints_test(Tesr, cell, i, j, k, connec))
-    {
-  	  (*pptqty)++;
-  	  (*ppts) = ut_realloc_2d_int_addline (*ppts, *pptqty, 3);
-  	  ut_array_1d_int_set_3 ((*ppts)[(*pptqty) - 1], i, j, k);
-    }
-	}
+	  if (neut_tesr_cell_boundpoints_test (Tesr, cell, i, j, k, connec))
+	  {
+	    (*pptqty)++;
+	    (*ppts) = ut_realloc_2d_int_addline (*ppts, *pptqty, 3);
+	    ut_array_1d_int_set_3 ((*ppts)[(*pptqty) - 1], i, j, k);
+	  }
 
   return;
-}
-
-int
-neut_tesr_cell_boundpoints_test(struct TESR Tesr, int cell, int i, int j, int k, int connec)
-{
-  int res = -1;
-
-  if (connec < 0 || connec > 2)
-    ut_print_message(2, 0, "connectivity = %d!\n", connec);
-
-  if (     Tesr.VoxCell[i - 1][j][k] == cell
-        && Tesr.VoxCell[i + 1][j][k] == cell
-        && Tesr.VoxCell[i][j - 1][k] == cell
-        && Tesr.VoxCell[i][j + 1][k] == cell
-        && (Tesr.Dim == 2 ||
-           (Tesr.VoxCell[i][j][k - 1] == cell
-        &&  Tesr.VoxCell[i][j][k + 1] == cell)))
-    res = 0;
-
-  if (res == 0 && connec > 0)
-  {
-    if (     Tesr.VoxCell[i + 1][j - 1][k] == cell
-          && Tesr.VoxCell[i + 1][j + 1][k] == cell
-          && Tesr.VoxCell[i - 1][j - 1][k] == cell
-          && Tesr.VoxCell[i - 1][j + 1][k] == cell
-          && (Tesr.Dim == 2 ||
-             (Tesr.VoxCell[i + 1][j][k - 1] == cell
-          &&  Tesr.VoxCell[i + 1][j][k + 1] == cell
-          &&  Tesr.VoxCell[i - 1][j][k - 1] == cell
-          &&  Tesr.VoxCell[i - 1][j][k + 1] == cell
-          &&  Tesr.VoxCell[i][j + 1][k - 1] == cell
-          &&  Tesr.VoxCell[i][j + 1][k + 1] == cell
-          &&  Tesr.VoxCell[i][j - 1][k - 1] == cell
-          &&  Tesr.VoxCell[i][j - 1][k + 1] == cell)))
-      res = 1;
-  }
-
-  if (res == 1 && connec > 1)
-  {
-    if  (Tesr.Dim == 2 ||
-           (Tesr.VoxCell[i-1][j-1][k - 1] == cell
-        &&  Tesr.VoxCell[i-1][j-1][k + 1] == cell
-        &&  Tesr.VoxCell[i-1][j+1][k - 1] == cell
-        &&  Tesr.VoxCell[i-1][j+1][k + 1] == cell
-        &&  Tesr.VoxCell[i+1][j-1][k - 1] == cell
-        &&  Tesr.VoxCell[i+1][j-1][k + 1] == cell
-        &&  Tesr.VoxCell[i+1][j+1][k - 1] == cell
-        &&  Tesr.VoxCell[i+1][j+1][k + 1] == cell))
-        res = 2;
-  }
-
-  return res != connec;
 }
 
 void
@@ -502,7 +449,8 @@ neut_tesr_cell_anisoxyz (struct TESR Tesr, int cell, double *fact)
     fact[i] = sqrt (fact[i]);
   }
   ut_array_1d_scale (fact, Tesr.Dim,
-                     1. / pow (ut_array_1d_prod (fact, Tesr.Dim), 1. / Tesr.Dim));
+		     1. / pow (ut_array_1d_prod (fact, Tesr.Dim),
+			       1. / Tesr.Dim));
 
   ut_free_1d (centre);
   ut_free_2d (coos, cooqty);
@@ -532,7 +480,8 @@ neut_tesr_cells_anisoxyz (struct TESR Tesr, double *fact)
   ut_array_1d_scale (fact, Tesr.Dim, 1. / vol);
 
   ut_array_1d_scale (fact, Tesr.Dim,
-                     1. / pow (ut_array_1d_prod (fact, Tesr.Dim), 1. / Tesr.Dim));
+		     1. / pow (ut_array_1d_prod (fact, Tesr.Dim),
+			       1. / Tesr.Dim));
 
   ut_free_2d (facts, Tesr.CellQty);
   ut_free_1d (vols);
