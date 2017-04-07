@@ -200,78 +200,32 @@ net_tess_opt_init_ref (struct TOPT *pTOpt, double mean, int id)
 void
 net_tess_opt_init_tesrobj (struct TOPT *pTOpt)
 {
-  int i, j, count;
-  double vsizemax;
+  int i, partqty;
+  char **parts = NULL;
 
-  (*pTOpt).tarcellpts = ut_alloc_1d_ppdouble ((*pTOpt).tartesr.CellQty + 1);
-  (*pTOpt).tarcellptqty = ut_alloc_1d_int ((*pTOpt).tartesr.CellQty + 1);
-  (*pTOpt).tarcellrefval = ut_alloc_1d ((*pTOpt).tartesr.CellQty + 1);
+  net_tess_opt_init_tesrobj_pre (pTOpt);
 
-  if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "scaled"))
+  ut_string_separate ((*pTOpt).objective, NEUT_SEP_NODEP, &parts, &partqty);
+
+  for (i = 0; i < partqty; i++)
   {
-    (*pTOpt).tartesrscale = ut_alloc_1d ((*pTOpt).Dim);
-    neut_tesr_cells_anisoxyz ((*pTOpt).tartesr, (*pTOpt).tartesrscale);
-    for (i = 0; i < (*pTOpt).Dim; i++)
-      (*pTOpt).tartesrscale[i] = 1. / (*pTOpt).tartesrscale[i];
-    ut_print_message (0, 4, "Scaling input tesr by %.2f x %.2f x %.2f...\n",
-		      (*pTOpt).tartesrscale[0],
-		      (*pTOpt).tartesrscale[1],
-		      (*pTOpt).tartesrscale[2]);
-    neut_tesr_scale (&((*pTOpt).tartesr),
-		     (*pTOpt).tartesrscale[0],
-		     (*pTOpt).tartesrscale[1],
-		     (*pTOpt).tartesrscale[2], NULL);
+    if (!strcmp (parts[i], "scaled"))
+      net_tess_opt_init_tesrobj_scale (pTOpt);
+
+    else if (!strcmp (parts[i], "rasterscaled"))
+      net_tess_opt_init_tesrobj_rasterscale (pTOpt);
+
+    else if (!strncmp (parts[i], "surf", 4)
+          || !strcmp  (parts[i], "vol"))
+      net_tess_opt_init_tesrobj_pts (pTOpt);
+
+    else
+      abort ();
   }
 
-  if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "rasterscaled"))
-  {
-    vsizemax = ut_array_1d_max ((*pTOpt).tartesr.vsize, 3);
-    ut_print_message (0, 4, "Scaling input tesr's raster by %.2f x %.2f x %.2f...\n",
-		      (*pTOpt).tartesr.vsize[0] / vsizemax,
-		      (*pTOpt).tartesr.vsize[1] / vsizemax,
-		      (*pTOpt).tartesr.vsize[2] / vsizemax);
-    neut_tesr_rasterscale (&((*pTOpt).tartesr),
-			   (*pTOpt).tartesr.vsize[0] / vsizemax,
-			   (*pTOpt).tartesr.vsize[1] / vsizemax,
-			   (*pTOpt).tartesr.vsize[2] / vsizemax);
-  }
+  net_tess_opt_init_tesrobj_post (pTOpt);
 
-  net_tess_opt_init_tesrobj_pts (pTOpt);
-
-  (*pTOpt).tarcellptqty[0] = ut_array_1d_int_sum ((*pTOpt).tarcellptqty + 1,
-						  (*pTOpt).tartesr.CellQty);
-
-  if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf")
-   || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf0")
-   || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf1")
-   || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf2"))
-    ut_print_message (0, 4, "Number of voxels reduced by %.1f%% (to %d).\n",
-		      100.0 - (*pTOpt).tarcellptqty[0] * 100.0 /
-		      neut_tesr_voxqty ((*pTOpt).tartesr),
-		      (*pTOpt).tarcellptqty[0]);
-
-  count =
-    ut_array_1d_int_nbofthisval ((*pTOpt).tarcellptqty + 1,
-				 (*pTOpt).tartesr.CellQty, 0);
-  if (count > 0)
-    ut_print_message (1, 4, " %d %s no voxel!\n", count,
-		      (count == 1) ? "cell has" : "cells have");
-
-  // Setting tarcellptcells
-  (*pTOpt).tarcellptscells = ut_alloc_1d_ppint ((*pTOpt).tartesr.CellQty + 1);
-  for (i = 1; i <= (*pTOpt).tartesr.CellQty; i++)
-  {
-    (*pTOpt).tarcellptscells[i]
-      = ut_alloc_1d_pint ((*pTOpt).tarcellptqty[i] + 1);
-    for (j = 0; j < (*pTOpt).tarcellptqty[i]; j++)
-    {
-      (*pTOpt).tarcellptscells[i][j]
-	= ut_alloc_1d_int ((*pTOpt).CellSCellQty[i]);
-      ut_array_1d_int_memcpy ((*pTOpt).tarcellptscells[i][j],
-			      (*pTOpt).CellSCellQty[i],
-			      (*pTOpt).CellSCellList[i]);
-    }
-  }
+  ut_free_2d_char (parts, partqty);
 
   return;
 }
