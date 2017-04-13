@@ -6,6 +6,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
+#include<limits.h>
 
 #include "neut.h"
 
@@ -14,12 +15,12 @@
 
 extern int neut_tesr_cell_boundpoints_test (struct TESR Tesr, int cell,
 					    int i, int j, int k,
-					    int connectivity);
+					    int connectivity, int interior);
 
 extern int neut_tesr_cell_boundpoints_test_3d (struct TESR Tesr, int cell,
 					       int i, int j, int k,
-					       int connectivity);
+					       int connectivity, int interior);
 
 extern int neut_tesr_cell_boundpoints_test_2d (struct TESR Tesr, int cell,
 					       int i, int j,
-					       int connectivity);
+					       int connectivity, int interior);

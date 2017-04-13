@@ -57,7 +57,7 @@ extern "C"
 
   extern void neut_tesr_cell_boundpoints (struct TESR Tesr, int cell,
 					  int ***pts, int *pptqty,
-					  int connectivity);
+					  int connectivity, int boundary);
 
   extern void neut_tesr_cell_cornerpoints (struct TESR Tesr, int cell,
 					   int ***pts, int *pptqty);

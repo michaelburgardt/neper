@@ -72,7 +72,7 @@ net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
      || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf2"))
       neut_tesr_cell_boundpoints ((*pTOpt).tartesr, i,
 				  &pts, &(*pTOpt).tarcellptqty[i],
-				  (*pTOpt).faceconn);
+				  (*pTOpt).faceconn, 1);
 
     // take them all if empty bounds
     if ((*pTOpt).tarcellptqty[i] == 0)

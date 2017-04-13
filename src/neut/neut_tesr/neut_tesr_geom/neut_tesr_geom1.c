@@ -251,7 +251,7 @@ neut_tesr_cell_coos (struct TESR Tesr, int cell, double ***pcoos,
 
 void
 neut_tesr_cell_boundpoints (struct TESR Tesr, int cell, int ***ppts,
-			    int *pptqty, int connec)
+			    int *pptqty, int connec, int interior)
 {
   int i, j, k;
 
@@ -263,7 +263,7 @@ neut_tesr_cell_boundpoints (struct TESR Tesr, int cell, int ***ppts,
     for (j = Tesr.CellBBox[cell][1][0]; j <= Tesr.CellBBox[cell][1][1]; j++)
       for (i = Tesr.CellBBox[cell][0][0]; i <= Tesr.CellBBox[cell][0][1]; i++)
 	if (Tesr.VoxCell[i][j][k] == cell)
-	  if (neut_tesr_cell_boundpoints_test (Tesr, cell, i, j, k, connec))
+	  if (neut_tesr_cell_boundpoints_test (Tesr, cell, i, j, k, connec, interior))
 	  {
 	    (*pptqty)++;
 	    (*ppts) = ut_realloc_2d_int_addline (*ppts, *pptqty, 3);
