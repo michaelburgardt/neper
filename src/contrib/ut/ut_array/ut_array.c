@@ -4205,7 +4205,7 @@ ut_array_1d_eltpos (double *array, int size, double val)
 
 #ifdef HAVE_GSL
 void
-ut_array_1d_set_random (double *data, int n, double min, double max, gsl_rng *r)
+ut_array_1d_set_rand (double *data, int n, double min, double max, gsl_rng *r)
 {
   int i;
 
@@ -4214,25 +4214,22 @@ ut_array_1d_set_random (double *data, int n, double min, double max, gsl_rng *r)
 
   return;
 }
-#endif // HAVE_GSL
 
-
-#ifdef HAVE_GSL
 void
-ut_array_1d_int_randvals (int *data, int n, int *vals, int valqty, gsl_rng *r)
+ut_array_1d_int_set_rand (int *data, int n, int min, int max, gsl_rng *r)
 {
   int i;
-  double *tmp = ut_alloc_1d (n);
-  int *ids = ut_alloc_1d_int (n);
 
-  ut_array_1d_set_random (tmp, n, 0, 1, r);
-  ut_array_1d_sort_index (tmp, n, ids);
+  for (i = 0; i < n; i++)
+    data[i] = min + (max - min + 1) * gsl_rng_uniform (r);
 
-  for (i = 0; i < valqty; i++)
-    vals[i] = data[ids[i]];
+  return;
+}
 
-  ut_free_1d (tmp);
-  ut_free_1d_int (ids);
+void
+ut_array_1d_int_choose (int *src, int srcsize, int *dest, int destsize, gsl_rng *r)
+{
+  gsl_ran_choose (r, dest, destsize, src, srcsize, sizeof (int));
 
   return;
 }

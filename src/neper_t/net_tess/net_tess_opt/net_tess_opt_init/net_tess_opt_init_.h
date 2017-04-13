@@ -60,6 +60,7 @@ extern void net_tess_opt_init_tesrobj_pre (struct TOPT *pTOpt);
 extern void net_tess_opt_init_tesrobj_scale (struct TOPT *pTOpt);
 extern void net_tess_opt_init_tesrobj_rasterscale (struct TOPT *pTOpt);
 extern void net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt);
+extern void net_tess_opt_init_tesrobj_sample (char *sample, struct TOPT *pTOpt);
 extern void net_tess_opt_init_tesrobj_post (struct TOPT *pTOpt);
 
 extern void net_tess_opt_init_target_cvl (struct IN_T In, int level, int

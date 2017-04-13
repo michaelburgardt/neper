@@ -215,9 +215,11 @@ net_tess_opt_init_tesrobj (struct TOPT *pTOpt)
     else if (!strcmp (parts[i], "rasterscaled"))
       net_tess_opt_init_tesrobj_rasterscale (pTOpt);
 
-    else if (!strncmp (parts[i], "surf", 4)
-          || !strcmp  (parts[i], "vol"))
+    else if (!strncmp (parts[i], "surf", 4))
       net_tess_opt_init_tesrobj_pts (pTOpt);
+
+    else if (!strncmp (parts[i], "sample", 6))
+      net_tess_opt_init_tesrobj_sample (parts[i], pTOpt);
 
     else
       abort ();

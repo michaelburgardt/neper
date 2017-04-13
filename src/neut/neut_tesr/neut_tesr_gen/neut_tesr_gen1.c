@@ -111,6 +111,14 @@ neut_tesr_voxvolume (struct TESR Tesr, double *pvol)
 }
 
 int
+neut_tesr_voxlengtheq (struct TESR Tesr, double *plengtheq)
+{
+  (*plengtheq) = ut_array_1d_gmean (Tesr.vsize, Tesr.Dim);
+
+  return 0;
+}
+
+int
 neut_tesr_volume (struct TESR Tesr, double *pvol)
 {
   if (Tesr.Dim == 3)

@@ -9,7 +9,9 @@ net_tess_opt_init_tesrobj_pre (struct TOPT *pTOpt)
 {
   (*pTOpt).tarcellpts = ut_alloc_1d_ppdouble ((*pTOpt).tartesr.CellQty + 1);
   (*pTOpt).tarcellptqty = ut_alloc_1d_int ((*pTOpt).tartesr.CellQty + 1);
-  (*pTOpt).tarcellrefval = ut_alloc_1d ((*pTOpt).tartesr.CellQty + 1);
+  (*pTOpt).tarcellfact = ut_alloc_1d ((*pTOpt).tartesr.CellQty + 1);
+  ut_array_1d_set ((*pTOpt).tarcellfact + 1,
+                   (*pTOpt).tartesr.CellQty, 1);
 
   return;
 }
@@ -73,7 +75,7 @@ net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
 				  (*pTOpt).faceconn);
 
     // take them all if empty bounds
-    else if (!strncmp ((*pTOpt).objective, "vol", 3) || (*pTOpt).tarcellptqty[i] == 0)
+    if ((*pTOpt).tarcellptqty[i] == 0)
       neut_tesr_cell_points ((*pTOpt).tartesr, i,
 			     &pts, &(*pTOpt).tarcellptqty[i]);
 
@@ -102,15 +104,90 @@ net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
 }
 
 void
+net_tess_opt_init_tesrobj_sample (char *sample, struct TOPT *pTOpt)
+{
+  int i, j, qty;
+  char *fct = NULL;
+  int fct_varqty = 0;
+  char **fct_vars = NULL;
+  char **fct_vals = NULL;
+  int varqty;
+  char **vars = NULL;
+  double *vals = NULL;
+  char *expr = NULL;
+  int *allids = NULL, allidqty;
+  int id, *ids = NULL;
+  gsl_rng *r = gsl_rng_alloc (gsl_rng_ranlxd2);
+  gsl_rng_set (r, 1);
+
+  ut_string_function_separate (sample, &fct, &fct_vars, &fct_vals, &fct_varqty);
+
+  if (fct_varqty != 1)
+    ut_print_message (2, 3, "Could not process expression `'.\n", sample);
+
+  ut_string_string (fct_vals[0], &expr);
+  varqty = 1;
+  vars = ut_alloc_1d_pchar (varqty);
+  vals = ut_alloc_1d (varqty);
+  ut_string_string ("voxnb", vars);
+
+  allidqty = ut_array_1d_int_max ((*pTOpt).tarcellptqty + 1,
+				  (*pTOpt).CellQty);
+  allids = ut_alloc_1d_int (allidqty);
+  ut_array_1d_int_set_id (allids, allidqty);
+  ids = ut_alloc_1d_int (allidqty);
+
+  for (i = 1; i <= (*pTOpt).CellQty; i++)
+  {
+    vals[0] = (*pTOpt).tarcellptqty[i];
+
+    ut_math_eval_int (expr, varqty, vars, vals, &qty);
+
+    ut_array_1d_int_choose (allids, (*pTOpt).tarcellptqty[i],
+	                    ids, qty, r);
+    (*pTOpt).tarcellfact[i] = (double) (*pTOpt).tarcellptqty[i] / qty;
+
+    for (j = 0; j < qty; j++)
+    {
+      id = ids[j];
+      ut_array_1d_memcpy ((*pTOpt).tarcellpts[i][j] , 3,
+	                  (*pTOpt).tarcellpts[i][id]);
+    }
+    (*pTOpt).tarcellpts[i]
+      = ut_realloc_2d_delline ((*pTOpt).tarcellpts[i],
+			       (*pTOpt).tarcellptqty[i], qty);
+    (*pTOpt).tarcellptqty[i] = qty;
+  }
+
+  (*pTOpt).tarcellptqty[0] =
+    ut_array_1d_int_sum ((*pTOpt).tarcellptqty + 1, (*pTOpt).CellQty);
+
+  ut_free_1d_char (fct);
+  ut_free_2d_char (fct_vars, fct_varqty);
+  ut_free_2d_char (fct_vals, fct_varqty);
+  ut_free_2d_char (vars, varqty);
+  ut_free_1d (vals);
+  ut_free_1d_char (expr);
+  ut_free_1d_int (allids);
+  ut_free_1d_int (ids);
+  gsl_rng_free (r);
+
+  return;
+}
+
+void
 net_tess_opt_init_tesrobj_post (struct TOPT *pTOpt)
 {
   int i, j;
 
   // Printing reduction message
-  ut_print_message (0, 4, "Number of voxels reduced by %.1f%% (to %d).\n",
+  ut_print_message (0, 4, "Number of voxels reduced by %7.3f%% (to %d).\n",
 		    100.0 - (*pTOpt).tarcellptqty[0] * 100.0 /
 		    neut_tesr_voxqty ((*pTOpt).tartesr),
 		    (*pTOpt).tarcellptqty[0]);
+  ut_print_message (0, 4, "min = %d, max = %d.\n",
+		    ut_array_1d_int_min ((*pTOpt).tarcellptqty + 1, (*pTOpt).CellQty),
+		    ut_array_1d_int_max ((*pTOpt).tarcellptqty + 1, (*pTOpt).CellQty));
 
   // Setting tarcellptcells
   (*pTOpt).tarcellptscells = ut_alloc_1d_ppint ((*pTOpt).tartesr.CellQty + 1);

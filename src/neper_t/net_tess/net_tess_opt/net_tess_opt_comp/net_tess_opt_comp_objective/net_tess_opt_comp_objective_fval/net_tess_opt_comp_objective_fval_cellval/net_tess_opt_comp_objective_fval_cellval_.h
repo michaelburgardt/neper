@@ -34,7 +34,7 @@ extern void net_tess_opt_comp_objective_fval_cellval_centroid (struct TOPT *pTOp
     int var, int cell);
 extern void net_tess_opt_comp_objective_fval_cellval_centroidsize (struct TOPT
     *pTOpt, int var, int cell);
-extern int net_tess_opt_comp_objective_fval_cellval_tesr (struct TOPT *pTOpt, int
+extern void net_tess_opt_comp_objective_fval_cellval_tesr (struct TOPT *pTOpt, int
     var, int cell);
 
 #ifdef __cplusplus

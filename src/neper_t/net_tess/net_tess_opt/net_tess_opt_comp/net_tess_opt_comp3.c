@@ -89,7 +89,7 @@ net_tess_opt_comp_rand_shift (double *x, struct TOPT *pTOpt, int seedqty,
   int *dims = ut_alloc_1d_int (4);
 
   // seeds
-  ut_array_1d_set_random (tmp, (*pTOpt).SSet.N, 0, 1, r);
+  ut_array_1d_set_rand (tmp, (*pTOpt).SSet.N, 0, 1, r);
   ut_array_1d_sort_index (tmp, (*pTOpt).SSet.N, seeds);
   ut_array_1d_int_addval (seeds, seedqty, 1, seeds);
 
@@ -99,7 +99,7 @@ net_tess_opt_comp_rand_shift (double *x, struct TOPT *pTOpt, int seedqty,
     seed = seeds[i];
 
     // dims
-    ut_array_1d_int_randvals (alldims, alldimqty, dims, dimqty, r);
+    ut_array_1d_int_choose (alldims, alldimqty, dims, dimqty, r);
     ut_space_random (r, dims, dimqty, min, max, v);
 
     for (j = 0; j < dimqty; j++)

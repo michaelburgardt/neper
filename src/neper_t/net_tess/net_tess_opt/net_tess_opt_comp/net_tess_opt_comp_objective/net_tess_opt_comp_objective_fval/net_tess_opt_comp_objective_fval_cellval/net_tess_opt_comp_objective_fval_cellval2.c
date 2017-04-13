@@ -121,13 +121,16 @@ net_tess_opt_comp_objective_fval_cellval_centroidsize (struct TOPT *pTOpt,
   return;
 }
 
-int
+void
 net_tess_opt_comp_objective_fval_cellval_tesr (struct TOPT *pTOpt, int var,
 					       int cell)
 {
   int i;
-  double dist;
-  int wrong = 0;
+  double dist, fact;
+
+  neut_tesr_voxlengtheq ((*pTOpt).tartesr, &fact);
+  if ((*pTOpt).Dim == 3)
+    fact = pow (fact, 2);
 
   (*pTOpt).curcellval[var][cell][0] = 0;
 
@@ -138,28 +141,12 @@ net_tess_opt_comp_objective_fval_cellval_tesr (struct TOPT *pTOpt, int var,
 			   (*pTOpt).CellSCellQty[cell],
 			   (*pTOpt).tarcellpts[cell][i], &dist);
 
-    if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "vol"))
-      (*pTOpt).curcellval[var][cell][0] += dist;
-    else if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf")
-          || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf0")
-          || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf1")
-          || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf2"))
-      (*pTOpt).curcellval[var][cell][0] += pow (dist, 2.0);
-    else
-      abort ();
-
-    if (dist > 0)
-      wrong++;
+    (*pTOpt).curcellval[var][cell][0] += pow (dist, 2.0);
   }
 
-  if (!strncmp ((*pTOpt).objective, "surf", 4))
-  {
-    (*pTOpt).curcellval[var][cell][0] /= (*pTOpt).tarrefval[var];
-    wrong = -1;
-  }
+  (*pTOpt).curcellval[var][cell][0] *= (*pTOpt).tarcellfact[cell];
+  (*pTOpt).curcellval[var][cell][0] *= fact;
+  (*pTOpt).curcellval[var][cell][0] /= pow ((*pTOpt).tarrefval[var], 4);
 
-  (*pTOpt).curcellval[var][cell][0] /= ((*pTOpt).tarrefval[var] *
-					(*pTOpt).tarcellptqty[0]);
-
-  return wrong;
+  return;
 }

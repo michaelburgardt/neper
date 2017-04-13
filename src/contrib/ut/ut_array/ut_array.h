@@ -209,9 +209,6 @@ extern void ut_array_distribparam (double *, int, double, double *, int *);
 extern void ut_array_distrib (double *, int, double, double, int, double *);
 
 extern void ut_array_1d_set (double *, int, double);
-#ifdef HAVE_GSL
-extern void ut_array_1d_set_random (double *, int, double, double, gsl_rng *r);
-#endif // HAVE_GSL
 extern void ut_array_1d_int_set (int *, int, int);
 extern void ut_array_1d_uint_set (unsigned int *, int, unsigned int);
 extern void ut_array_2d_set (double **, int, int, double);
@@ -344,8 +341,9 @@ extern int ut_array_1d_int_lists_merge (int* list1, int qty1, int*
 extern int ut_array_1d_int_duplicates (int* array, int qty);
 
 #ifdef HAVE_GSL
-extern void ut_array_1d_int_randvals (int *data, int n, int *vals, int valqty,
-    gsl_rng *r);
+extern void ut_array_1d_set_rand (double *, int, double, double, gsl_rng *r);
+extern void ut_array_1d_int_set_rand (int *, int, int, int, gsl_rng *r);
+extern void ut_array_1d_int_choose (int *src, int srcsize, int *dest, int destsize, gsl_rng *r);
 #endif
 
 #endif /* UT_ARRAY_H */

@@ -48,7 +48,7 @@ struct TOPT
   double *tartesrscale;		// scaling factor of the tess (for elongated grains)
   double  ***tarcellpts;	// list of points coo of a target cell [0...]
   int    *tarcellptqty;		// number of poiint of a target cell
-  double *tarcellrefval;	// ref val of a target cell
+  double *tarcellfact;		// factor of a target cell
   int  ***tarcellptscells;      // sorted subcells of a point
                                 // [cell][pt][0...CellSCellQty[cell]-1]
 

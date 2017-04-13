@@ -8,7 +8,7 @@ void
 net_tess_opt_comp_objective_fval_comp_celldata (struct TOPT *pTOpt, int id)
 {
   int i;
-  double val, val2, avdiameq, curval;
+  double val, val2, curval;
 
   if (!strncmp ((*pTOpt).tarvar[id], "size", 4)
       || !strcmp ((*pTOpt).tarvar[id], "sphericity"))
@@ -122,8 +122,7 @@ net_tess_opt_comp_objective_fval_comp_celldata (struct TOPT *pTOpt, int id)
 	curval += (*pTOpt).curcellval[id][i][0];
       else
 	curval += 1000 * (*pTOpt).curcellpenalty[i];
-    neut_tess_cellavdiameq ((*pTOpt).Dom, (*pTOpt).CellQty, &avdiameq);
-    curval /= avdiameq;
+    curval /= 2;
   }
 
   else

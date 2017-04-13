@@ -21,6 +21,7 @@ extern "C"
   extern int neut_tesr_voxsize (struct TESR Tesr, double *psize);
   extern int neut_tesr_voxarea (struct TESR Tesr, double *parea);
   extern int neut_tesr_voxvolume (struct TESR Tesr, double *pvol);
+  extern int neut_tesr_voxlengtheq (struct TESR Tesr, double *plengtheq);
   extern int neut_tesr_volume (struct TESR Tesr, double *pvol);
   extern int neut_tesr_grid_area (struct TESR Tesr, double *parea);
   extern int neut_tesr_area (struct TESR Tesr, double *parea);

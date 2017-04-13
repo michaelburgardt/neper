@@ -7,7 +7,7 @@
 void
 net_tess_opt_comp_objective_fval_cellval (struct TOPT *pTOpt)
 {
-  int i, j, cell, scell, wrong, faceqty, contiguous, faceqty_cell = 0;
+  int i, j, cell, scell, faceqty, contiguous, faceqty_cell = 0;
   double dist;
   struct POLY DomPoly;
 
@@ -93,9 +93,6 @@ net_tess_opt_comp_objective_fval_cellval (struct TOPT *pTOpt)
   }
 
   for (i = 0; i < (*pTOpt).tarqty; i++)
-  {
-    wrong = 0;
-
     for (j = 0; j < (*pTOpt).cellchangedqty; j++)
     {
       cell = (*pTOpt).cellchanged[j];
@@ -122,22 +119,12 @@ net_tess_opt_comp_objective_fval_cellval (struct TOPT *pTOpt)
 	  net_tess_opt_comp_objective_fval_cellval_centroidsize (pTOpt, i, cell);
 
 	else if (!strcmp ((*pTOpt).tarvar[i], "tesr"))
-	  wrong += net_tess_opt_comp_objective_fval_cellval_tesr (pTOpt, i, cell);
+	  net_tess_opt_comp_objective_fval_cellval_tesr (pTOpt, i, cell);
 
 	else
 	  abort ();
       }
     }
-
-    if (!strcmp ((*pTOpt).tarvar[i], "tesr") && (*pTOpt).iter == 1)
-    {
-      if (wrong >= 0)
-      {
-	printf ("\bWrongly assigned voxels: %d\n", wrong);
-	ut_print_message (0, 3, (char *) " ");
-      }
-    }
-  }
 
   return;
 }
