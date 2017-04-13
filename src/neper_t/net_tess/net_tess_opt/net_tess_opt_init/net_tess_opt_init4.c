@@ -5,19 +5,6 @@
 #include "net_tess_opt_init_.h"
 
 void
-net_tess_opt_init_target_cdf (int disbinqty, double binwidth, double *pdf,
-			      double *cdf)
-{
-  int i;
-
-  cdf[0] = 0;
-  for (i = 1; i < disbinqty; i++)
-    cdf[i] = cdf[i - 1] + pdf[i] * binwidth;
-
-  return;
-}
-
-void
 net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
 {
   int i, j, count, **pts = NULL;
