@@ -5,6 +5,54 @@
 #include "net_tess_opt_init_.h"
 
 void
+net_tess_opt_init_tesrobj_pre (struct TOPT *pTOpt)
+{
+  (*pTOpt).tarcellpts = ut_alloc_1d_ppdouble ((*pTOpt).tartesr.CellQty + 1);
+  (*pTOpt).tarcellptqty = ut_alloc_1d_int ((*pTOpt).tartesr.CellQty + 1);
+  (*pTOpt).tarcellrefval = ut_alloc_1d ((*pTOpt).tartesr.CellQty + 1);
+
+  return;
+}
+
+void
+net_tess_opt_init_tesrobj_scale (struct TOPT *pTOpt)
+{
+  int i;
+
+  (*pTOpt).tartesrscale = ut_alloc_1d ((*pTOpt).Dim);
+  neut_tesr_cells_anisoxyz ((*pTOpt).tartesr, (*pTOpt).tartesrscale);
+  for (i = 0; i < (*pTOpt).Dim; i++)
+    (*pTOpt).tartesrscale[i] = 1. / (*pTOpt).tartesrscale[i];
+  ut_print_message (0, 4, "Scaling input tesr by %.2f x %.2f x %.2f...\n",
+		    (*pTOpt).tartesrscale[0],
+		    (*pTOpt).tartesrscale[1],
+		    (*pTOpt).tartesrscale[2]);
+  neut_tesr_scale (&((*pTOpt).tartesr),
+		   (*pTOpt).tartesrscale[0],
+		   (*pTOpt).tartesrscale[1],
+		   (*pTOpt).tartesrscale[2], NULL);
+
+  return;
+}
+
+void
+net_tess_opt_init_tesrobj_rasterscale (struct TOPT *pTOpt)
+{
+  double vsizemax = ut_array_1d_max ((*pTOpt).tartesr.vsize, 3);
+
+  ut_print_message (0, 4, "Scaling input tesr's raster by %.2f x %.2f x %.2f...\n",
+		    (*pTOpt).tartesr.vsize[0] / vsizemax,
+		    (*pTOpt).tartesr.vsize[1] / vsizemax,
+		    (*pTOpt).tartesr.vsize[2] / vsizemax);
+  neut_tesr_rasterscale (&((*pTOpt).tartesr),
+			 (*pTOpt).tartesr.vsize[0] / vsizemax,
+			 (*pTOpt).tartesr.vsize[1] / vsizemax,
+			 (*pTOpt).tartesr.vsize[2] / vsizemax);
+
+  return;
+}
+
+void
 net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
 {
   int i, j, count, **pts = NULL;
@@ -49,54 +97,6 @@ net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
 
 
   ut_free_1d_char (message);
-
-  return;
-}
-
-void
-net_tess_opt_init_tesrobj_pre (struct TOPT *pTOpt)
-{
-  (*pTOpt).tarcellpts = ut_alloc_1d_ppdouble ((*pTOpt).tartesr.CellQty + 1);
-  (*pTOpt).tarcellptqty = ut_alloc_1d_int ((*pTOpt).tartesr.CellQty + 1);
-  (*pTOpt).tarcellrefval = ut_alloc_1d ((*pTOpt).tartesr.CellQty + 1);
-
-  return;
-}
-
-void
-net_tess_opt_init_tesrobj_scale (struct TOPT *pTOpt)
-{
-  int i;
-
-  (*pTOpt).tartesrscale = ut_alloc_1d ((*pTOpt).Dim);
-  neut_tesr_cells_anisoxyz ((*pTOpt).tartesr, (*pTOpt).tartesrscale);
-  for (i = 0; i < (*pTOpt).Dim; i++)
-    (*pTOpt).tartesrscale[i] = 1. / (*pTOpt).tartesrscale[i];
-  ut_print_message (0, 4, "Scaling input tesr by %.2f x %.2f x %.2f...\n",
-		    (*pTOpt).tartesrscale[0],
-		    (*pTOpt).tartesrscale[1],
-		    (*pTOpt).tartesrscale[2]);
-  neut_tesr_scale (&((*pTOpt).tartesr),
-		   (*pTOpt).tartesrscale[0],
-		   (*pTOpt).tartesrscale[1],
-		   (*pTOpt).tartesrscale[2], NULL);
-
-  return;
-}
-
-void
-net_tess_opt_init_tesrobj_rasterscale (struct TOPT *pTOpt)
-{
-  double vsizemax = ut_array_1d_max ((*pTOpt).tartesr.vsize, 3);
-
-  ut_print_message (0, 4, "Scaling input tesr's raster by %.2f x %.2f x %.2f...\n",
-		    (*pTOpt).tartesr.vsize[0] / vsizemax,
-		    (*pTOpt).tartesr.vsize[1] / vsizemax,
-		    (*pTOpt).tartesr.vsize[2] / vsizemax);
-  neut_tesr_rasterscale (&((*pTOpt).tartesr),
-			 (*pTOpt).tartesr.vsize[0] / vsizemax,
-			 (*pTOpt).tartesr.vsize[1] / vsizemax,
-			 (*pTOpt).tartesr.vsize[2] / vsizemax);
 
   return;
 }
