@@ -403,20 +403,13 @@ to correct for a global cell elongation.
 Operation @samp{rasterscaled} scales the raster itself to correct
 for a global voxel elongation (which may result from operation
 @samp{scaled}).
-To compute the objective function@comma{} the distance function is used@comma{}
-which can be computed using different `control points''. The available value is
-@samp{surf} for only the surface voxels of the cells@comma{} 
-which can be computed using different connexity rules:
-connexities of 0@comma{} 1 and 2 indicate that two voxels form a connex
-set if they share at least a vertex@comma{} edge of face@comma{}
-respectively (they lead to decreasing numbers of surface voxels).
-@samp{surf} assumes a connexity level of 1; to set the connexity
-level@comma{} use @samp{surf@var{level}}@comma{} where @var{level} is
-the connexity level.  The set of control points can be further reduced using
-@samp{sample(@var{expr})}@comma{} where @samp{@var{expr}}
+The available value of the objective function is @samp{surf}@comma{} which
+means that the distance between the tesr cell boundaries and the
+actual cells are used.
+The number of ``control points'' describing the cell boundaries can be
+set using  @samp{sample(@var{expr})}@comma{} where @samp{@var{expr}}
 can be any mathematical expression based on @samp{vox_nb}
-(the total number of voxels@comma{} as computed@comma{} for each cell@comma{}
- from previous operations.
+(the total number of voxels resulting from previous operations@comma{} for each cell).
 To define the objective function@comma{} append
 the (optional) operations to the distance function region.  The default
 value is @samp{scaled@SEPNODEP{}rasterscaled@SEPNODEP{}surf}.

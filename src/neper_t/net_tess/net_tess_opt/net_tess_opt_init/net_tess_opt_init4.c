@@ -66,13 +66,12 @@ net_tess_opt_init_tesrobj_pts (struct TOPT *pTOpt)
   {
     ut_print_progress (stdout, i, (*pTOpt).CellQty, "%5.1f%%", message);
 
-    if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf")
-     || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf0")
-     || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf1")
-     || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf2"))
+    if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf"))
       neut_tesr_cell_boundpoints ((*pTOpt).tartesr, i,
 				  &pts, &(*pTOpt).tarcellptqty[i],
-				  (*pTOpt).faceconn, 1);
+				  0, 1);
+    else
+      ut_print_message (2, 3, "Could not process expression `'.\n", (*pTOpt).objective);
 
     // take them all if empty bounds
     if ((*pTOpt).tarcellptqty[i] == 0)

@@ -84,7 +84,6 @@ neut_topt_set_zero (struct TOPT *pTOpt)
   (*pTOpt).tarcellptqty = NULL;
   (*pTOpt).tarcellfact = NULL;
   (*pTOpt).tarcellptscells = NULL;
-  (*pTOpt).faceconn = 1;
 
   (*pTOpt).seedopti = NULL;
   (*pTOpt).seedoptiqty = 0;

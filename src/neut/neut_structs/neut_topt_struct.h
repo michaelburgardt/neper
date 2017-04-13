@@ -138,10 +138,6 @@ struct TOPT
   double* objvalmin;		// minimum value of the objective function
   int iter;			// number of iterations
 
-  // development information
-  int faceconn;			// face connectivity rule to define the
-  				// target cell points
-
   // PROGRESS INFORMATION ----------------------------------------------
 
   char *message;		// message to print at each iteration

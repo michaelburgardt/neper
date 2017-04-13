@@ -106,14 +106,6 @@ net_tess_opt_init_parms (struct IN_T In, int level,
 
   ut_string_string (In.morphooptialgoneigh[level], &(*pTOpt).TDyn.algoneigh);
 
-  if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf0"))
-    (*pTOpt).faceconn = 0;
-  else if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf1")
-        || ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf"))
-    (*pTOpt).faceconn = 1;
-  else if (ut_string_inlist ((*pTOpt).objective, NEUT_SEP_NODEP, "surf2"))
-    (*pTOpt).faceconn = 2;
-
   for (i = 0; i < (*pTOpt).tarqty; i++)
     if (!strcmp ((*pTOpt).tarvar[i], "tesr"))
       net_tess_opt_init_tesrobj (pTOpt);
