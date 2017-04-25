@@ -538,6 +538,12 @@ The keys are provided in @ref{Tessellation Update Keys}.
 ,
 any, none}
 
+@optsec{-morphooptilogtesr, char_string,
+Log the raster tessellation voxel data during the optimization process.
+The keys are provided in @ref{Tessellation Update Keys}.
+,
+any, none}
+
 @c @optsec{-morphooptilog, char_string,
 @c Get a log of the optimization process.
 @c @samp{@code{seed}} for the seed coordinates and weights@comma{}

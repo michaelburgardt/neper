@@ -172,3 +172,46 @@ net_tess_opt_comp_objective_log_val (struct TOPT TOpt)
 
   return;
 }
+
+void
+net_tess_opt_comp_objective_log_tesr (struct TOPT TOpt)
+{
+  int i, j, k;
+  char **vars = NULL;
+  int varqty;
+
+  if (!ut_string_iter_test (TOpt.TDyn.logtesr, NEUT_SEP_NODEP, TOpt.iter))
+    return;
+
+  ut_string_separate (TOpt.TDyn.logtesr, NEUT_SEP_NODEP, &vars, &varqty);
+
+  for (i = 1; i <= TOpt.CellQty; i++)
+    for (j = 0; j < TOpt.tarcellptqty[i]; j++)
+    {
+      for (k = 0; k < varqty; k++)
+      {
+	if (!strncmp (vars[k], "iter", 4))
+	  fprintf (TOpt.TDyn.logtesr_fp, "%d", TOpt.TDyn.iter);
+	else if (!strcmp (vars[k], "id"))
+	  fprintf (TOpt.TDyn.logtesr_fp, "%d", i);
+	else if (!strcmp (vars[k], "x"))
+	  fprintf (TOpt.TDyn.logtesr_fp, "%f", TOpt.tarcellpts[i][j][0]);
+	else if (!strcmp (vars[k], "y"))
+	  fprintf (TOpt.TDyn.logtesr_fp, "%f", TOpt.tarcellpts[i][j][1]);
+	else if (!strcmp (vars[k], "z"))
+	  fprintf (TOpt.TDyn.logtesr_fp, "%f", TOpt.tarcellpts[i][j][2]);
+	else if (!strcmp (vars[k], "dist"))
+	  fprintf (TOpt.TDyn.logtesr_fp, "%f", TOpt.tarcellptsdist[i][j]);
+	else
+	  fprintf (TOpt.TDyn.logtesr_fp, "-1");
+
+	if (k < varqty - 1)
+	  fprintf (TOpt.TDyn.logtesr_fp, " ");
+      }
+      fprintf (TOpt.TDyn.logtesr_fp, "\n");
+    }
+
+  ut_free_2d_char (vars, varqty);
+
+  return;
+}

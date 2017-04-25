@@ -74,6 +74,7 @@ extern "C"
     char *logtime;	        // logtime string
     char *logvar;	        // logvar string
     char *logdis;	        // logdis string
+    char *logtesr;	        // tesr control point string
     char *logval;	        // logval string
 
     char *body;			// base filename for log files
@@ -81,6 +82,7 @@ extern "C"
     FILE *logvar_fp;	        // variable log file
     int logdis_qty;		// number of distributions log files
     FILE **logdis_fp;	        // distributions log file
+    FILE *logtesr_fp;	        // tesr control point log file
     FILE *logval_fp;	        // objective function value log file
 
     double cell_init_dur; 	// initialization duration

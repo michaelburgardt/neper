@@ -149,6 +149,10 @@ net_input_treatargs (int fargc, char **fargv, int argc, char **argv,
     net_input_treatargs_multiscale ("-morphooptilogdis", &(*pIn).morphooptilogdisstring,
 				    (*pIn).levelqty, &((*pIn).morphooptilogdis));
 
+    // morphooptilogtesr
+    net_input_treatargs_multiscale ("-morphooptilogtesr", &(*pIn).morphooptilogtesrstring,
+				    (*pIn).levelqty, &((*pIn).morphooptilogtesr));
+
     // morphooptilogval
     net_input_treatargs_multiscale ("-morphooptilogval", &(*pIn).morphooptilogvalstring,
 				    (*pIn).levelqty, &((*pIn).morphooptilogval));

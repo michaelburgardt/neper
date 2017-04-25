@@ -204,5 +204,10 @@ net_tess_opt_init_tesrobj_post (struct TOPT *pTOpt)
     }
   }
 
+  // Setting tarcellptsdist
+  (*pTOpt).tarcellptsdist = ut_alloc_1d_pdouble ((*pTOpt).tartesr.CellQty + 1);
+  for (i = 1; i <= (*pTOpt).tartesr.CellQty; i++)
+    (*pTOpt).tarcellptsdist[i] = ut_alloc_1d ((*pTOpt).tarcellptqty[i] + 1);
+
   return;
 }

@@ -97,6 +97,7 @@ net_tess_opt_init_parms (struct IN_T In, int level,
   ut_string_string (In.morphooptilogdis[level], &(*pTOpt).TDyn.logdis);
   (*pTOpt).TDyn.logdis_qty = (*pTOpt).tarqty;
   ut_string_string (In.morphooptilogval[level], &(*pTOpt).TDyn.logval);
+  ut_string_string (In.morphooptilogtesr[level], &(*pTOpt).TDyn.logtesr);
 
   ut_string_string (In.body, &(*pTOpt).TDyn.body);
 

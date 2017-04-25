@@ -26,6 +26,7 @@ net_input_options_default (struct IN_T *pIn)
   ut_string_string ("none", &(*pIn).morphooptilogtimestring);
   ut_string_string ("none", &(*pIn).morphooptilogvarstring);
   ut_string_string ("none", &(*pIn).morphooptilogdisstring);
+  ut_string_string ("none", &(*pIn).morphooptilogtesrstring);
   ut_string_string ("none", &(*pIn).morphooptilogvalstring);
   ut_string_string ("1", &(*pIn).morphooptimultiseedstring);
   ut_string_string ("default", &(*pIn).morphooptidofstring);
@@ -80,6 +81,8 @@ net_input_options_default (struct IN_T *pIn)
   ut_string_string ((*pIn).morphooptilogvarstring, (*pIn).morphooptilogvar);
   (*pIn).morphooptilogdis = ut_alloc_1d_pchar (1);
   ut_string_string ((*pIn).morphooptilogdisstring, (*pIn).morphooptilogdis);
+  (*pIn).morphooptilogtesr = ut_alloc_1d_pchar (1);
+  ut_string_string ((*pIn).morphooptilogtesrstring, (*pIn).morphooptilogtesr);
   (*pIn).morphooptilogval = ut_alloc_1d_pchar (1);
   ut_string_string ((*pIn).morphooptilogvalstring, (*pIn).morphooptilogval);
   (*pIn).morphooptimultiseed = ut_alloc_1d_pchar (1);
@@ -122,6 +125,7 @@ net_input_options_set (struct IN_T *pIn, int argc, char **argv)
   strcpy (ArgList[++ArgQty], "-morphooptilogtime");
   strcpy (ArgList[++ArgQty], "-morphooptilogvar");
   strcpy (ArgList[++ArgQty], "-morphooptilogdis");
+  strcpy (ArgList[++ArgQty], "-morphooptilogtesr");
   strcpy (ArgList[++ArgQty], "-morphooptilogval");
   strcpy (ArgList[++ArgQty], "-morphooptidof");
   strcpy (ArgList[++ArgQty], "-morphooptimultiseed");
@@ -236,6 +240,8 @@ net_input_options_set (struct IN_T *pIn, int argc, char **argv)
       ut_arg_nextasstring (argv, &i, Arg, &((*pIn).morphooptilogvarstring));
     else if (!strcmp (Arg, "-morphooptilogdis"))
       ut_arg_nextasstring (argv, &i, Arg, &((*pIn).morphooptilogdisstring));
+    else if (!strcmp (Arg, "-morphooptilogtesr"))
+      ut_arg_nextasstring (argv, &i, Arg, &((*pIn).morphooptilogtesrstring));
     else if (!strcmp (Arg, "-morphooptilogval"))
       ut_arg_nextasstring (argv, &i, Arg, &((*pIn).morphooptilogvalstring));
     else if (!strcmp (Arg, "-morphooptidof"))

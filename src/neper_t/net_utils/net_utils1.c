@@ -35,6 +35,8 @@ net_in_set_zero (struct IN_T *pIn)
   (*pIn).morphooptilogvar = NULL;
   (*pIn).morphooptilogdisstring = NULL;
   (*pIn).morphooptilogdis = NULL;
+  (*pIn).morphooptilogtesrstring = NULL;
+  (*pIn).morphooptilogtesr = NULL;
   (*pIn).morphooptilogvalstring = NULL;
   (*pIn).morphooptilogval = NULL;
   (*pIn).morphooptidofstring = NULL;

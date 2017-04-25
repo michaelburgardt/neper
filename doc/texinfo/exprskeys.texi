@@ -343,6 +343,23 @@ factor, to log values only at specific iteration numbers.
   @item @code{curcdf0}  @tab current CDF, not smoothed @tab n/a
 @end multitable
 
+@subsection Raster Tessellation Voxel Keys
+
+The available keys for option @option{-morphooptilogtesr} are provided
+below.  Values are written for each voxel used to compute the objective function.
+Use @samp{iter(@var{factor})}, where @samp{@var{factor}} is a reduction
+factor, to log values only at specific iteration numbers.
+
+@multitable @columnfractions 0.18 0.47 0.36
+  @headitem Key     @tab Descriptor              @tab Apply to
+  @item @code{iter} @tab iteration number        @tab n/a
+  @item @code{id}   @tab cell identifier	 @tab n/a
+  @item @code{x}    @tab x coordinate            @tab n/a
+  @item @code{y}    @tab y coordinate            @tab n/a
+  @item @code{z}    @tab z coordinate            @tab n/a
+  @item @code{dist} @tab distance to the cell    @tab n/a
+@end multitable
+
 @node Mesh Keys
 @section Mesh Keys
 

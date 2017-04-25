@@ -19,6 +19,9 @@ net_tess_opt_comp_objective_log (struct TOPT TOpt)
     for (i = 0; i < TOpt.tarqty; i++)
       net_tess_opt_comp_objective_log_dis (TOpt, i);
 
+  if (strcmp (TOpt.TDyn.logtesr, "none"))
+    net_tess_opt_comp_objective_log_tesr (TOpt);
+
   if (strcmp (TOpt.TDyn.logval, "none"))
     net_tess_opt_comp_objective_log_val (TOpt);
 

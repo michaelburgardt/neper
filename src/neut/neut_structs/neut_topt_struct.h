@@ -51,6 +51,7 @@ struct TOPT
   double *tarcellfact;		// factor of a target cell
   int  ***tarcellptscells;      // sorted subcells of a point
                                 // [cell][pt][0...CellSCellQty[cell]-1]
+  double **tarcellptsdist;       // distance value of cell points
 
   // CURRENT MICROSTRUCTURE DEFINITION ---------------------------------
 

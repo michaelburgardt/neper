@@ -20,6 +20,7 @@ extern "C"
 
 extern void net_tess_opt_comp_objective_log_time (struct TOPT TOpt);
 extern void net_tess_opt_comp_objective_log_dis (struct TOPT TOpt, int id);
+extern void net_tess_opt_comp_objective_log_tesr (struct TOPT TOpt);
 extern void net_tess_opt_comp_objective_log_var (struct TOPT TOpt);
 extern void net_tess_opt_comp_objective_log_val (struct TOPT TOpt);
 extern int  net_tess_opt_comp_objective_log_testiter (struct TOPT TOpt, char*);

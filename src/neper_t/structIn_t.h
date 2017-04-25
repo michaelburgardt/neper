@@ -50,6 +50,8 @@ extern "C"
     char **morphooptilogvar;		//
     char *morphooptilogdisstring;       // distribution log
     char **morphooptilogdis;		//
+    char *morphooptilogtesrstring;      // tesr control points log
+    char **morphooptilogtesr;		//
     char *morphooptilogvalstring;       // value log
     char **morphooptilogval;		//
     char *morphooptimultiseedstring;	// opti multiseed

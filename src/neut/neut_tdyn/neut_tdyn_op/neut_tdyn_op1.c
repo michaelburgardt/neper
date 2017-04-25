@@ -59,12 +59,14 @@ neut_tdyn_set_zero (struct TDYN *pTD)
   (*pTD).logvar = NULL;
   (*pTD).logdis = NULL;
   (*pTD).logval = NULL;
+  (*pTD).logtesr = NULL;
   (*pTD).body = NULL;
   (*pTD).logtime_fp = NULL;
   (*pTD).logvar_fp = NULL;
   (*pTD).logdis_qty = 0;
   (*pTD).logdis_fp = NULL;
   (*pTD).logval_fp = NULL;
+  (*pTD).logtesr_fp = NULL;
 
   return;
 }
@@ -109,6 +111,7 @@ neut_tdyn_free (struct TDYN *pTD)
   ut_free_1d_char ((*pTD).logtime);
   ut_free_1d_char ((*pTD).logvar);
   ut_free_1d_char ((*pTD).logdis);
+  ut_free_1d_char ((*pTD).logtesr);
   ut_free_1d_char ((*pTD).logval);
   ut_free_1d_char ((*pTD).body);
 
