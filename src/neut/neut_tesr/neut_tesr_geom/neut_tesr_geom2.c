@@ -86,18 +86,18 @@ neut_tesr_cell_boundpoints_test_2d (struct TESR Tesr, int cell, int i, int j,
   if (connec < 0 || connec > 2)
     ut_print_message (2, 0, "connectivity = %d!\n", connec);
 
-  if (   (Tesr.VoxCell[i - 1][j][0] == cell || Tesr.VoxCell[i - 1][j][0] <= min)
-      && (Tesr.VoxCell[i + 1][j][0] == cell || Tesr.VoxCell[i + 1][j][0] <= min)
-      && (Tesr.VoxCell[i][j - 1][0] == cell || Tesr.VoxCell[i][j - 1][0] <= min)
-      && (Tesr.VoxCell[i][j + 1][0] == cell || Tesr.VoxCell[i][j + 1][0] <= min))
+  if (   (Tesr.VoxCell[i - 1][j][1] == cell || Tesr.VoxCell[i - 1][j][1] <= min)
+      && (Tesr.VoxCell[i + 1][j][1] == cell || Tesr.VoxCell[i + 1][j][1] <= min)
+      && (Tesr.VoxCell[i][j - 1][1] == cell || Tesr.VoxCell[i][j - 1][1] <= min)
+      && (Tesr.VoxCell[i][j + 1][1] == cell || Tesr.VoxCell[i][j + 1][1] <= min))
     res = 0;
 
   if (res == 0 && connec > 0)
   {
-    if (   (Tesr.VoxCell[i + 1][j - 1][0] == cell || Tesr.VoxCell[i + 1][j - 1][0] <= min)
-	&& (Tesr.VoxCell[i + 1][j + 1][0] == cell || Tesr.VoxCell[i + 1][j + 1][0] <= min)
-	&& (Tesr.VoxCell[i - 1][j - 1][0] == cell || Tesr.VoxCell[i - 1][j - 1][0] <= min)
-	&& (Tesr.VoxCell[i - 1][j + 1][0] == cell || Tesr.VoxCell[i - 1][j + 1][0] <= min))
+    if (   (Tesr.VoxCell[i + 1][j - 1][1] == cell || Tesr.VoxCell[i + 1][j - 1][1] <= min)
+	&& (Tesr.VoxCell[i + 1][j + 1][1] == cell || Tesr.VoxCell[i + 1][j + 1][1] <= min)
+	&& (Tesr.VoxCell[i - 1][j - 1][1] == cell || Tesr.VoxCell[i - 1][j - 1][1] <= min)
+	&& (Tesr.VoxCell[i - 1][j + 1][1] == cell || Tesr.VoxCell[i - 1][j + 1][1] <= min))
       res = 1;
   }
 

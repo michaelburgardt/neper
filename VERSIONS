@@ -1,4 +1,4 @@
-New in 3.0.3-36-clean_dct (14 Apr 2017):
+New in 3.0.3-37-clean_dct (25 Apr 2017):
 - module -T: added -n from_morpho to set the number of cells from all -morpho
   inputs, fixed -morphooptiini, fixed -morpho centroidsize, improved -morpho
   centroiddiameq and tesr, improved -morpho tesr for elongated cells, added
