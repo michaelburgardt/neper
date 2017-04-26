@@ -56,6 +56,11 @@ net_transform_tesr (struct IN_T In, struct TESR *pTesr)
       ut_print_message (0, 2, "Autocropping...\n");
       neut_tesr_autocrop (pTesr);
     }
+    else if (!strncmp (parts[i], "crop:", 5))
+    {
+      ut_print_message (0, 2, "Cropping by %s...\n", parts[i] + 5);
+      neut_tesr_crop (pTesr, parts[i] + 5);
+    }
     else if (!strncmp (parts[i], "rasterscale", 11))
     {
       ut_print_message (0, 2, "Scaling raster...\n");
@@ -76,6 +81,11 @@ net_transform_tesr (struct IN_T In, struct TESR *pTesr)
     {
       ut_print_message (0, 2, "Intersecting with tessellation...\n");
       neut_tesr_tessinter (pTesr, parts[i], 3);
+    }
+    else if (!strcmp (parts[i], "2d"))
+    {
+      ut_print_message (0, 2, "Making tessellation 2D...\n");
+      neut_tesr_2d (pTesr);
     }
     else
       ut_print_message (2, 3, "Expression `%s' could not be processed.\n",

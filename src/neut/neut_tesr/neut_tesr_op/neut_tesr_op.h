@@ -113,6 +113,7 @@ extern "C"
 				       Domain, int dim, char *rptstring);
 
   extern void neut_tesr_crop (struct TESR *pTesr, char *shape);
+  extern int  neut_tesr_2d (struct TESR *pTesr);
 
   extern void neut_tesr_autocrop (struct TESR *pTesr);
 

@@ -588,6 +588,7 @@ along directions @var{x}@comma{} @code{@var{y}} and
 @math{@bullet{}} @samp{rotate(@var{axis_x}@comma{}@var{axis_y}@comma{}@var{axis_z}@comma{}@var{angle})}
 for a rotation about an axis/angle pair.@*
 The following transformation apply to a raster tessellation:@*
+@math{@bullet{}} @samp{@code{crop:@var{shape}(@var{parameters})}} crops the raster tessellation by a shape@comma{} where @samp{@var{shape}(@var{parameters})} can be @samp{cube(@var{xmin}@comma{}@var{xmax}@comma{}@var{ymin}@comma{}@var{ymax}@comma{}@var{zmin}@comma{}@var{zmax})} or @samp{cylinder(@var{centre_x}@comma{}@var{centre_y}@comma{}@var{diameter})} (the axis is z).@*
 @math{@bullet{}} @samp{@code{autocrop}} reduces the raster to its minimal size.@*
 @math{@bullet{}}
 @samp{@code{rasterscale(@var{x_fact}@comma{}@var{y_fact}@comma{}@var{z_fact})}}
@@ -601,6 +602,7 @@ along directions @var{x}@comma{} @code{@var{y}} and
 @math{@bullet{}} @samp{@code{grow}} grows the cells to fill the domain.@*
 @math{@bullet{}} @samp{@code{tessinter(@var{tess_file})}} computes the
 intersection with tessellation @file{@var{tess_file}}.@*
+@math{@bullet{}} @samp{@code{2d}} transforms a 3D tessellation with 1 voxel along z into a 2D tessellation.@*
 Several transformations can be applied successively by combining them @w{with @samp{@SEPNODEP}}.
 ,
 any, none}

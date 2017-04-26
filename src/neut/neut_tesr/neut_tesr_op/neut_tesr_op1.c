@@ -973,10 +973,11 @@ neut_tesr_init_tesrsize (struct TESR *pTesr, struct TESS Domain, int dim,
 void
 neut_tesr_crop (struct TESR *pTesr, char *shape)
 {
-  int i, j, status;
+  int i, j, k, id, status;
   double d;
   double *coo = ut_alloc_1d (3);
   double *coo2 = ut_alloc_1d (3);
+  double **cube = ut_alloc_2d (3 ,2);
   int *pt = ut_alloc_1d_int (3);
 
   if (!strncmp (shape, "cylinder(", 8))
@@ -997,23 +998,63 @@ neut_tesr_crop (struct TESR *pTesr, char *shape)
 			       0);
       }
   }
+  else if (!strncmp (shape, "cube(", 5))
+  {
+    status = sscanf (shape, "cube(%lf,%lf,%lf,%lf,%lf,%lf)",
+	             cube[0], cube[0] + 1,
+	             cube[1], cube[1] + 1,
+	             cube[2], cube[2] + 1);
+
+    if (status != 6)
+      ut_print_message (2, 2, "Unknown shape `%s'.\n", shape);
+
+    for (k = 1; k <= (*pTesr).size[2]; k++)
+      for (j = 1; j <= (*pTesr).size[1]; j++)
+	for (i = 1; i <= (*pTesr).size[0]; i++)
+	  if ((*pTesr).VoxCell[i][j][k])
+	  {
+	    ut_array_1d_int_set_3 (pt, i, j, k);
+	    neut_tesr_pos_coo (*pTesr, pt, coo2);
+
+	    for (id = 0; id < 3; id++)
+	      if (coo2[id] < cube[id][0] || coo2[id] > cube[id][1])
+	      {
+		(*pTesr).VoxCell[i][j][k] = 0;
+		break;
+	      }
+	  }
+  }
   else
     ut_print_message (2, 2, "Unknown shape `%s'.\n", shape);
+
+  neut_tesr_init_cellvol (pTesr);
+  neut_tesr_renumber_continuous (pTesr);
 
   if ((*pTesr).CellBBox)
     neut_tesr_init_cellbbox (pTesr);
   if ((*pTesr).CellCoo)
     neut_tesr_init_cellcoo (pTesr);
-  if ((*pTesr).CellVol)
-    neut_tesr_init_cellvol (pTesr);
   if ((*pTesr).CellConvexity)
     neut_tesr_init_cellconvexity (pTesr);
 
   ut_free_1d (coo);
   ut_free_1d (coo2);
   ut_free_1d_int (pt);
+  ut_free_2d (cube, 3);
 
   return;
+}
+
+int
+neut_tesr_2d (struct TESR *pTesr)
+{
+  if ((*pTesr).Dim == 3 && (*pTesr).size[2] == 1)
+  {
+    (*pTesr).Dim = 2;
+    return 0;
+  }
+  else
+    return -1;
 }
 
 void
