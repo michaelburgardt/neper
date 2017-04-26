@@ -138,6 +138,7 @@ extern double ut_array_2d_absmax (double **, int, int);
 extern int ut_array_1d_int_max_index (int *, int);
 extern double ut_array_1d_sum (double *, int);
 extern double ut_array_1d_prod (double *, int);
+extern int ut_array_1d_int_scalprod (int *, int *, int);
 extern double ut_array_1d_scalprod (double *, double *, int);
 extern int ut_array_1d_int_sum (int *, int);
 extern int ut_array_1d_int_prod (int *, int);

@@ -2630,6 +2630,18 @@ ut_array_1d_scalprod (double *data1, double *data2, int n)
 }
 
 int
+ut_array_1d_int_scalprod (int *data1, int *data2, int n)
+{
+  int i;
+  int res = 0;
+
+  for (i = 0; i < n; i++)
+    res += data1[i] * data2[i];
+
+  return res;
+}
+
+int
 ut_array_1d_int_sum (int *data, int n)
 {
   int i;
