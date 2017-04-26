@@ -126,11 +126,6 @@ net_tess_opt_comp_objective_fval_cellval_tesr (struct TOPT *pTOpt, int var,
 					       int cell)
 {
   int i;
-  double fact;
-
-  neut_tesr_voxlengtheq ((*pTOpt).tartesr, &fact);
-  if ((*pTOpt).Dim == 3)
-    fact = pow (fact, 2);
 
 #pragma omp parallel for private(i)
   for (i = 0; i < (*pTOpt).tarcellptqty[cell]; i++)
@@ -142,11 +137,9 @@ net_tess_opt_comp_objective_fval_cellval_tesr (struct TOPT *pTOpt, int var,
 
   (*pTOpt).curcellval[var][cell][0] = 0;
   for (i = 0; i < (*pTOpt).tarcellptqty[cell]; i++)
-    (*pTOpt).curcellval[var][cell][0] += pow ((*pTOpt).tarcellptsdist[cell][i], 2.0);
+    (*pTOpt).curcellval[var][cell][0] += pow ((*pTOpt).tarcellptsdist[cell][i], 2);
 
   (*pTOpt).curcellval[var][cell][0] *= (*pTOpt).tarcellfact[cell];
-  (*pTOpt).curcellval[var][cell][0] *= fact;
-  (*pTOpt).curcellval[var][cell][0] /= pow ((*pTOpt).tarrefval[var], 4);
 
   return;
 }
