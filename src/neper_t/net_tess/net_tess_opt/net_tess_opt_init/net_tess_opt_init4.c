@@ -177,13 +177,17 @@ net_tess_opt_init_tesrobj_sample (char *sample, struct TOPT *pTOpt)
 void
 net_tess_opt_init_tesrobj_post (struct TOPT *pTOpt)
 {
-  int i, j;
+  int i, j, oldqty = 0, newqty = 0;
+
+  for (i = 1; i <= (*pTOpt).CellQty; i++)
+  {
+    oldqty += (*pTOpt).tarcellptqty[i] * (*pTOpt).tarcellfact[i];
+    newqty += (*pTOpt).tarcellptqty[i];
+  }
 
   // Printing reduction message
-  ut_print_message (0, 4, "Number of voxels reduced by %7.3f%% (to %d).\n",
-		    100.0 - (*pTOpt).tarcellptqty[0] * 100.0 /
-		    neut_tesr_voxqty ((*pTOpt).tartesr),
-		    (*pTOpt).tarcellptqty[0]);
+  ut_print_message (0, 4, "Number of interface voxels reduced by %7.3f%% (to %d).\n",
+		    100.0 * (oldqty - newqty) / oldqty, newqty);
   ut_print_message (0, 4, "min = %d, max = %d.\n",
 		    ut_array_1d_int_min ((*pTOpt).tarcellptqty + 1, (*pTOpt).CellQty),
 		    ut_array_1d_int_max ((*pTOpt).tarcellptqty + 1, (*pTOpt).CellQty));
