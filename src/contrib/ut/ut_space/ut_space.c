@@ -1816,7 +1816,7 @@ ut_space_polypts_point_dist_verbosity (double** ptcoos0, int ptqty,
 
     // searching the furthest point along dir (called A)
     int *fpts = NULL, fptqty = 0;
-    ut_space_pts_dir_furthestpts (coos, ptqty, dir, 1e-15, &fpts, &fptqty);
+    ut_space_pts_dir_furthestpts (coos, ptqty, dir, 1e-12, &fpts, &fptqty);
     if (verbosity)
     {
       fprintf (fp, "furthest point is/are ");
