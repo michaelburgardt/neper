@@ -8,7 +8,7 @@ void
 net_tess_opt_comp_objective_fval_comp_celldata (struct TOPT *pTOpt, int id)
 {
   int i;
-  double val, val2, curval, size, lv;
+  double val, val2, curval, size, lv, avdiameq;
 
   if (!strncmp ((*pTOpt).tarvar[id], "size", 4)
       || !strcmp ((*pTOpt).tarvar[id], "sphericity"))
