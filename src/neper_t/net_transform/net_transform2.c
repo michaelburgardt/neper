@@ -87,6 +87,11 @@ net_transform_tesr (struct IN_T In, struct TESR *pTesr)
       ut_print_message (0, 2, "Making tessellation 2D...\n");
       neut_tesr_2d (pTesr);
     }
+    else if (!strcmp (parts[i], "renumber"))
+    {
+      ut_print_message (0, 2, "Renumbering...\n");
+      neut_tesr_renumber_continuous (pTesr);
+    }
     else
       ut_print_message (2, 3, "Expression `%s' could not be processed.\n",
 			parts[i]);
