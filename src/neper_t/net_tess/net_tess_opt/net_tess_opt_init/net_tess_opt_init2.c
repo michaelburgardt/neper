@@ -477,7 +477,7 @@ net_tess_opt_init_target (struct IN_T In, struct MTESS MTess,
       abort ();
   }
 
-  if ((*pTOpt).CellQty == -1)
+  if ((*pTOpt).CellQty <= 0)
     ut_print_message (2, 4, "Could not process '-n from_morpho'.\n");
 
   if (diameq_pos[0] != -1)

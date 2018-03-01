@@ -1,5 +1,5 @@
-New in 3.1.2-2 (21 Feb 2018):
-- module -T: added -transform renumber.
+New in 3.1.2-3 (01 Mar 2018):
+- module -T: fixed -n from_morpho, added -transform renumber.
 - documentation: small fixes.
 
 New in 3.1.1 (20 Feb 2018):
