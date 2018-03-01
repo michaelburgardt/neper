@@ -426,7 +426,7 @@ net_poly_centroid (struct POLY Poly, double *coo)
 }
 
 void
-net_tess_tesr (struct IN_T In, struct TESS Tess, TESR * pTesr)
+net_tess_tesr (char *tesrsizestring, struct TESS Tess, struct TESR *pTesr)
 {
   int i, j, k, ii, jj, kk, qty;
   int pid, prevpid;
@@ -435,8 +435,8 @@ net_tess_tesr (struct IN_T In, struct TESS Tess, TESR * pTesr)
   double *coo = ut_alloc_1d (3);
   double *coo_per = ut_alloc_1d (3);
 
-  (*pTesr).Dim = In.dim;
-  neut_tesr_init_tesrsize (pTesr, Tess, In.dim, In.tesrsizestring);
+  (*pTesr).Dim = Tess.Dim;
+  neut_tesr_init_tesrsize (pTesr, Tess, Tess.Dim, tesrsizestring);
   neut_tesr_alloc (pTesr, Tess.Dim, (*pTesr).size, (*pTesr).vsize);
   (*pTesr).CellQty = Tess.CellQty;
 

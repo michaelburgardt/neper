@@ -917,7 +917,7 @@ neut_tesr_cell_switch (struct TESR *pTesr, int cell1, int cell2)
 
 void
 neut_tesr_init_tesrsize (struct TESR *pTesr, struct TESS Domain, int dim,
-			 char *rptstring)
+			 char *tesrsizestring)
 {
   int i, qty, val;
   double avdsize;
@@ -926,7 +926,7 @@ neut_tesr_init_tesrsize (struct TESR *pTesr, struct TESS Domain, int dim,
 
   neut_tess_bbox (Domain, bbox);
 
-  ut_string_separate (rptstring, NEUT_SEP_DEP, &list, &qty);
+  ut_string_separate (tesrsizestring, NEUT_SEP_DEP, &list, &qty);
 
   (*pTesr).Dim = dim;
 
