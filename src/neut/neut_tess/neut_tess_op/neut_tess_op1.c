@@ -1550,7 +1550,7 @@ neut_tess_init_edgedom_fromfacedom (struct TESS *pTess)
     {
       face = (*pTess).EdgeFaceNb[i][j];
 
-      if ((*pTess).FaceDom[face][0] == 2)
+      if (face > 0 && (*pTess).FaceDom[face][0] == 2)
 	nb[qty++] = (*pTess).FaceDom[face][1];
     }
 
