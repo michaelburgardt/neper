@@ -22,6 +22,7 @@ neut_topt_set_zero (struct TOPT *pTOpt)
   (*pTOpt).x_var = NULL;
 
   (*pTOpt).dof = NULL;
+  (*pTOpt).tarobjective = NULL;
   (*pTOpt).objective = NULL;
   (*pTOpt).objective_tesrval = NULL;
 
@@ -236,6 +237,7 @@ neut_topt_free (struct TOPT *pTOpt)
   ut_free_1d_int ((*pTOpt).loop_status);
 
   ut_free_1d_char ((*pTOpt).message);
+  ut_free_2d_char ((*pTOpt).tarobjective, (*pTOpt).tarqty);
   ut_free_1d_char ((*pTOpt).objective);
   ut_free_1d_char ((*pTOpt).objective_tesrval);
 

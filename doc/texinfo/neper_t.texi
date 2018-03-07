@@ -388,26 +388,32 @@ see above list, default}
 @c any >= 1, 1}
 
 @optsec{-morphooptiobjective, char_string,
-Specify the objective function.@*
-For statistical distributions@comma{}
-the available values of the goodness-of-fit test are @samp{chi2} (Chi-square test)@comma{} @samp{ks}
+Specify the objective function.  The argument should be of the form
+@samp{@var{prop1}@SEPDEP{}@var{objective_function1}@SEPNODEP{}@var{prop2}@SEPDEP{}@var{objective_function2}@SEPNODEP{}...}@comma{}
+where @code{@var{propx}} are properties as defined in option
+@option{-morpho}@comma{} and @code{@var{objective_functionx}} are their
+objective functions.
+An objective function depends on the property and its definition.
+@*
+@math{@bullet{}} For properties defined by a statistical distribution (which can be
+@samp{size}@comma{} @samp{diameq} or @samp{sphericity})@comma{}
+the available values are @samp{chi2} (Chi-square test)@comma{} @samp{ks}
 (Kolmogorov-Smirnov test)@comma{} @samp{kuiper} (Kuiper's test)@comma{}
 @samp{cmv} (Cram@'er-Von Mises test)@comma{} @samp{ad} (Anderson-Darling
 test)@comma{}
 @samp{FL2} (L@math{^2}-norm on @math{F})@comma{}
 @samp{FL2w} (weighted L@math{^2}-norm
-on @math{F})@footnote{Weighting by @math{1/\prod_{i=0}^N{|F-p_i|}}
-where @math{p_0=0} and @math{p_i} are the cumulative proportions of the
-distribution modes. For a unimodal distribution@comma{} the
-expression simplifies to @math{1/(F\,(1-F))}.}@comma{}
-and the default value is @samp{FL2w}.@*
-For @samp{@code{centroid}}@comma{} a Minkowski distance between the
-seeds and centroids is used@comma{} and can be
-@samp{@code{L1}}@comma{} @samp{@code{L2}} or @samp{@code{Linf}}.@*
-For a raster tessellation@comma{} the definition of the objective function
-includes several factors.
+on @math{F})@footnote{See [Quey and Renversade, CMAME, 2018].}@comma{}
+and the default value is @samp{FL2w}.
+@*
+@math{@bullet{}} For @samp{@code{centroid}}@comma{} a Minkowski distance
+between the seeds and centroids is used@comma{} and can be
+@samp{@code{L1}}@comma{} @samp{@code{L2}} or @samp{@code{Linf}}.
+@*
+@math{@bullet{}} For @samp{@code{tesr}}@comma{} the definition of the
+objective function includes several factors.
 First@comma{} preprocessing operations to the raster tessellation can be
-applied using @samp{@code{tesr(@var{operations})}}@comma{} where
+applied using @samp{@code{transform(@var{operations})}}@comma{} where
 @samp{@var{operations}} can include @samp{scale} to scale the tessellation to
 correct for a global cell elongation or @samp{rasterscale} to scale the raster
 itself to correct for a global voxel elongation (which may result from
@@ -425,8 +431,14 @@ specified using @samp{val(@var{expr})}@comma{} where @samp{@var{expr}} can be
 and tessellation cell boundaries@comma{} or @samp{intervol} for maximizing
 the volume intersection between the raster tessellation and tessellation
 (both provide similar results).  To define the objective
-function@comma{} combine the above factors using @samp{@SEPNODEP{}}.
-The default value is @samp{pts(region=surf,res=5),val(bounddist)}.
+function@comma{} combine the above factors using @samp{+}.
+The default value is @samp{pts(region=surf,res=5)+val(bounddist)}.
+@math{@bullet{}} It is finally possible to define how the different parts of
+the objective function are combined into the objective function (in the case
+where several properties are specified)@comma{}
+using @samp{general:@var{objective_function}}@comma{} where
+@samp{@var{objective_function}} can be @samp{L1}@comma{} @samp{L2} or
+@samp{Linf}; the default is @samp{L2}.
 ,
 any, default}
 

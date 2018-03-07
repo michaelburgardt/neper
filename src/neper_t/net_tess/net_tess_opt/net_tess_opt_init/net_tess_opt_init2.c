@@ -142,7 +142,7 @@ net_tess_opt_init_parms (struct IN_T In, int level, struct MTESS MTess,
 
   for (i = 0; i < (*pTOpt).tarqty; i++)
     if (!strcmp ((*pTOpt).tarvar[i], "tesr"))
-      net_tess_opt_init_tesrobj (pTOpt);
+      net_tess_opt_init_tesrobj (pTOpt, i);
 
   (*pTOpt).seedoptiqty = (*pTOpt).SSet.N;
   (*pTOpt).seedopti = ut_alloc_1d_int ((*pTOpt).SSet.N);
@@ -173,51 +173,73 @@ net_tess_opt_init_target (struct IN_T In, struct MTESS MTess,
   double sum;
   char **tmp = NULL;
   char **parts = NULL;
-  char *flag = ut_alloc_1d_char (100);
   char *string = NULL;
+  char *morpho2 = NULL;
+
+  if (!strcmp (morpho, "voronoi"))
+  {
+    (*pTOpt).tarqty = 0;
+    ut_string_string (morpho, &morpho2);
+  }
+
+  else
+  {
+    morpho2 = ut_alloc_1d_char (1000);
+
+    ut_string_separate (morpho, NEUT_SEP_NODEP, &parts, &partqty);
+
+    for (i = 0; i < partqty; i++)
+    {
+      if (!strcmp (parts[i], "graingrowth") || !strcmp (parts[i], "gg"))
+        morpho2 = strcat (morpho2, (*pTOpt).Dim == 3 ?
+                          "diameq:lognormal(1,0.35),sphericity:lognormal(0.145,0.03,1-x)":
+                          "diameq:lognormal(1,0.42),sphericity:lognormal(0.100,0.03,1-x)");
+      else if (!strncmp (parts[i], "graingrowth", 11) || !strncmp (parts[i], "gg", 2))
+      {
+        if (sscanf (parts[i], "graingrowth(%lf)", &mean) == 1)
+        {}
+        else if (sscanf (parts[i], "gg(%lf)", &mean) == 1)
+        {}
+        else
+          ut_print_message (2, 3, "Cannot process expression `%s'.\n", parts[i]);
+
+        if ((*pTOpt).Dim == 3)
+        {
+          string = ut_alloc_1d_char (1000);
+          sprintf (string,
+                   "diameq:lognormal(%f,%f),sphericity:lognormal(0.145,0.03,1-x)",
+                     mean, 0.35 * mean);
+          morpho2 = strcat (morpho2, string);
+        }
+        else
+        {
+          string = ut_alloc_1d_char (1000);
+          sprintf (string,
+                   "diameq:lognormal(%f,%f),sphericity:lognormal(0.1,0.03,1-x)",
+                     mean, 0.42 * mean);
+          morpho2 = strcat (morpho2, string);
+        }
+      }
+      else
+        morpho2 = strcat (morpho2, parts[i]);
+
+      if (i < partqty - 1)
+        morpho2 = strcat (morpho2, NEUT_SEP_NODEP);
+    }
+
+    if (ut_string_filename (morpho2))
+    {
+      net_multiscale_mtess_arg_0d_char_fscanf (MTess, Tess, dtess, dpoly, morpho2, &string);
+      ut_string_separate (string, NEUT_SEP_NODEP, &tmp, &((*pTOpt).tarqty));
+    }
+
+    else
+      ut_string_separate (morpho2, NEUT_SEP_NODEP, &tmp, &((*pTOpt).tarqty));
+  }
 
   ut_array_1d_int_set (diameq_pos, 2, -1);
 
   net_tess_opt_init_target_cellqty (In, MTess, Tess[dtess], dpoly, &(*pTOpt).CellQty);
-
-  // dealing with aliases
-  if (!strcmp (morpho, "voronoi"))
-    (*pTOpt).tarqty = 0;
-  else if (!strncmp (morpho, "graingrowth", 11) || !strncmp (morpho, "gg", 2))
-  {
-    if (sscanf (morpho, "graingrowth(%lf)", &mean) == 1)
-    {}
-    else if (sscanf (morpho, "gg(%lf)", &mean) == 1)
-    {}
-    else
-      mean = 1;
-
-    if ((*pTOpt).Dim == 3)
-    {
-      string = ut_alloc_1d_char (1000);
-      sprintf (string,
-	       "diameq:lognormal(%f,%f),sphericity:lognormal(0.145,0.03,1-x)",
-		 mean, 0.35 * mean);
-      ut_string_separate (string, NEUT_SEP_NODEP, &tmp, &((*pTOpt).tarqty));
-    }
-    else
-    {
-      string = ut_alloc_1d_char (1000);
-      sprintf (string,
-	       "diameq:lognormal(%f,%f),sphericity:lognormal(0.1,0.03,1-x)",
-		 mean, 0.42 * mean);
-      ut_string_separate (string, NEUT_SEP_NODEP, &tmp, &((*pTOpt).tarqty));
-    }
-  }
-
-  else if (ut_string_filename (morpho))
-  {
-    net_multiscale_mtess_arg_0d_char_fscanf (MTess, Tess, dtess, dpoly, morpho, &string);
-    ut_string_separate (string, NEUT_SEP_NODEP, &tmp, &((*pTOpt).tarqty));
-  }
-
-  else
-    ut_string_separate (morpho, NEUT_SEP_NODEP, &tmp, &((*pTOpt).tarqty));
 
   // allocating/initializing variables
   (*pTOpt).tarvar = ut_alloc_1d_pchar ((*pTOpt).tarqty);
@@ -483,7 +505,7 @@ net_tess_opt_init_target (struct IN_T In, struct MTESS MTess,
   if (diameq_pos[0] != -1)
     net_tess_opt_init_target_scale (pTOpt, diameq_pos);
 
-  ut_free_1d_char (flag);
+  ut_free_1d_char (morpho2);
   ut_free_2d_char (tmp, (*pTOpt).tarqty);
 
   return;

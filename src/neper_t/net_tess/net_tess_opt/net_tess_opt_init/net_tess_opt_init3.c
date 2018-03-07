@@ -104,25 +104,38 @@ void
 net_tess_opt_init_parms_objective (char *morphooptiobjective,
 				   struct TOPT *pTOpt)
 {
-  int i, qty;
-  char **list = NULL;
+  int i, j, partqty1, *partqty2 = NULL;
+  char ***parts = NULL;
 
-  ut_string_separate (morphooptiobjective, NEUT_SEP_DEP, &list, &qty);
-  for (i = 0; i < qty; i++)
-    ut_string_string (list[i], &(*pTOpt).objective);
+  ut_string_separate2 (morphooptiobjective, NEUT_SEP_NODEP, NEUT_SEP_DEP, &parts,
+                       &partqty2, &partqty1);
 
-  ut_free_2d_char (list, qty);
+  (*pTOpt).tarobjective = ut_alloc_1d_pchar ((*pTOpt).tarqty);
 
   for (i = 0; i < (*pTOpt).tarqty; i++)
   {
-    if (!strcmp ((*pTOpt).tarvar[i], "tesr"))
+    ut_string_string ("default", (*pTOpt).tarobjective + i);
+
+    for (j = 0; j < partqty1; j++)
+      if (!strcmp (parts[j][0], (*pTOpt).tarvar[i]))
+        ut_string_string (parts[j][1], (*pTOpt).tarobjective + i);
+
+    if (!strcmp ((*pTOpt).tarobjective[i], "default"))
     {
-      if (!strcmp ((*pTOpt).objective, "default"))
-	ut_string_string ("pts(region=surf,res=5),val(bounddist)", &(*pTOpt).objective);
+      if (!strcmp ((*pTOpt).tarvar[i], "tesr"))
+	ut_string_string ("pts(region=surf,res=5)+val(bounddist)", (*pTOpt).tarobjective + i);
+      else if (!strcmp ((*pTOpt).tarvar[i], "centroid"))
+        ut_string_string ("L2", (*pTOpt).tarobjective + i);
     }
-    if (!strcmp ((*pTOpt).tarvar[i], "centroid"))
-      ut_string_fnrs ((*pTOpt).objective, "default", "L2", 1);
   }
+
+  ut_string_string ("L2", &(*pTOpt).objective);
+  for (j = 0; j < partqty1; j++)
+    if (!strncmp (parts[j][0], "gen", 3))
+      ut_string_string (parts[j][1], &(*pTOpt).objective);
+
+  ut_free_3d_char (parts, partqty1, 2);
+  ut_free_1d_int (partqty2);
 
   return;
 }

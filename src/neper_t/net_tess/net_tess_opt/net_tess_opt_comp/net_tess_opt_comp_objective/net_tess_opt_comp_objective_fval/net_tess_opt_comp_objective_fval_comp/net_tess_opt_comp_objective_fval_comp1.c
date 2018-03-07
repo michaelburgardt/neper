@@ -25,11 +25,15 @@ net_tess_opt_comp_objective_fval_comp (struct TOPT *pTOpt)
   }
 
   // computing global objective function
-
-  (*pTOpt).objval = 0;
-  for (i = 0; i < (*pTOpt).tarqty; i++)
-    (*pTOpt).objval += pow ((*pTOpt).curval[i], 2);
-  (*pTOpt).objval = sqrt ((*pTOpt).objval);
+  if (!strcmp ((*pTOpt).objective, "default")
+   || !strcmp ((*pTOpt).objective, "L2"))
+    (*pTOpt).objval = ut_array_1d_norm ((*pTOpt).curval, (*pTOpt).tarqty);
+  else if (!strcmp ((*pTOpt).objective, "L1"))
+    (*pTOpt).objval = ut_array_1d_mean ((*pTOpt).curval, (*pTOpt).tarqty);
+  else if (!strcmp ((*pTOpt).objective, "Linf"))
+    (*pTOpt).objval = ut_array_1d_max ((*pTOpt).curval, (*pTOpt).tarqty);
+  else
+    abort ();
 
   (*pTOpt).objvalmin = ut_realloc_1d ((*pTOpt).objvalmin, (*pTOpt).iter + 1);
   (*pTOpt).objvalmin[(*pTOpt).iter]

@@ -136,9 +136,11 @@ struct TOPT
   double loopmax;		// maximum number of optimization loop
 
   // OPTIMIZATION INFORMATION ------------------------------------------
-  char *objective;		// objective function (for statistics,
-  				// it may be 'ad', etc.; for tesr, it
-				// may be 'vol', 'surf', etc.)
+  char **tarobjective;		// target objective functions
+                                // defined on a per-variable basis:
+                                // - for statistics, it may be 'ad', etc.;
+                                // - for tesr, it may be 'vol', 'surf', etc.
+  char *objective;		// global objective functions:
   char *objective_tesrval;
 
   // value of the objective function

@@ -64,18 +64,23 @@ net_tess_opt_comp_objective_fval_comp_celldata (struct TOPT *pTOpt, int id)
 
       val /= (*pTOpt).tarrefval[id];
 
-      if (!strcmp ((*pTOpt).objective, "L2"))
+      if (!strcmp ((*pTOpt).tarobjective[id], "default")
+       || !strcmp ((*pTOpt).tarobjective[id], "L2"))
 	curval += pow (val, 2);
-      else if (!strcmp ((*pTOpt).objective, "L1"))
+      else if (!strcmp ((*pTOpt).tarobjective[id], "L1"))
 	curval += val;
-      else if (!strcmp ((*pTOpt).objective, "Linf"))
+      else if (!strcmp ((*pTOpt).tarobjective[id], "Linf"))
 	curval = ut_num_max (curval, val);
+      else
+	abort ();
     }
-    if (!strcmp ((*pTOpt).objective, "L2"))
+
+    if (!strcmp ((*pTOpt).tarobjective[id], "default")
+     || !strcmp ((*pTOpt).tarobjective[id], "L2"))
       curval = sqrt (curval) / (*pTOpt).CellQty;
-    else if (!strcmp ((*pTOpt).objective, "L1"))
+    else if (!strcmp ((*pTOpt).tarobjective[id], "L1"))
       curval = curval / (*pTOpt).CellQty;
-    else if (!strcmp ((*pTOpt).objective, "Linf"))
+    else if (!strcmp ((*pTOpt).tarobjective[id], "Linf"))
     {
     }
     else

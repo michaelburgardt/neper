@@ -166,30 +166,30 @@ net_tess_opt_comp_objective_fval_comp_stat_unsmoothed_comp (struct TOPT *pTOpt, 
 void
 net_tess_opt_comp_objective_fval_comp_stat_evaluate (struct TOPT *pTOpt, int var)
 {
-  if (!strcmp ((*pTOpt).objective, "default")
-        || !strcmp ((*pTOpt).objective, "FL2w"))
+  if (!strcmp ((*pTOpt).tarobjective[var], "default")
+        || !strcmp ((*pTOpt).tarobjective[var], "FL2w"))
     net_tess_opt_comp_objective_fval_comp_stat_evaluate_FL2w (pTOpt, var);
 
-  else if (!strcmp ((*pTOpt).objective, "ad"))
+  else if (!strcmp ((*pTOpt).tarobjective[var], "ad"))
     net_tess_opt_comp_objective_fval_comp_stat_evaluate_ad (pTOpt, var);
 
-  else if (!strcmp ((*pTOpt).objective, "cvm"))
+  else if (!strcmp ((*pTOpt).tarobjective[var], "cvm"))
     net_tess_opt_comp_objective_fval_comp_stat_evaluate_cvm (pTOpt, var);
 
-  else if (!strcmp ((*pTOpt).objective, "FL2"))
+  else if (!strcmp ((*pTOpt).tarobjective[var], "FL2"))
     net_tess_opt_comp_objective_fval_comp_stat_evaluate_FL2 (pTOpt, var);
 
-  else if (!strcmp ((*pTOpt).objective, "chi2"))
+  else if (!strcmp ((*pTOpt).tarobjective[var], "chi2"))
     net_tess_opt_comp_objective_fval_comp_stat_evaluate_chi2 (pTOpt, var);
 
-  else if (!strcmp ((*pTOpt).objective, "ks"))
+  else if (!strcmp ((*pTOpt).tarobjective[var], "ks"))
     net_tess_opt_comp_objective_fval_comp_stat_evaluate_ks (pTOpt, var);
 
-  else if (!strcmp ((*pTOpt).objective, "kuiper"))
+  else if (!strcmp ((*pTOpt).tarobjective[var], "kuiper"))
     net_tess_opt_comp_objective_fval_comp_stat_evaluate_kuiper (pTOpt, var);
 
   else
-    ut_print_message (2, 3, "Unknown test `%s'.", (*pTOpt).objective);
+    ut_print_message (2, 3, "Unknown test `%s'.", (*pTOpt).tarobjective[var]);
 
   if ((*pTOpt).curpenalty[var] > 1e-6)
     (*pTOpt).curval[var] += 1000 * (*pTOpt).curpenalty[var];
