@@ -292,6 +292,7 @@ The available properties are:@*
 and @samp{@code{diameq}} for the equivalent diameter;@*
 @bullet{} @samp{@code{sphericity}} for the sphericity;@*
 @bullet{} @samp{@code{centroid}} for the centroid;@*
+@bullet{} @samp{@code{centroidtol}} for the centroid with a tolerance;@*
 @bullet{} @samp{@code{centroidsize}} for combined centroid and size@comma{}
 and @samp{@code{centroiddiameq}} for combined centroid and equivalent
 diameter;@*
@@ -317,7 +318,7 @@ An interval of possible values can also be provided using
 Cell-by-cell values can be provided using
 @samp{file(@var{file_name})}@comma{} where @samp{@var{file_name}} is
 the name of the file containing the cell values (@pxref{Position File}
-for centroids).
+for @samp{@code{centroid}}; add a tolerance to each position for @samp{@code{centroidtol}}).
 For @samp{@code{centroid}}@comma{} provide @samp{seed} to get a
 centroidal tessellation.
 For @samp{@code{tesr}}@comma{} @samp{@var{file_name}} is the name of the

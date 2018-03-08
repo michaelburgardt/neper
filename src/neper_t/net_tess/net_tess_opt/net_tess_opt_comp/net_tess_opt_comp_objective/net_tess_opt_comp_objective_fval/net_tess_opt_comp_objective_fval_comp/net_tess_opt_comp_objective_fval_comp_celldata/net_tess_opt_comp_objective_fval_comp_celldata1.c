@@ -14,6 +14,9 @@ net_tess_opt_comp_objective_fval_comp_celldata (struct TOPT *pTOpt, int id)
   else if (!strcmp ((*pTOpt).tarvar[id], "centroid"))
     net_tess_opt_comp_objective_fval_comp_celldata_centroid (pTOpt, id);
 
+  else if (!strcmp ((*pTOpt).tarvar[id], "centroidtol"))
+    net_tess_opt_comp_objective_fval_comp_celldata_centroidtol (pTOpt, id);
+
   else if (!strcmp ((*pTOpt).tarvar[id], "centroidsize")
         || !strcmp ((*pTOpt).tarvar[id], "centroiddiameq"))
     net_tess_opt_comp_objective_fval_comp_celldata_centroiddiameq (pTOpt, id);

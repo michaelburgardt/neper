@@ -44,7 +44,7 @@ void
 net_tess_opt_comp_objective_fval_comp_celldata_centroid (struct TOPT *pTOpt, int id)
 {
   int i;
-  double *val = ut_alloc_1d ((*pTOpt).CellQty);
+  double *val = ut_alloc_1d ((*pTOpt).CellQty + 1);
 
   for (i = 1; i <= (*pTOpt).CellQty; ++i)
   {
@@ -57,6 +57,40 @@ net_tess_opt_comp_objective_fval_comp_celldata_centroid (struct TOPT *pTOpt, int
       else
         val[i] = ut_space_dist ((*pTOpt).curcellval[id][i],
                              (*pTOpt).tarcellval[id][i]);
+    }
+    else
+      val[i] = 1000 * (*pTOpt).curcellpenalty[i];
+
+    val[i] /= (*pTOpt).tarrefval[id];
+  }
+
+  (*pTOpt).curval[id] = ut_array_1d_mean_powstring (val + 1, (*pTOpt).CellQty, (*pTOpt).tarobjective[id]);
+
+  ut_free_1d (val);
+
+  return;
+}
+
+void
+net_tess_opt_comp_objective_fval_comp_celldata_centroidtol (struct TOPT *pTOpt, int id)
+{
+  int i;
+  double delta, *val = ut_alloc_1d ((*pTOpt).CellQty + 1);
+
+  for (i = 1; i <= (*pTOpt).CellQty; ++i)
+  {
+    // this happens when a cell is void
+    if ((*pTOpt).curcellpenalty[i] == 0)
+    {
+      if ((*pTOpt).Dim == 2)
+        val[i] = ut_space_dist2d ((*pTOpt).curcellval[id][i],
+                               (*pTOpt).tarcellval[id][i]);
+      else
+        val[i] = ut_space_dist ((*pTOpt).curcellval[id][i],
+                             (*pTOpt).tarcellval[id][i]);
+
+      delta = (*pTOpt).tarcellval[id][i][(*pTOpt).Dim];
+      val[i] = (delta > 0) ? val[i] / delta : 0;
     }
     else
       val[i] = 1000 * (*pTOpt).curcellpenalty[i];

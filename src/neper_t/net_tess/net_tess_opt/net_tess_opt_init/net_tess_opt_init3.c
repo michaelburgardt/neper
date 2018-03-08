@@ -124,8 +124,6 @@ net_tess_opt_init_parms_objective (char *morphooptiobjective,
     {
       if (!strcmp ((*pTOpt).tarvar[i], "tesr"))
 	ut_string_string ("pts(region=surf,res=5)+val(bounddist)", (*pTOpt).tarobjective + i);
-      else if (!strcmp ((*pTOpt).tarvar[i], "centroid"))
-        ut_string_string ("L2", (*pTOpt).tarobjective + i);
     }
   }
 
@@ -134,7 +132,7 @@ net_tess_opt_init_parms_objective (char *morphooptiobjective,
     if (!strncmp (parts[j][0], "gen", 3))
       ut_string_string (parts[j][1], &(*pTOpt).objective);
 
-  ut_free_3d_char (parts, partqty1, 2);
+  // ut_free_3d_char (parts, partqty1, 2);
   ut_free_1d_int (partqty2);
 
   return;
@@ -187,6 +185,7 @@ net_tess_opt_init_ref (struct TOPT *pTOpt, double mean, int id)
 
   else if (!strcmp ((*pTOpt).tarvar[id], "diameq")
 	   || !strcmp ((*pTOpt).tarvar[id], "centroid")
+	   || !strcmp ((*pTOpt).tarvar[id], "centroidtol")
 	   || !strcmp ((*pTOpt).tarvar[id], "centroidsize")
 	   || !strcmp ((*pTOpt).tarvar[id], "centroiddiameq")
            || !strcmp ((*pTOpt).tarvar[id], "tesr"))

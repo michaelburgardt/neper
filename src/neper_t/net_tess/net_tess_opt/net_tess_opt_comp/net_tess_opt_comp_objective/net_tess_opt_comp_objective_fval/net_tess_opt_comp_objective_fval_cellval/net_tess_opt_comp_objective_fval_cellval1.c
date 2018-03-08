@@ -28,7 +28,8 @@ net_tess_opt_comp_objective_fval_cellval (struct TOPT *pTOpt)
 	else if (!strcmp ((*pTOpt).tarvar[i], "convexity"))
 	  net_tess_opt_comp_objective_fval_cellval_convexity (pTOpt, i, cell);
 
-	else if (!strcmp ((*pTOpt).tarvar[i], "centroid"))
+	else if (!strcmp ((*pTOpt).tarvar[i], "centroid")
+	      || !strcmp ((*pTOpt).tarvar[i], "centroidtol"))
 	  net_tess_opt_comp_objective_fval_cellval_centroid (pTOpt, i, cell);
 
 	else if (!strcmp ((*pTOpt).tarvar[i], "centroidsize")

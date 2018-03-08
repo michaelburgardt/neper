@@ -25,6 +25,7 @@ extern "C"
 
 extern void net_tess_opt_comp_objective_fval_comp_celldata_scalar (struct TOPT *pTOpt, int id);
 extern void net_tess_opt_comp_objective_fval_comp_celldata_centroid (struct TOPT *pTOpt, int id);
+extern void net_tess_opt_comp_objective_fval_comp_celldata_centroidtol (struct TOPT *pTOpt, int id);
 extern void net_tess_opt_comp_objective_fval_comp_celldata_centroiddiameq (struct TOPT *pTOpt, int id);
 
 #ifdef __cplusplus

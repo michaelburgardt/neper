@@ -405,6 +405,8 @@ net_tess_opt_init_target (struct IN_T In, struct MTESS MTess,
 	}
 	else if (!strcmp ((*pTOpt).tarvar[i], "centroid"))
 	  (*pTOpt).tarcellvalqty[i] = (*pTOpt).Dim;
+	else if (!strcmp ((*pTOpt).tarvar[i], "centroidtol"))
+	  (*pTOpt).tarcellvalqty[i] = (*pTOpt).Dim + 1;
 	else if (!strcmp ((*pTOpt).tarvar[i], "centroidsize")
 		 || !strcmp ((*pTOpt).tarvar[i], "centroiddiameq"))
 	  (*pTOpt).tarcellvalqty[i] = (*pTOpt).Dim + 1;
@@ -431,6 +433,18 @@ net_tess_opt_init_target (struct IN_T In, struct MTESS MTess,
 				 (*pTOpt).tarcellvalqty[i]);
 	  if (status != 1)
 	    abort ();
+
+
+          // normalizing tolerances
+          if (!strcmp ((*pTOpt).tarvar[i], "centroidtol"))
+          {
+            double norm = 0;
+            for (j = 1; j <= (*pTOpt).CellQty; j++)
+              norm += pow ((*pTOpt).tarcellval[i][j][(*pTOpt).tarcellvalqty[i] - 1], 2);
+            norm = sqrt (norm / (*pTOpt).CellQty);
+            for (j = 1; j <= (*pTOpt).CellQty; j++)
+              (*pTOpt).tarcellval[i][j][(*pTOpt).tarcellvalqty[i] - 1] /= norm;
+          }
 	}
 
 	else if (!strncmp ((*pTOpt).tarexpr[i], "interval", 8))

@@ -64,7 +64,7 @@ net_tess_opt_init_sset_weight (struct MTESS MTess, struct TESS *Tess,
       ut_array_1d_set (radeq + 1, TOpt.CellQty, 0);
     else if (!strcmp (var, "size") || !strcmp (var, "diameq"))
       net_tess_opt_init_sset_weight_stat_radeq (pos, var, TOpt, radeq);
-    else if (!strcmp (var, "centroid"))
+    else if (!strcmp (var, "centroid") || !strcmp (var, "centroidtol"))
       ut_array_1d_set (radeq + 1, TOpt.CellQty, vals[0]);
     else if (!strcmp (var, "centroiddiameq"))
       for (i = 1; i <= TOpt.CellQty; i++)
