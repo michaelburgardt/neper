@@ -78,7 +78,13 @@ net_tess_opt_init_sset_coo_centre (struct TOPT *pTOpt, gsl_rng *r,
   else if (!strncmp (var, "centroid", 8))
   {
     if (!strcmp (cooexpr, "centroid") || !strcmp (cooexpr, "LLLFP2011"))
-      ut_array_1d_memcpy (centre, (*pTOpt).Dim, (*pTOpt).tarcellval[pos][cell]);
+    {
+      if (strcmp (var, "centroidtol")
+          || (*pTOpt).tarcellval[pos][cell][(*pTOpt).tarcellvalqty[pos] - 1] < 1000)
+        ut_array_1d_memcpy (centre, (*pTOpt).Dim, (*pTOpt).tarcellval[pos][cell]);
+      else
+        neut_tess_dom_pt_randpt_pick ((*pTOpt).Dom, Point, r, centre);
+    }
     else
       abort ();
   }

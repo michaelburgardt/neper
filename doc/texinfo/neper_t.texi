@@ -292,7 +292,9 @@ The available properties are:@*
 and @samp{@code{diameq}} for the equivalent diameter;@*
 @bullet{} @samp{@code{sphericity}} for the sphericity;@*
 @bullet{} @samp{@code{centroid}} for the centroid;@*
-@bullet{} @samp{@code{centroidtol}} for the centroid with a tolerance;@*
+@bullet{} @samp{@code{centroidtol}} for the centroid with a tolerance ---
+centroids with a tolerance higher than 1000 times the minimum tolerance are
+disregarded;@*
 @bullet{} @samp{@code{centroidsize}} for combined centroid and size@comma{}
 and @samp{@code{centroiddiameq}} for combined centroid and equivalent
 diameter;@*

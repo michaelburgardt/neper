@@ -438,12 +438,12 @@ net_tess_opt_init_target (struct IN_T In, struct MTESS MTess,
           // normalizing tolerances
           if (!strcmp ((*pTOpt).tarvar[i], "centroidtol"))
           {
-            double norm = 0;
+            double min = DBL_MAX;
             for (j = 1; j <= (*pTOpt).CellQty; j++)
-              norm += pow ((*pTOpt).tarcellval[i][j][(*pTOpt).tarcellvalqty[i] - 1], 2);
-            norm = sqrt (norm / (*pTOpt).CellQty);
+              min = ut_num_min (min, (*pTOpt).tarcellval[i][j][(*pTOpt).tarcellvalqty[i] - 1]);
+
             for (j = 1; j <= (*pTOpt).CellQty; j++)
-              (*pTOpt).tarcellval[i][j][(*pTOpt).tarcellvalqty[i] - 1] /= norm;
+              (*pTOpt).tarcellval[i][j][(*pTOpt).tarcellvalqty[i] - 1] /= min;
           }
 	}
 

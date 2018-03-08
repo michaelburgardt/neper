@@ -164,7 +164,7 @@ net_tess_opt_init_target_bin (double xmin, double xmax,
 void
 net_tess_opt_init_ref (struct TOPT *pTOpt, double mean, int id)
 {
-  int i, print = 0;
+  int i, j, print = 0;
   double fact = 1;
 
   print = ((*pTOpt).CellQty == -1);
@@ -211,6 +211,20 @@ net_tess_opt_init_ref (struct TOPT *pTOpt, double mean, int id)
       neut_tess_cellavdiameq ((*pTOpt).Dom, (*pTOpt).CellQty,
 			      &((*pTOpt).tarrefval[id]));
       (*pTOpt).tarrefval[id] /= fact;
+
+      if (!strcmp ((*pTOpt).tarvar[id], "centroidtol"))
+      {
+        int qty = 0;
+        double norm = 0;
+        for (j = 1; j <= (*pTOpt).CellQty; j++)
+          if ((*pTOpt).tarcellval[id][j][(*pTOpt).tarcellvalqty[id] - 1] < 1000)
+          {
+            qty++;
+            norm += pow ((*pTOpt).tarcellval[id][j][(*pTOpt).tarcellvalqty[id] - 1], 2);
+          }
+        norm = sqrt (norm / qty);
+        (*pTOpt).tarrefval[id] /= norm;
+      }
     }
 
     else
