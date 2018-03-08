@@ -77,7 +77,12 @@ net_tess_opt_init_sset_weight (struct MTESS MTess, struct TESS *Tess,
     {
       vals[2] = radeq[i];
       vals[3] = 2 * radeq[i];
-      ut_math_eval (weightexpr, varqty, vars, vals, rad + i);
+      int status = ut_math_eval (weightexpr, varqty, vars, vals, rad + i);
+      if (status != 0)
+      {
+        printf ("\n");
+        ut_print_message (2, 4, "Failed to process expression `%s'.\n", weightexpr);
+      }
     }
   }
 
