@@ -437,6 +437,9 @@ ut_print_messagewnc (int head, int max, const char *message)
 
   ut_free_1d_char (Header);
 
+  if (head == 2)
+    abort ();
+
   fflush (stdout);
 
   return;

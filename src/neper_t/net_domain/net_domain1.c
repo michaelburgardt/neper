@@ -124,6 +124,9 @@ net_domain (struct IN_T In, struct MTESS *pMTess, struct TESS *pDomain)
       strcpy (vars[0], "vol");
       vals[0] = M_PI * d * d * h / 4;
 
+      if (!strcmp (In.n[1], "from_morpho"))
+        ut_print_messagewnc (2, 72, "The number of facets must be specified in `-morpho cylinder' when using `-n from_morpho'.");
+
       ut_math_eval (In.n[1], 1, vars, vals, &res);
       res = ut_num_max (res, 1);
 
@@ -133,7 +136,7 @@ net_domain (struct IN_T In, struct MTESS *pMTess, struct TESS *pDomain)
       rcl2cl (1, 3, M_PI * d * d * h / 4, ut_num_d2ri (res), NULL, &cl);
 
       qty = (int) floor (M_PI * d / cl);
-      qty = ut_num_max_int (qty, 5);
+      qty = ut_num_max_int (qty, 12);
     }
     qty += 2;
 
