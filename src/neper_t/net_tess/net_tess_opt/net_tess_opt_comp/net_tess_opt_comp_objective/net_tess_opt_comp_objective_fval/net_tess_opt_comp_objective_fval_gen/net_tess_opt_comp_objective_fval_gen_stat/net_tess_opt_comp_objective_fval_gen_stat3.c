@@ -2,10 +2,10 @@
 /* Copyright (C) 2003-2018, Romain Quey. */
 /* See the COPYING file in the top-level directory. */
 
-#include "net_tess_opt_comp_objective_fval_comp_stat_.h"
+#include "net_tess_opt_comp_objective_fval_gen_stat_.h"
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_smoothed_update_cell (struct TOPT *pTOpt, int var, int cell)
+net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_cell (struct TOPT *pTOpt, int var, int cell)
 {
   int i, minpos, maxpos;
   double val, min, max;
@@ -57,7 +57,7 @@ net_tess_opt_comp_objective_fval_comp_stat_smoothed_update_cell (struct TOPT *pT
 
 // chi2
 void
-net_tess_opt_comp_objective_fval_comp_stat_evaluate_chi2 (struct TOPT *pTOpt,
+net_tess_opt_comp_objective_fval_gen_stat_evaluate_chi2 (struct TOPT *pTOpt,
 							  int var)
 {
   int i;
@@ -82,7 +82,7 @@ net_tess_opt_comp_objective_fval_comp_stat_evaluate_chi2 (struct TOPT *pTOpt,
 
 // Kolmogorov Sminrnov
 void
-net_tess_opt_comp_objective_fval_comp_stat_evaluate_ks (struct TOPT *pTOpt,
+net_tess_opt_comp_objective_fval_gen_stat_evaluate_ks (struct TOPT *pTOpt,
 					 int var)
 {
   ut_stat_test_ks ((*pTOpt).tarcdf[var].y, (*pTOpt).curcdf[var].y,
@@ -94,7 +94,7 @@ net_tess_opt_comp_objective_fval_comp_stat_evaluate_ks (struct TOPT *pTOpt,
 
 // Kuiper
 void
-net_tess_opt_comp_objective_fval_comp_stat_evaluate_kuiper (struct TOPT *pTOpt,
+net_tess_opt_comp_objective_fval_gen_stat_evaluate_kuiper (struct TOPT *pTOpt,
 					     int var)
 {
   ut_stat_test_kuiper ((*pTOpt).tarcdf[var].y,
@@ -107,7 +107,7 @@ net_tess_opt_comp_objective_fval_comp_stat_evaluate_kuiper (struct TOPT *pTOpt,
 
 // Cramer Von-Mises
 void
-net_tess_opt_comp_objective_fval_comp_stat_evaluate_cvm (struct TOPT *pTOpt,
+net_tess_opt_comp_objective_fval_gen_stat_evaluate_cvm (struct TOPT *pTOpt,
 					  int var)
 {
   int i, N = (*pTOpt).CellQty;;
@@ -158,7 +158,7 @@ net_tess_opt_comp_objective_fval_comp_stat_evaluate_cvm (struct TOPT *pTOpt,
 
 // Anderson–Darling
 void
-net_tess_opt_comp_objective_fval_comp_stat_evaluate_ad (struct TOPT
+net_tess_opt_comp_objective_fval_gen_stat_evaluate_ad (struct TOPT
     *pTOpt, int var)
 {
   int i, N = (*pTOpt).CellQty;
@@ -221,7 +221,7 @@ net_tess_opt_comp_objective_fval_comp_stat_evaluate_ad (struct TOPT
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_evaluate_FL2w (struct TOPT
+net_tess_opt_comp_objective_fval_gen_stat_evaluate_FL2w (struct TOPT
     *pTOpt, int var)
 {
   int i, j;
@@ -268,7 +268,7 @@ net_tess_opt_comp_objective_fval_comp_stat_evaluate_FL2w (struct TOPT
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_evaluate_FL2 (struct TOPT
+net_tess_opt_comp_objective_fval_gen_stat_evaluate_FL2 (struct TOPT
     *pTOpt, int var)
 {
   int i;

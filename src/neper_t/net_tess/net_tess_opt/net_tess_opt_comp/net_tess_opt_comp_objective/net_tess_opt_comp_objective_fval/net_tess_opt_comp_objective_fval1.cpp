@@ -5,32 +5,30 @@
 #include "net_tess_opt_comp_objective_fval_.h"
 #include<ANN/ANN.h>
 
+
 double
 net_tess_opt_comp_objective_fval (struct TOPT *pTOpt)
 {
-  // initializing problem
+  int i;
 
+  // Initializing problem & computing penalties ------------------------
   net_tess_opt_comp_objective_fval_init (pTOpt);
 
   // updating penalties for changed cells
 
   net_tess_opt_comp_objective_fval_cellpenalty (pTOpt);
 
-  // case of a tesr
-  if ((*pTOpt).tarqty == 1 && !strcmp ((*pTOpt).tarvar[0], "tesr"))
-    net_tess_opt_comp_objective_fval_tesr (pTOpt);
-
-  // other cases
-  else
+  // Computing curcellval and curval -----------------------------------
+  for (i = 0; i < (*pTOpt).tarqty; i++)
   {
-    // updating values for changed cells
-
-    net_tess_opt_comp_objective_fval_cellval (pTOpt);
-
-    // computing objective function
-
-    net_tess_opt_comp_objective_fval_comp (pTOpt);
+    if (!strcmp ((*pTOpt).tarvar[i], "tesr"))
+      net_tess_opt_comp_objective_fval_tesr (pTOpt, i);
+    else
+      net_tess_opt_comp_objective_fval_gen (pTOpt, i);
   }
+
+  // Computing objval --------------------------------------------------
+  net_tess_opt_comp_objective_fval_comp (pTOpt);
 
   return (*pTOpt).objval;
 }

@@ -2,10 +2,10 @@
 /* Copyright (C) 2003-2018, Romain Quey. */
 /* See the COPYING file in the top-level directory. */
 
-#include "net_tess_opt_comp_objective_fval_comp_celldata_.h"
+#include "net_tess_opt_comp_objective_fval_gen_celldata_.h"
 
 void
-net_tess_opt_comp_objective_fval_comp_celldata_scalar (struct TOPT *pTOpt, int id)
+net_tess_opt_comp_objective_fval_gen_celldata_scalar (struct TOPT *pTOpt, int id)
 {
   int i;
   double *val = ut_alloc_1d ((*pTOpt).CellQty);
@@ -41,7 +41,7 @@ net_tess_opt_comp_objective_fval_comp_celldata_scalar (struct TOPT *pTOpt, int i
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_celldata_centroid (struct TOPT *pTOpt, int id)
+net_tess_opt_comp_objective_fval_gen_celldata_centroid (struct TOPT *pTOpt, int id)
 {
   int i;
   double *val = ut_alloc_1d ((*pTOpt).CellQty + 1);
@@ -72,7 +72,7 @@ net_tess_opt_comp_objective_fval_comp_celldata_centroid (struct TOPT *pTOpt, int
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_celldata_centroidtol (struct TOPT *pTOpt, int id)
+net_tess_opt_comp_objective_fval_gen_celldata_centroidtol (struct TOPT *pTOpt, int id)
 {
   int i, qty;
   double delta, *val = ut_alloc_1d ((*pTOpt).CellQty + 1);
@@ -116,7 +116,7 @@ net_tess_opt_comp_objective_fval_comp_celldata_centroidtol (struct TOPT *pTOpt, 
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_celldata_centroiddiameq (struct TOPT *pTOpt, int id)
+net_tess_opt_comp_objective_fval_gen_celldata_centroiddiameq (struct TOPT *pTOpt, int id)
 {
   int i;
   double val1, val2, *val = ut_alloc_1d ((*pTOpt).CellQty);

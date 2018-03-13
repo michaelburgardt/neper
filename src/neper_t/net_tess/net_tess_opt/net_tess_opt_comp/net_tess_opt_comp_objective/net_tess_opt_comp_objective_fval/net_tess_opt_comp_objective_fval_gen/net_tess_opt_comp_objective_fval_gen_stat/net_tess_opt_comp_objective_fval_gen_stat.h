@@ -2,4 +2,4 @@
 /* Copyright (C) 2003-2018, Romain Quey. */
 /* See the COPYING file in the top-level directory. */
 
-extern void net_tess_opt_comp_objective_fval_comp_celldata (struct TOPT *pTOpt, int id);
+extern void net_tess_opt_comp_objective_fval_gen_stat (struct TOPT *pTOpt, int var);

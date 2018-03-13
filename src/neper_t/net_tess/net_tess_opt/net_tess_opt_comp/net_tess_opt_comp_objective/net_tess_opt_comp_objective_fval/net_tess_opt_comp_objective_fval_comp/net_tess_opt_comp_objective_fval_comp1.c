@@ -9,21 +9,6 @@ net_tess_opt_comp_objective_fval_comp (struct TOPT *pTOpt)
 {
   int i;
 
-  // computing individual objective functions
-  for (i = 0; i < (*pTOpt).tarqty; i++)
-  {
-    if (!strcmp ((*pTOpt).tartype[i], "stat"))
-      net_tess_opt_comp_objective_fval_comp_stat (pTOpt, i);
-    else
-      net_tess_opt_comp_objective_fval_comp_celldata (pTOpt, i);
-
-    if (isnan ((*pTOpt).curval[i]))
-    {
-      printf ("(*pTOpt).curval[%d] is not-a-number.\n", i);
-      ut_error_reportbug ();
-    }
-  }
-
   // computing global objective function
   if ((*pTOpt).tarqty > 0)
     (*pTOpt).objval = ut_array_1d_mean_powstring ((*pTOpt).curval, (*pTOpt).tarqty, (*pTOpt).objective);

@@ -2,10 +2,10 @@
 /* Copyright (C) 2003-2018, Romain Quey. */
 /* See the COPYING file in the top-level directory. */
 
-#include "net_tess_opt_comp_objective_fval_comp_stat_.h"
+#include "net_tess_opt_comp_objective_fval_gen_stat_.h"
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_alloc (struct TOPT *pTOpt, int var)
+net_tess_opt_comp_objective_fval_gen_stat_alloc (struct TOPT *pTOpt, int var)
 {
   ut_fct_set_numerical ((*pTOpt).curpdf + var,
 			(*pTOpt).tarpdf[var].min,
@@ -20,7 +20,7 @@ net_tess_opt_comp_objective_fval_comp_stat_alloc (struct TOPT *pTOpt, int var)
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_smoothed_comp (struct TOPT *pTOpt, int var)
+net_tess_opt_comp_objective_fval_gen_stat_smoothed_comp (struct TOPT *pTOpt, int var)
 {
   int i, j;
   double val, deltax;
@@ -54,7 +54,7 @@ net_tess_opt_comp_objective_fval_comp_stat_smoothed_comp (struct TOPT *pTOpt, in
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_smoothed_update (struct TOPT *pTOpt, int var)
+net_tess_opt_comp_objective_fval_gen_stat_smoothed_update (struct TOPT *pTOpt, int var)
 {
   int i, cell;
 
@@ -62,14 +62,14 @@ net_tess_opt_comp_objective_fval_comp_stat_smoothed_update (struct TOPT *pTOpt, 
   {
     cell = (*pTOpt).cellchanged[i];
 
-    net_tess_opt_comp_objective_fval_comp_stat_smoothed_update_cell (pTOpt, var, cell);
+    net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_cell (pTOpt, var, cell);
   }
 
   return;
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_smoothed_comp_legacy (struct TOPT *pTOpt, int var)
+net_tess_opt_comp_objective_fval_gen_stat_smoothed_gen_legacy (struct TOPT *pTOpt, int var)
 {
   int i, j;
 
@@ -93,7 +93,7 @@ net_tess_opt_comp_objective_fval_comp_stat_smoothed_comp_legacy (struct TOPT *pT
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_smoothed_update_legacy (struct TOPT *pTOpt, int var)
+net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *pTOpt, int var)
 {
   int i, j, cell;
   double val;
@@ -143,7 +143,7 @@ net_tess_opt_comp_objective_fval_comp_stat_smoothed_update_legacy (struct TOPT *
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_unsmoothed_comp (struct TOPT *pTOpt, int var)
+net_tess_opt_comp_objective_fval_gen_stat_unsmoothed_comp (struct TOPT *pTOpt, int var)
 {
   int i, j;
 
@@ -164,29 +164,29 @@ net_tess_opt_comp_objective_fval_comp_stat_unsmoothed_comp (struct TOPT *pTOpt, 
 }
 
 void
-net_tess_opt_comp_objective_fval_comp_stat_evaluate (struct TOPT *pTOpt, int var)
+net_tess_opt_comp_objective_fval_gen_stat_evaluate (struct TOPT *pTOpt, int var)
 {
   if (!strcmp ((*pTOpt).tarobjective[var], "default")
         || !strcmp ((*pTOpt).tarobjective[var], "FL2w"))
-    net_tess_opt_comp_objective_fval_comp_stat_evaluate_FL2w (pTOpt, var);
+    net_tess_opt_comp_objective_fval_gen_stat_evaluate_FL2w (pTOpt, var);
 
   else if (!strcmp ((*pTOpt).tarobjective[var], "ad"))
-    net_tess_opt_comp_objective_fval_comp_stat_evaluate_ad (pTOpt, var);
+    net_tess_opt_comp_objective_fval_gen_stat_evaluate_ad (pTOpt, var);
 
   else if (!strcmp ((*pTOpt).tarobjective[var], "cvm"))
-    net_tess_opt_comp_objective_fval_comp_stat_evaluate_cvm (pTOpt, var);
+    net_tess_opt_comp_objective_fval_gen_stat_evaluate_cvm (pTOpt, var);
 
   else if (!strcmp ((*pTOpt).tarobjective[var], "FL2"))
-    net_tess_opt_comp_objective_fval_comp_stat_evaluate_FL2 (pTOpt, var);
+    net_tess_opt_comp_objective_fval_gen_stat_evaluate_FL2 (pTOpt, var);
 
   else if (!strcmp ((*pTOpt).tarobjective[var], "chi2"))
-    net_tess_opt_comp_objective_fval_comp_stat_evaluate_chi2 (pTOpt, var);
+    net_tess_opt_comp_objective_fval_gen_stat_evaluate_chi2 (pTOpt, var);
 
   else if (!strcmp ((*pTOpt).tarobjective[var], "ks"))
-    net_tess_opt_comp_objective_fval_comp_stat_evaluate_ks (pTOpt, var);
+    net_tess_opt_comp_objective_fval_gen_stat_evaluate_ks (pTOpt, var);
 
   else if (!strcmp ((*pTOpt).tarobjective[var], "kuiper"))
-    net_tess_opt_comp_objective_fval_comp_stat_evaluate_kuiper (pTOpt, var);
+    net_tess_opt_comp_objective_fval_gen_stat_evaluate_kuiper (pTOpt, var);
 
   else
     ut_print_message (2, 3, "Unknown test `%s'.", (*pTOpt).tarobjective[var]);

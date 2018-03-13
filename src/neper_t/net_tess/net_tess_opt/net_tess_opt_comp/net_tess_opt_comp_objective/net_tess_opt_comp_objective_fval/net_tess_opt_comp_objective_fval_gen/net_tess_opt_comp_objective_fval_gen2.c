@@ -2,10 +2,10 @@
 /* Copyright (C) 2003-2018, Romain Quey. */
 /* See the COPYING file in the top-level directory. */
 
-#include "net_tess_opt_comp_objective_fval_cellval_.h"
+#include "net_tess_opt_comp_objective_fval_gen_.h"
 
 void
-net_tess_opt_comp_objective_fval_cellval_size (struct TOPT *pTOpt, int var,
+net_tess_opt_comp_objective_fval_gen_size (struct TOPT *pTOpt, int var,
 					       int cell)
 {
   if ((*pTOpt).Dim == 2)
@@ -26,7 +26,7 @@ net_tess_opt_comp_objective_fval_cellval_size (struct TOPT *pTOpt, int var,
 }
 
 void
-net_tess_opt_comp_objective_fval_cellval_diameq (struct TOPT *pTOpt, int var,
+net_tess_opt_comp_objective_fval_gen_diameq (struct TOPT *pTOpt, int var,
 						int cell)
 {
   if ((*pTOpt).Dim == 2)
@@ -47,7 +47,7 @@ net_tess_opt_comp_objective_fval_cellval_diameq (struct TOPT *pTOpt, int var,
 }
 
 void
-net_tess_opt_comp_objective_fval_cellval_sphericity (struct TOPT *pTOpt,
+net_tess_opt_comp_objective_fval_gen_sphericity (struct TOPT *pTOpt,
 						     int var, int cell)
 {
   if ((*pTOpt).Dim == 2)
@@ -66,7 +66,7 @@ net_tess_opt_comp_objective_fval_cellval_sphericity (struct TOPT *pTOpt,
 }
 
 void
-net_tess_opt_comp_objective_fval_cellval_convexity (struct TOPT *pTOpt,
+net_tess_opt_comp_objective_fval_gen_convexity (struct TOPT *pTOpt,
 						    int var, int cell)
 {
   neut_polys_convexity ((*pTOpt).Poly,
@@ -78,7 +78,7 @@ net_tess_opt_comp_objective_fval_cellval_convexity (struct TOPT *pTOpt,
 }
 
 void
-net_tess_opt_comp_objective_fval_cellval_centroid (struct TOPT *pTOpt,
+net_tess_opt_comp_objective_fval_gen_centroid (struct TOPT *pTOpt,
 						   int var, int cell)
 {
   double *coo = ut_alloc_1d (3);
@@ -94,7 +94,7 @@ net_tess_opt_comp_objective_fval_cellval_centroid (struct TOPT *pTOpt,
 }
 
 void
-net_tess_opt_comp_objective_fval_cellval_centroidsize (struct TOPT *pTOpt,
+net_tess_opt_comp_objective_fval_gen_centroidsize (struct TOPT *pTOpt,
 						       int var, int cell)
 {
   double *coo = ut_alloc_1d (3);
