@@ -779,7 +779,7 @@ ut_array_1d_mean_pow (double *a, int size, double p)
   {
     for (i = 0; i < size; i++)
       val += pow (a[i], p);
-    val = pow (1. / size * pow (val, p), 1 / p);
+    val = pow (1. / size * val, 1. / p);
   }
 
   return val;
