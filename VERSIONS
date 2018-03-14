@@ -1,6 +1,7 @@
-New in 3.1.2-15 (14 Mar 2018):
+New in 3.1.2-16 (14 Mar 2018):
 - module -T: improved -morpho, added -morpho centroidtol, improved
-  -morphooptiobjective, fixed -n from_morpho, added -transform renumber.
+  -morphooptiobjective, fixed -n from_morpho, added -transform renumber, minor
+  fixes.
 - module -V: improved msh reading.
 - documentation: small fixes.
 

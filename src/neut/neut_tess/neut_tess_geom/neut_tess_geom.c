@@ -912,7 +912,9 @@ neut_tess_point_inpoly (struct TESS Tess, double *coo, int nb)
   if (Tess.Dim != 3)
     ut_error_reportbug ();
 
-  if (neut_tess_poly_std (Tess, nb) == 1)
+  if (Tess.PolyFaceQty[nb] == 0)
+    return 0;
+  else if (neut_tess_poly_std (Tess, nb) == 1)
     return neut_tess_point_inpoly_std (Tess, coo, nb);
   else
     return neut_tess_point_inpoly_reg (Tess, coo, nb);
