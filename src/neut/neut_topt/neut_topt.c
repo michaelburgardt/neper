@@ -87,7 +87,7 @@ neut_topt_set_zero (struct TOPT *pTOpt)
   (*pTOpt).tarmodecdf0 = NULL;
 
   neut_tesr_set_zero (&(*pTOpt).tartesr);
-  (*pTOpt).tarptqtyini = 0;
+  (*pTOpt).tavoxqtyini = 0;
   (*pTOpt).tartesrscale = NULL;
   (*pTOpt).tarcellpts = NULL;
   (*pTOpt).tarcellptweights = NULL;

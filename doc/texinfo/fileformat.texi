@@ -447,7 +447,7 @@ or volumes.  This is due to the fact that, for a raster tessellation,
 @  **general                                                         	@*
 @ @ @  @var{dimension}                                               	@*
 @ @ @  @var{size_x} @var{size_y} [@var{size_z}]                        	@*
-@ @ @  @var{rptsize_x} @var{rptsize_y} [@var{rptsize_z}]             	@*
+@ @ @  @var{voxsize_x} @var{voxsize_y} [@var{voxsize_z}]             	@*
 [**cell                                                              	@*
 @ @ @  @var{number_of_cells}                                            @*
 @ [*id                                                               	@*
@@ -474,7 +474,7 @@ or volumes.  This is due to the fact that, for a raster tessellation,
 @ @ @  ... ]                                                            @*
 @ @  ]	                                                            	@*
 @  **data                                                            	@*
-@ @ @  @var{rpt1_cell} @var{rpt2_cell} ...                           	@*
+@ @ @  @var{vox1_cell} @var{vox2_cell} ...                           	@*
 @ @emph{or}                                                          	@*
 @ @ *file @var{data_file_name}                                       	@*
 ***end                                                               	@*
@@ -509,8 +509,8 @@ It can be either
 the raster sizes along the 3 coordinate axes. The number of sizes must
 match @var{dimension}.
 
-@item @code{@var{rptsize_x}}, @code{@var{rptsize_y}} and
-@code{@var{rptsize_z}} are the point sizes along the 3 coordinate axes.
+@item @code{@var{voxsize_x}}, @code{@var{voxsize_y}} and
+@code{@var{voxsize_z}} are the voxel (pixel@comma{} in 2D) sizes along the 3 coordinate axes.
 The number of sizes must match @var{dimension}.
 
 @item @code{**cell} denotes the beginning of an optional cell field.
@@ -567,8 +567,8 @@ field.
 provided in the @file{.tesr} file or in a separate file, using
 @option{*file}, see below.
 
-@item @code{@var{rptid_cell}} is the cell raster point @code{@var{id}} belongs
-to.  Raster points must be listed in column-major order (x varying first, y
+@item @code{@var{voxid_cell}} is the cell voxel @code{@var{id}} belongs
+to.  Voxels must be listed in column-major order (x varying first, y
 varying second and z varying last).  The cell identifiers should start from 1.
 Use 0 for voids.
 

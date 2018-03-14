@@ -159,7 +159,7 @@ nev_tesrdata_fscanf_cell (struct TESR Tesr, struct TESRDATA *pTD,
 }
 
 void
-nev_tesrdata_fscanf_rptb (struct TESRDATA *pTD, char *prop, char *argument)
+nev_tesrdata_fscanf_voxb (struct TESRDATA *pTD, char *prop, char *argument)
 {
   if (!strcmp (prop, "col"))
   {
@@ -175,10 +175,10 @@ nev_tesrdata_fscanf_rptb (struct TESRDATA *pTD, char *prop, char *argument)
 }
 
 void
-nev_tesrdata_cell2rpt (struct TESR Tesr, char *prop,
+nev_tesrdata_cell2vox (struct TESR Tesr, char *prop,
 		       struct TESRDATA TesrDataCell, struct TESRDATA *pTD)
 {
-  int i, j, k, id, size, rpt;
+  int i, j, k, id, size, vox;
 
   (*pTD).ColDataDef = ut_alloc_1d_int ((*pTD).Qty + 1);
   id = 0;
@@ -209,13 +209,13 @@ nev_tesrdata_cell2rpt (struct TESR Tesr, char *prop,
       abort ();
 
     (*pTD).ColData = ut_alloc_2d ((*pTD).Qty + 1, size);
-    rpt = 0;
+    vox = 0;
     for (k = 1; k <= Tesr.size[2]; k++)
       for (j = 1; j <= Tesr.size[1]; j++)
 	for (i = 1; i <= Tesr.size[0]; i++)
 	{
-	  rpt++;
-	  (*pTD).ColData[rpt] = TesrDataCell.ColData[Tesr.VoxCell[i][j][k]];
+	  vox++;
+	  (*pTD).ColData[vox] = TesrDataCell.ColData[Tesr.VoxCell[i][j][k]];
 	}
   }
   else if (!strcmp (prop, "colscheme"))

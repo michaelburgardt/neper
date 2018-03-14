@@ -45,7 +45,7 @@ struct TOPT
 
   // raster microstructure information
   struct TESR tartesr;		// raster tessellation
-  int tarptqtyini;		// initial number of target points.
+  int tavoxqtyini;		// initial number of target points.
   double *tartesrscale;		// scaling factor of the tess (for elongated grains)
   double  ***tarcellpts;	// list of points coo of a target cell [0...]
   double  **tarcellptweights;	// list of points weight of a target cell [0...]

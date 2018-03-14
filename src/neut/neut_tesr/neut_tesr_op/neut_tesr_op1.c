@@ -434,18 +434,18 @@ neut_tesr_rasterscale (struct TESR *pTesr, double scale1, double scale2,
 }
 
 void
-neut_tesr_cells_rptqty (struct TESR Tesr, int **prptqty)
+neut_tesr_cells_voxqty (struct TESR Tesr, int **pvoxqty)
 {
   int i, j, k;
 
-  ut_free_1d_int (*prptqty);
+  ut_free_1d_int (*pvoxqty);
 
-  (*prptqty) = ut_alloc_1d_int (Tesr.CellQty + 1);
+  (*pvoxqty) = ut_alloc_1d_int (Tesr.CellQty + 1);
 
   for (k = 1; k <= Tesr.size[2]; k++)
     for (j = 1; j <= Tesr.size[1]; j++)
       for (i = 1; i <= Tesr.size[0]; i++)
-	(*prptqty)[Tesr.VoxCell[i][j][k]]++;
+	(*pvoxqty)[Tesr.VoxCell[i][j][k]]++;
 
   return;
 }
@@ -508,7 +508,7 @@ neut_tesr_cells_pos_neighpos_3d (struct TESR Tesr, int *cell, int cellqty,
 {
   int i, j, vqty;
   int **v = NULL;
-  int *rptpos = ut_alloc_1d_int (3);
+  int *voxpos = ut_alloc_1d_int (3);
 
   if (Tesr.Dim != 3)
     ut_error_reportbug ();
@@ -595,11 +595,11 @@ neut_tesr_cells_pos_neighpos_3d (struct TESR Tesr, int *cell, int cellqty,
 
   for (i = 0; i < vqty; i++)
   {
-    ut_array_1d_int_add (pos, v[i], 3, rptpos);
+    ut_array_1d_int_add (pos, v[i], 3, voxpos);
 
     int skip = 0;
     for (j = 0; !skip && j < 3; j++)
-      if (rptpos[j] < 1 || rptpos[j] > Tesr.size[j])
+      if (voxpos[j] < 1 || voxpos[j] > Tesr.size[j])
 	skip = 1;
 
     if (skip)
@@ -607,20 +607,20 @@ neut_tesr_cells_pos_neighpos_3d (struct TESR Tesr, int *cell, int cellqty,
 
     if ((cell == NULL && cellqty == -1)
 	|| (cell == NULL && cellqty == 0
-	    && Tesr.VoxCell[rptpos[0]][rptpos[1]][rptpos[2]] != 0)
+	    && Tesr.VoxCell[voxpos[0]][voxpos[1]][voxpos[2]] != 0)
 	|| ut_array_1d_int_eltpos (cell, cellqty,
-				   Tesr.VoxCell[rptpos[0]][rptpos[1]][rptpos
+				   Tesr.VoxCell[voxpos[0]][voxpos[1]][voxpos
 								      [2]]) !=
 	-1)
     {
       (*pqty)++;
       (*ppos) = ut_realloc_2d_int_addline (*ppos, *pqty, 3);
-      ut_array_1d_int_memcpy ((*ppos)[(*pqty) - 1], 3, rptpos);
+      ut_array_1d_int_memcpy ((*ppos)[(*pqty) - 1], 3, voxpos);
     }
   }
 
   ut_free_2d_int (v, vqty);
-  ut_free_1d_int (rptpos);
+  ut_free_1d_int (voxpos);
 
   return;
 }
@@ -633,7 +633,7 @@ neut_tesr_cells_pos_neighpos_2d (struct TESR Tesr, int *cell, int cellqty,
 {
   int i, j, vqty;
   int **v = NULL;
-  int *rptpos = ut_alloc_1d_int (3);
+  int *voxpos = ut_alloc_1d_int (3);
 
   if (Tesr.Dim != 2)
     ut_error_reportbug ();
@@ -671,12 +671,12 @@ neut_tesr_cells_pos_neighpos_2d (struct TESR Tesr, int *cell, int cellqty,
 
   for (i = 0; i < vqty; i++)
   {
-    ut_array_1d_int_add (pos, v[i], 2, rptpos);
-    rptpos[2] = 1;
+    ut_array_1d_int_add (pos, v[i], 2, voxpos);
+    voxpos[2] = 1;
 
     int skip = 0;
     for (j = 0; !skip && j < 2; j++)
-      if (rptpos[j] < 1 || rptpos[j] > Tesr.size[j])
+      if (voxpos[j] < 1 || voxpos[j] > Tesr.size[j])
 	skip = 1;
 
     if (skip)
@@ -684,40 +684,40 @@ neut_tesr_cells_pos_neighpos_2d (struct TESR Tesr, int *cell, int cellqty,
 
     if ((cell == NULL && cellqty == -1)
 	|| (cell == NULL && cellqty == 0
-	    && Tesr.VoxCell[rptpos[0]][rptpos[1]][1] != 0)
+	    && Tesr.VoxCell[voxpos[0]][voxpos[1]][1] != 0)
 	|| ut_array_1d_int_eltpos (cell, cellqty,
-				   Tesr.VoxCell[rptpos[0]][rptpos[1]][1])
+				   Tesr.VoxCell[voxpos[0]][voxpos[1]][1])
 	!= -1)
     {
       (*pqty)++;
       (*ppos) = ut_realloc_2d_int_addline (*ppos, *pqty, 3);
-      ut_array_1d_int_memcpy ((*ppos)[(*pqty) - 1], 3, rptpos);
+      ut_array_1d_int_memcpy ((*ppos)[(*pqty) - 1], 3, voxpos);
     }
   }
 
   ut_free_2d_int (v, vqty);
-  ut_free_1d_int (rptpos);
+  ut_free_1d_int (voxpos);
 
   return;
 }
 
 void
-neut_tesr_cell_tesrpos (struct TESR Tesr, int cell, int *prptqty,
-			int ***prptpos)
+neut_tesr_cell_tesrpos (struct TESR Tesr, int cell, int *pvoxqty,
+			int ***pvoxpos)
 {
   int i, j, k;
 
-  (*prptqty) = 0;
-  (*prptpos) = NULL;
+  (*pvoxqty) = 0;
+  (*pvoxpos) = NULL;
 
   for (k = 1; k <= Tesr.size[2]; k++)
     for (j = 1; j <= Tesr.size[1]; j++)
       for (i = 1; i <= Tesr.size[0]; i++)
 	if (Tesr.VoxCell[i][j][k] == cell)
 	{
-	  (*prptpos) =
-	    ut_realloc_2d_int_addline ((*prptpos), ++(*prptqty), 3);
-	  ut_array_1d_int_set_3 ((*prptpos)[(*prptqty) - 1], i, j, k);
+	  (*pvoxpos) =
+	    ut_realloc_2d_int_addline ((*pvoxpos), ++(*pvoxqty), 3);
+	  ut_array_1d_int_set_3 ((*pvoxpos)[(*pvoxqty) - 1], i, j, k);
 	}
 
   return;
@@ -1252,8 +1252,8 @@ void
 neut_tesr_rmsat (struct TESR *pTesr, char *rmsat, int verbosity)
 {
   int status, dim;
-  int rptqty = 0;
-  int **rptpos = NULL;
+  int voxqty = 0;
+  int **voxpos = NULL;
 
   status = sscanf (rmsat, "rmsat(%d)", &dim);
 
@@ -1262,21 +1262,21 @@ neut_tesr_rmsat (struct TESR *pTesr, char *rmsat, int verbosity)
 
   do
   {
-    neut_tesr_rmsat_cell_find (*pTesr, dim, &rptqty, &rptpos);
+    neut_tesr_rmsat_cell_find (*pTesr, dim, &voxqty, &voxpos);
 
-    if (rptqty > 0)
+    if (voxqty > 0)
     {
-      neut_tesr_rmsat_cell_remove (pTesr, dim, rptqty, rptpos);
+      neut_tesr_rmsat_cell_remove (pTesr, dim, voxqty, voxpos);
 
-      ut_free_2d_int (rptpos, rptqty);
-      rptpos = NULL;
+      ut_free_2d_int (voxpos, voxqty);
+      voxpos = NULL;
     }
 
     if (verbosity)
       ut_print_message (0, verbosity, "%d point%s filtered.\n",
-			rptqty, (rptqty > 1) ? "s" : "");
+			voxqty, (voxqty > 1) ? "s" : "");
   }
-  while (rptqty > 0);
+  while (voxqty > 0);
 
   return;
 }
@@ -1284,7 +1284,7 @@ neut_tesr_rmsat (struct TESR *pTesr, char *rmsat, int verbosity)
 void
 neut_tesr_grow (struct TESR *pTesr, char *grow, int verbosity)
 {
-  int i, rptqty;
+  int i, voxqty;
 
   (void) grow;
 
@@ -1292,20 +1292,20 @@ neut_tesr_grow (struct TESR *pTesr, char *grow, int verbosity)
   for (i = 1; i >= 1; i--)
   {
     int iterqty;
-    rptqty = neut_tesr_grow_neigh (pTesr, 0, i, INT_MAX, &iterqty);
+    voxqty = neut_tesr_grow_neigh (pTesr, 0, i, INT_MAX, &iterqty);
 
-    if (rptqty >= 0)
+    if (voxqty >= 0)
     {
       if (verbosity)
 	ut_print_message (0, verbosity, "%d neighs: %d point%s filtered in %d iterations.\n",
-			  i, rptqty, (rptqty > 1) ? "s" : "", iterqty);
+			  i, voxqty, (voxqty > 1) ? "s" : "", iterqty);
     }
     else
     {
-      rptqty = 0;
+      voxqty = 0;
       if (verbosity)
 	ut_print_message (0, verbosity, "%d point%s filtered in %d iterations.\n",
-			  rptqty, (rptqty > 1) ? "s" : "", iterqty);
+			  voxqty, (voxqty > 1) ? "s" : "", iterqty);
       break;
     }
   }

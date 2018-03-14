@@ -394,12 +394,12 @@ any, none
 
 Below are options specific to raster tessellations,
 
-@opt{-datarptedgerad, real,
+@opt{-datavoxedgerad, real,
 Set the radius of the edges of the raster points.
 ,
 any, proportional to the raster point size}
 
-@opt{-datarptedgecol, char_string,
+@opt{-datavoxedgecol, char_string,
 Set the colour of the edges of the raster points.
 Provide as argument the name of a colour that will be used for all
 points (@pxref{Colours}).

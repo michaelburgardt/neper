@@ -76,12 +76,15 @@ nev_tesrdata_fscanf (struct TESR Tesr, char *entity, char *type,
   }
 
   if (strcmp (entity, "rptedge") != 0)
+    ut_print_message (1, 3, "'rpt' is deprecated and will be removed in future versions.  Use 'vox' instead.\n");
+
+  if (strcmp (entity, "rptedge") != 0 && strcmp (entity, "voxedge") != 0)
     nev_tesrdata_fscanf_cell (Tesr, pTD, type, argument);
   else
-    nev_tesrdata_fscanf_rptb (pTD, type, argument);
+    nev_tesrdata_fscanf_voxb (pTD, type, argument);
 
   if (cell)
-    nev_tesrdata_cell2rpt (Tesr, type, TesrDataCell, pTesrData);
+    nev_tesrdata_cell2vox (Tesr, type, TesrDataCell, pTesrData);
 
   return;
 }

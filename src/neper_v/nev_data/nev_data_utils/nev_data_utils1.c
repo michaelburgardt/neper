@@ -75,9 +75,14 @@ nev_data_string_entity_type (char *string, char *entity, char *type)
   else if (strncmp (stringcpy, "cell", 4) == 0)
     strcpy (entity, "cell");
   else if (strncmp (stringcpy, "rptedge", 7) == 0)
-    strcpy (entity, "rptedge");
-  else if (strncmp (stringcpy, "rpt", 3) == 0)
-    strcpy (entity, "rpt");
+  {
+    ut_print_message (1, 3, "'rpt' is deprecated and will be removed in future versions.  Use 'vox' instead.\n");
+    strcpy (entity, "voxedge");
+  }
+  else if (strncmp (stringcpy, "voxedge", 7) == 0)
+    strcpy (entity, "voxedge");
+  else if (strncmp (stringcpy, "vox", 3) == 0)
+    strcpy (entity, "vox");
   else if (strncmp (stringcpy, "csys", 4) == 0)
     strcpy (entity, "csys");
   else if (strncmp (stringcpy, "point", 5) == 0)

@@ -14,13 +14,13 @@ extern "C"
 /// \return 0 on success, -1 on failure.
 ///
 ///
-  extern int neut_tesr_point_pos (struct TESR Tesr, double *coo, int *rptpos);
+  extern int neut_tesr_point_pos (struct TESR Tesr, double *coo, int *voxpos);
 
 /// \brief Get the coordinate of a rpoint.
 /// \return 0 on success, -1 on failure.
 ///
 ///
-  extern int neut_tesr_pos_coo (struct TESR Tesr, int *rptpos, double *coo);
+  extern int neut_tesr_pos_coo (struct TESR Tesr, int *voxpos, double *coo);
 
 /// \brief Get the centre of a cell of a TESR structure.
 /// \return 0 on success, -1 on failure.
