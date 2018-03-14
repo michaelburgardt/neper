@@ -973,19 +973,25 @@ neut_tesr_init_tesrsize (struct TESR *pTesr, struct TESS Domain, int dim,
 void
 neut_tesr_crop (struct TESR *pTesr, char *shape)
 {
-  int i, j, k, id, status;
+  int i, j, k, id;
   double d;
   double *coo = ut_alloc_1d (3);
   double *coo2 = ut_alloc_1d (3);
-  double **cube = ut_alloc_2d (3 ,2);
+  double *cube = ut_alloc_1d (6);
   int *pt = ut_alloc_1d_int (3);
+  int qty = 0;
+  char *fct = NULL, **vars = NULL, **vals = NULL;
 
-  if (!strncmp (shape, "cylinder(", 8))
+  ut_string_function_separate (shape, &fct, &vars, &vals, &qty);
+
+  if (!strcmp (fct, "cylinder"))
   {
-    status = sscanf (shape, "cylinder(%lf,%lf,%lf)", coo, coo + 1, &d);
+    if (qty != 3)
+      ut_print_message (2, 3, "Failed to parse `%s'.\n", shape);
 
-    if (status != 3)
-      ut_print_message (2, 2, "Unknown shape `%s'.\n", shape);
+    neut_tesr_expr_val (*pTesr, "general", 0, vals[0], coo, NULL);
+    neut_tesr_expr_val (*pTesr, "general", 0, vals[1], coo + 1, NULL);
+    neut_tesr_expr_val (*pTesr, "general", 0, vals[2], &d, NULL);
 
     for (j = 1; j <= (*pTesr).size[1]; j++)
       for (i = 1; i <= (*pTesr).size[0]; i++)
@@ -998,15 +1004,13 @@ neut_tesr_crop (struct TESR *pTesr, char *shape)
 			       0);
       }
   }
-  else if (!strncmp (shape, "cube(", 5))
+  else if (!strcmp (fct, "cube"))
   {
-    status = sscanf (shape, "cube(%lf,%lf,%lf,%lf,%lf,%lf)",
-	             cube[0], cube[0] + 1,
-	             cube[1], cube[1] + 1,
-	             cube[2], cube[2] + 1);
+    if (qty != 6)
+      ut_print_message (2, 3, "Failed to parse `%s'.\n", shape);
 
-    if (status != 6)
-      ut_print_message (2, 2, "Unknown shape `%s'.\n", shape);
+    for (i = 0; i < 6; i++)
+      neut_tesr_expr_val (*pTesr, "general", 0, vals[i], cube + i, NULL);
 
     for (k = 1; k <= (*pTesr).size[2]; k++)
       for (j = 1; j <= (*pTesr).size[1]; j++)
@@ -1017,7 +1021,7 @@ neut_tesr_crop (struct TESR *pTesr, char *shape)
 	    neut_tesr_pos_coo (*pTesr, pt, coo2);
 
 	    for (id = 0; id < 3; id++)
-	      if (coo2[id] < cube[id][0] || coo2[id] > cube[id][1])
+	      if (coo2[id] < cube[2 * id] || coo2[id] > cube[2 * id + 1])
 	      {
 		(*pTesr).VoxCell[i][j][k] = 0;
 		break;
@@ -1037,10 +1041,13 @@ neut_tesr_crop (struct TESR *pTesr, char *shape)
   if ((*pTesr).CellConvexity)
     neut_tesr_init_cellconvexity (pTesr);
 
+  ut_free_1d_char (fct);
+  ut_free_2d_char (vars, qty);
+  ut_free_2d_char (vals, qty);
   ut_free_1d (coo);
   ut_free_1d (coo2);
   ut_free_1d_int (pt);
-  ut_free_2d (cube, 3);
+  ut_free_1d (cube);
 
   return;
 }

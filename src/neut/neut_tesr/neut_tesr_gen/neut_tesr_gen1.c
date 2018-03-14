@@ -174,7 +174,18 @@ neut_tesr_size (struct TESR Tesr, double *psize)
 void
 neut_tesr_var_list (char *entity, char ***pvar, int *pvarqty)
 {
-  if (!strcmp (entity, "cell"))
+  if (!strcmp (entity, "general"))
+  {
+    (*pvarqty) = 6;
+    (*pvar) = ut_alloc_2d_char (*pvarqty, 10);
+    strcpy ((*pvar)[0], "voxsizex");
+    strcpy ((*pvar)[1], "voxsizey");
+    strcpy ((*pvar)[2], "voxsizez");
+    strcpy ((*pvar)[3], "domsizex");
+    strcpy ((*pvar)[4], "domsizey");
+    strcpy ((*pvar)[5], "domsizez");
+  }
+  else if (!strcmp (entity, "cell"))
   {
     (*pvarqty) = 9;
     (*pvar) = ut_alloc_2d_char (*pvarqty, 10);
@@ -262,9 +273,11 @@ neut_tesr_var_val (struct TESR Tesr, char *entity,
     neut_tesr_cell_centre (Tesr, id, c);
 
   status = -1;
-  if (!strcmp (entity, "cell")
+  if (!strcmp (entity, "general")
+      || !strcmp (entity, "cell")
       || !strcmp (entity, "poly")
-      || !strcmp (entity, "face") || !strcmp (entity, "edge"))
+      || !strcmp (entity, "face")
+      || !strcmp (entity, "edge"))
   {
     status = 0;
     if (!strcmp (var, "id"))
@@ -318,6 +331,36 @@ neut_tesr_var_val (struct TESR Tesr, char *entity,
     else if (!strcmp (var, "convexity"))
     {
       neut_tesr_cell_convexity (Tesr, id, pval);
+      strcpy (typetmp, "%f");
+    }
+    else if (!strcmp (var, "voxsizex"))
+    {
+      (*pval) = Tesr.vsize[0];
+      strcpy (typetmp, "%f");
+    }
+    else if (!strcmp (var, "voxsizey"))
+    {
+      (*pval) = Tesr.vsize[1];
+      strcpy (typetmp, "%f");
+    }
+    else if (!strcmp (var, "voxsizez"))
+    {
+      (*pval) = Tesr.vsize[2];
+      strcpy (typetmp, "%f");
+    }
+    else if (!strcmp (var, "domsizex"))
+    {
+      (*pval) = Tesr.vsize[0] * Tesr.size[0];
+      strcpy (typetmp, "%f");
+    }
+    else if (!strcmp (var, "domsizey"))
+    {
+      (*pval) = Tesr.vsize[1] * Tesr.size[1];
+      strcpy (typetmp, "%f");
+    }
+    else if (!strcmp (var, "domsizez"))
+    {
+      (*pval) = Tesr.vsize[2] * Tesr.size[2];
       strcpy (typetmp, "%f");
     }
   }

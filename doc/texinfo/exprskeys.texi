@@ -266,6 +266,12 @@ the @samp{@SEPDEP{}uc} modifier.
     radius@footnote{Equivalent radius = radius of the
     circle of equivalent area/volume in 2D/3D.}       @tab cell
   @item @code{convexity}  @tab convexity@footnote{Convexity of a cell = ratio of the volume of the cell to the volume of the convex hull of the cell.} @tab cell
+  @item @code{voxsizex} @tab Voxel  size in direction x @tab general
+  @item @code{voxsizey} @tab Voxel  size in direction y @tab general
+  @item @code{voxsizez} @tab Voxel  size in direction z @tab general
+  @item @code{domsizex} @tab Domain size in direction x @tab general
+  @item @code{domsizey} @tab Domain size in direction y @tab general
+  @item @code{domsizez} @tab Domain size in direction z @tab general
 @end multitable
 
 @node Tessellation Optimization Keys
