@@ -8,7 +8,7 @@ void
 net_tess_opt_comp_objective_fval_gen_celldata_scalar (struct TOPT *pTOpt, int id)
 {
   int i;
-  double *val = ut_alloc_1d ((*pTOpt).CellQty);
+  double *val = ut_alloc_1d ((*pTOpt).CellQty + 1);
 
   for (i = 1; i <= (*pTOpt).CellQty; ++i)
     if ((*pTOpt).curcellpenalty[i] == 0)
@@ -119,7 +119,7 @@ void
 net_tess_opt_comp_objective_fval_gen_celldata_centroiddiameq (struct TOPT *pTOpt, int id)
 {
   int i;
-  double val1, val2, *val = ut_alloc_1d ((*pTOpt).CellQty);
+  double val1, val2, *val = ut_alloc_1d ((*pTOpt).CellQty + 1);
 
   (*pTOpt).curval[id] = 0;
   for (i = 1; i <= (*pTOpt).CellQty; ++i)
