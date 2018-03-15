@@ -139,6 +139,8 @@ extern "C"
   extern void neut_tesr_tessinter (struct TESR *pTesr, char *crop, int
       verbosity);
 
+  extern void neut_tesr_addbuffer (struct TESR *pTesr, char *addbuffer);
+
 #endif				/* NEUT_VOX_OP_H */
 
 #ifdef __cplusplus

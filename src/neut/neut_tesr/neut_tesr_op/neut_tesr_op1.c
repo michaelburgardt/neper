@@ -1367,3 +1367,47 @@ neut_tesr_tessinter (struct TESR *pTesr, char *crop, int verbosity)
 
   return;
 }
+
+void
+neut_tesr_addbuffer (struct TESR *pTesr, char *addbuffer)
+{
+  int i, j, k, ii, jj, kk, status, buff[3];
+  int ***VoxCellCpy = ut_alloc_3d_int ((*pTesr).size[0] + 2,
+                                       (*pTesr).size[1] + 2,
+                                       (*pTesr).size[2] + 2);
+  int *sizecpy = ut_alloc_1d_int (3);
+
+  status = sscanf (addbuffer, "addbuffer(%d,%d,%d)", buff, buff + 1, buff + 2);
+  if (status != 3)
+    abort ();
+
+  ut_array_1d_int_memcpy (sizecpy, 3, (*pTesr).size);
+  ut_array_3d_int_memcpy (VoxCellCpy, (*pTesr).size[0] + 2, (*pTesr).size[1] + 2,
+                          (*pTesr).size[2] + 2, (*pTesr).VoxCell);
+
+  ut_free_3d_int ((*pTesr).VoxCell, (*pTesr).size[0] + 2, (*pTesr).size[1] + 2);
+  for (i = 0; i < 3; i++)
+    (*pTesr).size[i] += 2 * buff[i];
+
+  (*pTesr).VoxCell = ut_alloc_3d_int ((*pTesr).size[0] + 2, (*pTesr).size[1] + 2,
+                                      (*pTesr).size[2] + 2);
+
+  for (k = 1; k <= sizecpy[2]; k++)
+  {
+    kk = k + buff[2];
+    for (j = 1; j <= sizecpy[1]; j++)
+    {
+      jj = j + buff[1];
+      for (i = 1; i <= sizecpy[0]; i++)
+      {
+        ii = i + buff[0];
+        (*pTesr).VoxCell[ii][jj][kk] = VoxCellCpy[i][j][k];
+      }
+    }
+  }
+
+  ut_free_3d_int (VoxCellCpy, sizecpy[0] + 2, sizecpy[1] + 2);
+  ut_free_1d_int (sizecpy);
+
+  return;
+}

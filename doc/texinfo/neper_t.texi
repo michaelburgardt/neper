@@ -636,6 +636,10 @@ along directions @var{x}@comma{} @code{@var{y}} and
 @math{@bullet{}} @samp{@code{grow}} grows the cells to fill the domain.@*
 @math{@bullet{}} @samp{@code{tessinter(@var{tess_file})}} computes the
 intersection with tessellation @file{@var{tess_file}}.@*
+@math{@bullet{}} @samp{@code{addbuffer(@var{buffx}@comma{}@var{buffy}@comma{}@var{buffz})}}
+adds a buffer of @code{@var{buffx}} void voxels on both sides in the x direction@comma{}
+a buffer of @code{@var{buffy}} void voxels on both sides in the y direction and
+a buffer of @code{@var{buffz}} void voxels on both sides in the z direction.@*
 @math{@bullet{}} @samp{@code{2d}} transforms a 3D tessellation with 1 voxel along z into a 2D tessellation.@*
 Several transformations can be applied successively by combining them @w{with @samp{@SEPNODEP}}.
 ,
