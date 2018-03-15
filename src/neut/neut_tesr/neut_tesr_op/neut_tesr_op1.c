@@ -1031,7 +1031,9 @@ neut_tesr_crop (struct TESR *pTesr, char *shape)
   else
     ut_print_message (2, 2, "Unknown shape `%s'.\n", shape);
 
-  neut_tesr_init_cellvol (pTesr);
+  if ((*pTesr).CellVol)
+    neut_tesr_init_cellvol (pTesr);
+
   neut_tesr_renumber_continuous (pTesr);
 
   if ((*pTesr).CellBBox)
