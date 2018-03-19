@@ -49,6 +49,7 @@ add_library (neper_t
 ./net_sort/net_sort1.c
 ./net_sort/net_sort2.c
 ./net_utils/net_utils1.c
+./net_utils/net_utils2.c
 ./net_utils/net_polymod_poly/net_polymod_poly1.c
 ./net_utils/net_polymod_poly/net_polymod_poly2.c
 ./net_utils/net_polymod_poly/net_polymod_poly3.c

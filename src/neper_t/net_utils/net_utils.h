@@ -24,6 +24,7 @@ extern "C"
 
   extern void net_poly_centroid (struct POLY Poly, double *coo);
   extern void net_tess_tesr (char *tesrsizestring, struct TESS, struct TESR *);
+  extern void net_tess_tesr_cell (struct TESS, int, struct TESR *);
 
   extern void net_tess_clip (struct SEEDSET SSet, struct TESS *pTess,
 			     double *eq);

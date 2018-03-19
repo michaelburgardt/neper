@@ -11,8 +11,10 @@ neut_tesr_point_pos (struct TESR Tesr, double *coo, int *voxpos)
 
   for (i = 0; i < Tesr.Dim; i++)
   {
+    /*
     if (coo[i] < 0 || coo[i] > Tesr.size[i] * Tesr.vsize[i])
       return -1;
+      */
 
     voxpos[i] = ceil (coo[i] / Tesr.vsize[i] + 1e-6);
     voxpos[i] = ut_num_min_int (voxpos[i], Tesr.size[i]);

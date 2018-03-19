@@ -594,6 +594,32 @@ neut_tess_bbox (struct TESS Tess, double **size)
 }
 
 void
+neut_tess_cell_bbox (struct TESS Tess, int cell, double **size)
+{
+  int i, j, verqty, *vers = NULL;
+
+  if (Tess.Dim != 3)
+    abort ();
+
+  neut_tess_cell_vers (Tess, cell, &vers, &verqty);
+
+  /* Searching the tessellation bounding box */
+  size[0][0] = size[1][0] = size[2][0] = DBL_MAX;
+  size[0][1] = size[1][1] = size[2][1] = -DBL_MAX;
+
+  for (i = 0; i < verqty; i++)
+    for (j = 0; j < 3; j++)
+    {
+      size[j][0] = ut_num_min (size[j][0], Tess.VerCoo[vers[i]][j]);
+      size[j][1] = ut_num_max (size[j][1], Tess.VerCoo[vers[i]][j]);
+    }
+
+  ut_free_1d_int (vers);
+
+  return;
+}
+
+void
 neut_tess_edge_bbox (struct TESS Tess, int edge, double **size)
 {
   int i, j, ver;
