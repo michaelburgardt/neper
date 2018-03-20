@@ -15,7 +15,11 @@ net_tess_tesr_cell (struct TESS Tess, int cell, struct TESR *pTesr)
   neut_tess_cell_bbox (Tess, cell, bbox);
 
   for (i = 0; i < 3; i++)
-    neut_tesr_point_pos (*pTesr, bbox[i], (*pTesr).CellBBox[cell][i]);
+    for (j = 0; j < 2; j++)
+    {
+      (*pTesr).CellBBox[cell][i][j] = ut_num_d2ri (ceil (bbox[i][j] / (*pTesr).vsize[i] + 1e-6));
+      (*pTesr).CellBBox[cell][i][j] = ut_num_min ((*pTesr).CellBBox[cell][i][j], (*pTesr).size[i]);
+    }
 
   for (k = (*pTesr).CellBBox[cell][2][0]; k <= (*pTesr).CellBBox[cell][2][1]; k++)
     for (j = (*pTesr).CellBBox[cell][1][0]; j <= (*pTesr).CellBBox[cell][1][1]; j++)
