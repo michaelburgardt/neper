@@ -429,7 +429,6 @@ void
 net_tess_tesr (char *tesrsizestring, struct TESS Tess, struct TESR *pTesr)
 {
   int i;
-  char *progress = ut_alloc_1d_char (100);
 
   (*pTesr).Dim = Tess.Dim;
   neut_tesr_init_tesrsize (pTesr, Tess, Tess.Dim, tesrsizestring);
@@ -456,15 +455,9 @@ net_tess_tesr (char *tesrsizestring, struct TESS Tess, struct TESR *pTesr)
 			Tess.CellOri + 1);
   }
 
-  ut_print_progress (stdout, 0,
-		     (*pTesr).size[0] * (*pTesr).size[1] * (*pTesr).size[2],
-		     "%3.0f%%", progress);
-
 #pragma omp parallel for schedule(dynamic)
   for (i = 1; i <= Tess.CellQty; i++)
     net_tess_tesr_cell (Tess, i, pTesr);
-
-  ut_free_1d_char (progress);
 
   return;
 }

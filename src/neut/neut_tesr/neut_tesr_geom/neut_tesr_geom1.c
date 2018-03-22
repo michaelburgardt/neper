@@ -496,3 +496,27 @@ neut_tesr_cells_anisoxyz (struct TESR Tesr, double *fact)
 
   return;
 }
+
+int
+neut_tesr_perpos_pos (struct TESR Tesr, int *per, int *pos, int *pos2)
+{
+  int i;
+
+  ut_array_1d_int_memcpy (pos2, 3, pos);
+
+  for (i = 0; i < 3; i++)
+    if (pos[i] < 1 || pos[i] > Tesr.size[i])
+    {
+      if (!per || per[i])
+      {
+        while (pos2[i] < 1)
+          pos2[i] += Tesr.size[i];
+        while (pos2[i] > Tesr.size[i])
+          pos2[i] -= Tesr.size[i];
+      }
+      else
+        abort ();
+    }
+
+  return 0;
+}

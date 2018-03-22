@@ -286,7 +286,7 @@ neper_t (int fargc, char **fargv, int argc, char **argv)
 	  || ut_string_inlist (In.format, NEUT_SEP_NODEP, "raw") == 1
 	  || ut_string_inlist (In.format, NEUT_SEP_NODEP, "vtk") == 1))
   {
-    ut_print_message (0, 1, "Rastering tessellation... ");
+    ut_print_message (0, 1, "Rastering tessellation...\n");
     net_tess_tesr (In.tesrsizestring, FTess, &Tesr);
   }
 
