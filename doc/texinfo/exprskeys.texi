@@ -253,10 +253,17 @@ the @samp{@SEPDEP{}uc} modifier.
 
 @multitable @columnfractions 0.18 0.47 0.36
   @headitem Key     @tab Descriptor                   @tab Apply to
-  @item @code{id}   @tab identifier                   @tab seed, cell
-  @item @code{x}    @tab x coordinate                 @tab seed, cell
-  @item @code{y}    @tab y coordinate                 @tab seed, cell
-  @item @code{z}    @tab z coordinate                 @tab seed, cell
+  @item @code{id}   @tab identifier                   @tab seed, cell, voxel
+  @item @code{x}    @tab x coordinate                 @tab seed, cell, voxel
+  @item @code{y}    @tab y coordinate                 @tab seed, cell, voxel
+  @item @code{z}    @tab z coordinate                 @tab seed, cell, voxel
+  @item @code{xyz}  @tab x, y and z coordinates       @tab seed, cell, voxel
+  @item @code{vx}   @tab x coordinate (in voxel)      @tab voxel
+  @item @code{vy}   @tab y coordinate (in voxel)      @tab voxel
+  @item @code{vz}   @tab z coordinate (in voxel)      @tab voxel
+  @item @code{vxyz} @tab x, y and z coordinates (in voxel) @tab voxel
+  @item @code{e}    @tab Euler angles (Bunge convention) @tab cell, voxel
+  @item @code{cell} @tab cell                         @tab voxel
   @item @code{w}    @tab Laguerre weight              @tab seed
   @item @code{size}  @tab size (area/volume in 2D/3D) @tab cell
   @item @code{diameq}  @tab equivalent

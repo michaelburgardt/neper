@@ -33,6 +33,18 @@ ut_array_1d_scale (double *array, int qty, double scale)
   return;
 }
 
+
+void
+ut_array_1d_d2ri (double *array, int qty, int *array2)
+{
+  int i;
+
+  for (i = 0; i < qty; i++)
+    array2[i] = ut_num_d2ri (array[i]);
+
+  return;
+}
+
 void
 ut_array_1d_normalize (double *array, int qty)
 {
@@ -298,19 +310,8 @@ ut_array_1d_char_fscanf (FILE * file, char **a, int size)
 int
 ut_array_1d_fprintf (FILE * file, double *a, int size, const char *format)
 {
-  int i, res;
-
-  res = -1;
-  for (i = 0; i < size - 1; i++)
-  {
-    fprintf (file, format, a[i]);
-    res = fprintf (file, " ");
-  }
-  if (size > 0)
-    res = fprintf (file, format, a[size - 1]);
-  res = fprintf (file, "\n");
-
-  return res;
+  ut_array_1d_fprintf_nonl (file, a, size, format);
+  return fprintf (file, "\n");
 }
 
 int
@@ -529,13 +530,25 @@ ut_array_1d_fprintf_nonl (FILE * file, double *a, int size, const char *format)
 {
   int i, res = 0;
 
-  for (i = 0; i < size - 1; i++)
+  if (strstr (format, "f"))
   {
-    fprintf (file, format, a[i]);
-    res = fprintf (file, " ");
+    for (i = 0; i < size - 1; i++)
+    {
+      fprintf (file, format, a[i]);
+      res = fprintf (file, " ");
+    }
+    if (size > 0)
+      res = fprintf (file, format, a[size - 1]);
   }
-  if (size > 0)
-    res = fprintf (file, format, a[size - 1]);
+
+  else if (strstr (format, "d"))
+  {
+    int *a2 = ut_alloc_1d_int (size);
+    ut_array_1d_d2ri (a, size, a2);
+
+    ut_array_1d_int_fprintf_nonl (file, a2, size, format);
+    ut_free_1d_int (a2);
+  }
 
   return res;
 }
@@ -1616,6 +1629,23 @@ ut_array_2d_mean (double **a, int size1, int size2)
     for (j = 0; j < size2; j++)
       mean += a[i][j];
   mean /= (size1 * size2);
+
+  return mean;
+}
+
+double
+ut_array_2d_col_mean (double **a, int size1, int col)
+{
+  int i;
+  double mean;
+
+  if (size1 <= 0 || col <= 0)
+    abort ();
+
+  mean = 0;
+  for (i = 0; i < size1; i++)
+      mean += a[i][col];
+  mean /= size1;
 
   return mean;
 }

@@ -311,7 +311,7 @@ neper_t (int fargc, char **fargv, int argc, char **argv)
   // ###################################################################
   // ### WRITING STATISTICS  ###########################################
 
-  if (In.stc || In.stv || In.ste || In.stf || In.stp || In.sts || In.stpt)
+  if (In.stc || In.stv || In.ste || In.stf || In.stp || In.sts || In.stpt || In.stvox)
   {
     ut_print_message (0, 1, "Writing statistics...\n");
     net_stat (In, FTess, &Tesr, Point);

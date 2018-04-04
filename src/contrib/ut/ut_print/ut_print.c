@@ -1288,3 +1288,14 @@ ut_error_reportbug ()
 
   return;
 }
+
+void
+ut_error_expression (char *expr)
+{
+  ut_print_message (2, 0, "Expression `%s' could not be processed.\n", expr);
+  fflush (stdout);
+
+  abort ();
+
+  return;
+}

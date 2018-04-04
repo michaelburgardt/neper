@@ -5,6 +5,47 @@
 #include "neut_tesr_geom_.h"
 
 int
+neut_tesr_vox_pos (struct TESR Tesr, int vox, int *pos)
+{
+  int qty, unitqty;
+
+  qty = vox;
+  unitqty = Tesr.size[0] * Tesr.size[1];
+  pos[2] = 1 + (qty - 1) / unitqty;
+
+  qty -= (pos[2] - 1) * unitqty;
+  unitqty = Tesr.size[0];
+  pos[1] = 1 + (qty - 1) / unitqty;
+
+  qty -= (pos[1] - 1) * unitqty;
+  pos[0] = qty;
+
+  return 0;
+}
+
+int
+neut_tesr_vox_coo (struct TESR Tesr, int vox, double *coo)
+{
+  int pos[3];
+
+  neut_tesr_vox_pos (Tesr, vox, pos);
+  neut_tesr_pos_coo (Tesr, pos, coo);
+
+  return 0;
+}
+
+int
+neut_tesr_vox_cell (struct TESR Tesr, int vox, int *pcell)
+{
+  int voxpos[3];
+
+  neut_tesr_vox_pos (Tesr, vox, voxpos);
+  (*pcell) = Tesr.VoxCell[voxpos[0]][voxpos[1]][voxpos[2]];
+
+  return 0;
+}
+
+int
 neut_tesr_point_pos (struct TESR Tesr, double *coo, int *voxpos)
 {
   int i;

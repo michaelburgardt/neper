@@ -14,6 +14,8 @@ extern "C" {
 #define UT_ARRAY_H
 
 extern void ut_array_1d_scale (double *, int, double);
+extern void ut_array_1d_d2ri (double *, int, int *);
+
 extern void ut_array_1d_normalize (double *, int);
 extern void ut_array_1d_int_scale (int *, int, double);
 extern void ut_array_1d_add (double *, double *, int, double *);
@@ -105,6 +107,7 @@ extern float ut_array_2d_float_min (float **, int, int);
 extern float ut_array_2d_float_max (float **, int, int);
 extern double ut_array_2d_min (double **, int, int);
 extern double ut_array_2d_mean (double **, int, int);
+extern double ut_array_2d_col_mean (double **, int, int);
 extern double ut_array_2d_gmean (double **, int, int);
 extern double ut_array_3d_mean (double ***, int, int, int);
 extern double ut_array_3d_gmean (double ***, int, int, int);
@@ -208,7 +211,8 @@ extern void ut_array_1d_permutation (double *, int, int *);
 extern void ut_array_1d_permutation_int (int *, int, int *);
 extern void ut_array_2d_permutation_int (int **, int, int, int *);
 
-extern void ut_array_distribparam (double *, int, double, double *, int *);
+extern void ut_array_distribparam (double *data, int n, double step, double *pfirst,
+		       int *plength);
 extern void ut_array_distrib (double *, int, double, double, int, double *);
 
 extern void ut_array_1d_set (double *, int, double);

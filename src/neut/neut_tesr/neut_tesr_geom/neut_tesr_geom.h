@@ -10,6 +10,10 @@ extern "C"
 #ifndef  NEUT_VOX_GEOM_H
 #define  NEUT_VOX_GEOM_H
 
+extern int neut_tesr_vox_pos (struct TESR Tesr, int vox, int *pos);
+extern int neut_tesr_vox_coo (struct TESR Tesr, int vox, double *coo);
+extern int neut_tesr_vox_cell (struct TESR Tesr, int vox, int *pcell);
+
 /// \brief Get the rpoint a point belongs to.
 /// \return 0 on success, -1 on failure.
 ///

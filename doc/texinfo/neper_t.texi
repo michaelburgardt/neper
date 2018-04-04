@@ -885,6 +885,17 @@ the keys as described in @ref{Tessellation Keys} (combine with
 any, none,
 .stpoly}
 
+For a tessellation, it is also possible to get statistics on an
+voxel-basis,
+ww
+@post{-statvox, char_string,
+Provide statistics on the tessellation voxels.  Give as argument
+the keys as described in @ref{Raster Tessellation Keys} (combine with
+@samp{@SEPNODEP}).
+,
+any, none,
+.stpoly}
+
 Finally, it is possible to get statistics for a particular set of
 points. The option applies to a tessellation.
 

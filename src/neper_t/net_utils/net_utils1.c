@@ -102,6 +102,7 @@ net_in_set_zero (struct IN_T *pIn)
 
   (*pIn).sortstring = NULL;
   (*pIn).stpt = NULL;
+  (*pIn).stvox = NULL;
 
   return;
 }
