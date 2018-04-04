@@ -1,9 +1,9 @@
-New in 3.1.2-25 (04 Apr 2018):
+New in 3.1.2-26 (04 Apr 2018):
 - module -T: improved -morpho, added -morpho centroidtol, improved
   -morphooptiobjective, improved -transform crop, fixed -n from_morpho, added
   -transform addbuffer, renamed -datarpt* into -datavox*, added -transform
   renumber, edded -statvox, speed up tesr generation, minor fixes.
-- module -V: improved msh reading.
+- module -V: improved msh reading, added -datavox options.
 - documentation: small fixes.
 
 New in 3.1.1 (20 Feb 2018):

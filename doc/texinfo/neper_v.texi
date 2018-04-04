@@ -393,6 +393,40 @@ any, none
 }
 
 Below are options specific to raster tessellations,
+For a raster tessellation, it is also possible to set data on a per-voxel
+basis,
+
+@opt{-datavoxcol, char_string,
+Set the colours of the voxels.
+See option @option{-datacellcol} for the argument format.
+,
+any, white}
+
+@opt{-datavoxcolscheme, char_string,
+Set the colour scheme used to get colours from the data of
+the voxels loaded with option @option{-datavoxcol}.
+See option @option{-datacellcolscheme} for the argument format.
+,
+see option @option{-datacellcolscheme},
+see option @option{-datacellcolscheme}
+}
+
+@opt{-datavoxscale, char_string,
+Set the scale relative to the @samp{-datavoxcol scal} data.  Provide as
+argument the start and end values@comma{} combined with
+@samp{@SEPDEP{}}.  To specify the intermediate values@comma{} provide as
+argument the start value@comma{} the intermediate values and then the
+end value@comma{} combined with @samp{@SEPDEP{}}.  The labels of the
+scale follow the format used for the start value.
+,
+any, data minimum:data maximum
+}
+
+@opt{-datavoxscaletitle, char_string,
+Set the title of the scale relative to the @samp{-datavoxcol scal} data.
+,
+any, none
+}
 
 @opt{-datavoxedgerad, real,
 Set the radius of the edges of the raster points.
@@ -914,7 +948,7 @@ a file@comma{} or any expression based on the keys listed in
 any, all}
 
 @need 800
-For tessellations, it is also possible to set visibility on a per-entity
+For a tessellation, it is also possible to set visibility on a per-entity
 basis,
 
 @opt{-showpoly, char_string,

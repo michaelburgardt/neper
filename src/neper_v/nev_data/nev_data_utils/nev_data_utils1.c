@@ -143,6 +143,7 @@ nev_data_id_colour (double **data, int size, int **Col)
   int palettesize, pos;
   ut_color_palette_0208 (&palette, &palettesize);
 
+#pragma omp parallel for
   for (i = 1; i <= size; i++)
   {
     pos = ut_num_d2ri (data[i][0] - 1) % palettesize;
@@ -196,21 +197,21 @@ void
 nev_data_ori_colour (double **data, int size, char *scheme, int **Col)
 {
   int i, j;
-  double *R = ol_R_alloc ();
+  double OL_S2m1 = OL_S2 - 1, TOL_S2m1 = 2 * (OL_S2 - 1);
 
   if (scheme == NULL || !strcmp (scheme, "R"))
+#pragma omp parallel for
     for (i = 1; i <= size; i++)
     {
+      double *R = ol_R_alloc ();
       ol_q_R (data[i], R);
       ol_R_Rcrysym (R, "cubic", R);
       for (j = 0; j < 3; j++)
-	Col[i][j] = ut_num_d2ri (255 * (R[j] + (OL_S2 - 1))
-				 / (2 * (OL_S2 - 1)));
+	Col[i][j] = ut_num_d2ri (255 * (R[j] + OL_S2m1) / TOL_S2m1);
+      ol_R_free (R);
     }
   else
     ut_error_reportbug ();
-
-  ol_R_free (R);
 
   return;
 }

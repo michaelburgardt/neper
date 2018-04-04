@@ -21,6 +21,7 @@ nev_data (char **argv, int *pi,
 
   dim = neut_mesh_array_dim (Mesh);
   nev_data_string_entity_type (argv[(*pi)], entity, type);
+
   if (!strcmp (entity, "elt"))
     sprintf (entity, "elt%dd", dim);
   if (!strcmp (entity, "elset"))

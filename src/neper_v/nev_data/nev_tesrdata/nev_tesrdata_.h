@@ -16,8 +16,10 @@
 
 extern void nev_tesrdata_fscanf_cell (struct TESR, struct TESRDATA *pTD,
 				      char *type, char *argument);
-extern void nev_tesrdata_fscanf_voxb (struct TESRDATA *pTD,
-				      char *type, char *argument);
+extern void nev_tesrdata_fscanf_vox (struct TESR Tesr, struct TESRDATA *pTD,
+                                     char *prop, char *argument);
+extern void nev_tesrdata_fscanf_voxedge (struct TESRDATA *pTD,
+                                         char *type, char *argument);
 
 extern void nev_tesrdata_cell2vox (struct TESR Tesr, char *type, struct
 				   TESRDATA TesrDataPoly,
