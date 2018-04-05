@@ -161,6 +161,7 @@ extern void ut_array_2d_memcpy (double **, int, int, double **);
 extern void ut_array_2d_int_memcpy (int **, int, int, int **);
 extern void ut_array_1d_pchar_memcpy (char **, int, char **);
 extern void ut_array_3d_memcpy (double ***, int, int, int, double ***);
+extern void ut_array_4d_memcpy (double ****, int, int, int, int, double ****);
 extern void ut_array_3d_int_memcpy (int ***, int, int, int, int ***);
 extern void ut_array_3d_uchar_memcpy (unsigned char ***, int, int, int,
 				      unsigned char ***);

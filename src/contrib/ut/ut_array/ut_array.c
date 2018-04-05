@@ -1972,6 +1972,21 @@ ut_array_3d_memcpy (double ***dest, int size1, int size2, int size3,
 }
 
 void
+ut_array_4d_memcpy (double ****dest, int size1, int size2, int size3,
+		    int size4, double ****src)
+{
+  int i, j, k, l;
+
+  for (i = 0; i < size1; i++)
+    for (j = 0; j < size2; j++)
+      for (k = 0; k < size3; k++)
+        for (l = 0; l < size4; l++)
+          dest[i][j][k][l] = src[i][j][k][l];
+
+  return;
+}
+
+void
 ut_array_2d_int_memcpy (int **dest, int size1, int size2, int **src)
 {
   int i, j;

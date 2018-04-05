@@ -43,8 +43,10 @@ nev_print_mesh_3d_compress (struct PRINT Print, struct NODES Nodes,
     eltmax = Mesh3D.EltQty;
     eltsinv = ut_alloc_1d_int (Mesh3D.EltQty + 1);
     for (i = 0; i < Mesh3D.EltQty; i++)
+    {
       elts[i] = i + 1;
       eltsinv[i + 1] = i;
+    }
   }
   else
   {

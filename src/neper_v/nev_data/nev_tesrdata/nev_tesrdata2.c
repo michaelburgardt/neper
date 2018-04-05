@@ -193,9 +193,16 @@ nev_tesrdata_fscanf_vox (struct TESR Tesr, struct TESRDATA *pTD,
 
       if (!value)
       {
-	if (!Tesr.CellOri)
-	  ut_print_message (2, 3, "No orientation data available.\n");
-	else
+        if (Tesr.VoxOri)
+	{
+	  ut_string_string ("oriq", &((*pTD).ColDataType));
+          int id = 0;
+          for (k = 1; k <= Tesr.size[2]; k++)
+            for (j = 1; j <= Tesr.size[1]; j++)
+              for (i = 1; i <= Tesr.size[0]; i++)
+                ut_array_1d_memcpy ((*pTD).ColData[++id], 4, Tesr.VoxOri[i][j][k]);
+	}
+        else if (Tesr.CellOri)
 	{
 	  ut_string_string ("oriq", &((*pTD).ColDataType));
           int id = 0;
@@ -203,11 +210,12 @@ nev_tesrdata_fscanf_vox (struct TESR Tesr, struct TESRDATA *pTD,
             for (j = 1; j <= Tesr.size[1]; j++)
               for (i = 1; i <= Tesr.size[0]; i++)
               {
-                id++;
                 cell = Tesr.VoxCell[i][j][k];
-                ut_array_1d_memcpy ((*pTD).ColData[id], 4, Tesr.CellOri[cell]);
+                ut_array_1d_memcpy ((*pTD).ColData[++id], 4, Tesr.CellOri[cell]);
               }
 	}
+	else
+	  ut_print_message (2, 3, "No orientation data available.\n");
       }
       else
       {

@@ -143,7 +143,7 @@ nev_data_id_colour (double **data, int size, int **Col)
   int palettesize, pos;
   ut_color_palette_0208 (&palette, &palettesize);
 
-#pragma omp parallel for
+#pragma omp parallel for private(pos,j)
   for (i = 1; i <= size; i++)
   {
     pos = ut_num_d2ri (data[i][0] - 1) % palettesize;
@@ -200,7 +200,7 @@ nev_data_ori_colour (double **data, int size, char *scheme, int **Col)
   double OL_S2m1 = OL_S2 - 1, TOL_S2m1 = 2 * (OL_S2 - 1);
 
   if (scheme == NULL || !strcmp (scheme, "R"))
-#pragma omp parallel for
+#pragma omp parallel for private(j)
     for (i = 1; i <= size; i++)
     {
       double *R = ol_R_alloc ();
