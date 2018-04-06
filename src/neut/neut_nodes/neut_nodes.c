@@ -601,6 +601,21 @@ neut_nodes_centre (struct NODES Nodes, double *centre)
 }
 
 void
+neut_nodes_bboxcentre (struct NODES Nodes, double *centre)
+{
+  int i;
+  double *bbox = ut_alloc_1d (6);
+
+  neut_nodes_bbox (Nodes, bbox);
+  for (i = 0; i < 3; i++)
+    centre[i] = .5 * (bbox[2 * i + 1] + bbox[2 * i]);
+
+  ut_free_1d (bbox);
+
+  return;
+}
+
+void
 neut_nodes_init_nodeslave (struct NODES *pNodes)
 {
   int i, master, slave;

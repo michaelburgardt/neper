@@ -155,6 +155,28 @@ net_domain (struct IN_T In, struct MTESS *pMTess, struct TESS *pDomain)
     neut_poly_centroid (Poly, coo);
     ut_free_2d (eq, qty);
   }
+  else if (!strcmp (domtype, "stdtriangle"))
+  {
+    qty = 10;
+    if (ut_string_nbwords (tmp) == 2)
+    {
+      if (sscanf (tmp, "%*s%s", sizestring[0]) != 1)
+        ut_print_message (2, 0, "Unknown expression `%s'.\n", In.domain);
+
+      ut_string_int (sizestring[0], &qty);
+    }
+    pseudodim = 2;
+    pseudosize = 1e-6;
+
+    qty += 4;
+
+    double **eq = ut_alloc_2d (qty, 4);
+
+    net_domain_stdtriangle_planes (qty - 4, eq);
+    net_domain_clip (&Poly, eq, qty);
+    neut_poly_centroid (Poly, coo);
+    ut_free_2d (eq, qty);
+  }
   else if (!strcmp (domtype, "sphere"))
   {
     qty = 100;

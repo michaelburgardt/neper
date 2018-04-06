@@ -143,6 +143,9 @@ or @samp{sphere(@var{diameter},@var{facet_nb})}.
 For a Rodrigues space fundamental region@comma{}
 provide @samp{rodrigues(@var{crysym})}@comma{}
 where @code{@var{crysym}} is the crystal symmetry (see @ref{Crystal Symmetries}).
+For a standard stereographic triangle@comma{}
+provide @samp{stdtriangle(@var{segment_nb})}@comma{}
+where @code{@var{segment_nb}} is the number of segments on the [011]--[111] line.
 For an arbitrary convex 3D shape@comma{}
 provide @samp{planes(@var{file_name})}@comma{}
 where @code{@var{file_name}} is the name of a file containing the
