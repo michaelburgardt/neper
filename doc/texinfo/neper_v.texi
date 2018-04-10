@@ -788,6 +788,9 @@ cube axes).
 For cylinder shape@comma{} @code{@var{var}} must be @samp{cyl} and the file
 must contain@comma{} for each point@comma{} the radius@comma{} the
 length@comma{} then the coordinates of the axis.
+For arrow shape@comma{} @code{@var{var}} must be @samp{arr} and the file
+must contain@comma{} for each point@comma{} the radius@comma{} the
+length@comma{} then the coordinates of the axis.
 For disc (2D) shape@comma{} @code{@var{var}} must be @samp{disc} and the file
 must contain@comma{} for each point@comma{} the radius@comma{}
 then the coordinates of the axis.
