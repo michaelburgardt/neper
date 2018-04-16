@@ -3,11 +3,11 @@
 /* See the COPYING file in the top-level directory. */
 
 #include"net_polycomp_poly_.h"
-#include<ANN/ANN.h>
+#include"neut/neut_structs/neut_nanoflann_struct.hpp"
 
 void
 net_polycomp_seed_tdyn (struct SEEDSET SSet, int id, int neighqty,
-			ANNkd_tree * kdTree, struct TDYN *pTD)
+                        NFTREE **pnf_tree, struct TDYN *pTD)
 {
   int i;
 
@@ -21,15 +21,19 @@ net_polycomp_seed_tdyn (struct SEEDSET SSet, int id, int neighqty,
   (*pTD).neighrefw[id] = SSet.SeedWeight[id];
   (*pTD).shift[id] = 0;
 
-  if (!strcmp ((*pTD).algoneigh, "ann"))
+  if (!strcmp ((*pTD).algoneigh, "nanoflann"))
   {
-    kdTree->annkSearch ((*pTD).neighrefcoo[id],
-			(*pTD).neighqty[id],
-			(*pTD).neighlist[id] + 1, (*pTD).neighdist[id] + 1, 0);
+    std::vector<size_t> ret_index((*pTD).neighqty[id]);
+    std::vector<double> out_dist_sqr((*pTD).neighqty[id]);
+    neighqty = (*pnf_tree)->knnSearch (&((*pTD).neighrefcoo[id][0]), (*pTD).neighqty[id],
+                &ret_index[0], &out_dist_sqr[0]);
 
-    // annkSearch returns the squared distances, so taking sqrt ()
     for (i = 1; i <= (*pTD).neighqty[id]; i++)
-      (*pTD).neighdist[id][i] = sqrt ((*pTD).neighdist[id][i]);
+      (*pTD).neighlist[id][i] = ret_index[i - 1];
+
+    // squared distances, so taking sqrt ()
+    for (i = 1; i <= (*pTD).neighqty[id]; i++)
+      (*pTD).neighdist[id][i] = sqrt (out_dist_sqr[i - 1]);
   }
 
   else if (!strcmp ((*pTD).algoneigh, "qsort"))

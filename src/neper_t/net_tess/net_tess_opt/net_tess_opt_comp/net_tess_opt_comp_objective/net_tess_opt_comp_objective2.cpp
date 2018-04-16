@@ -3,12 +3,12 @@
 /* See the COPYING file in the top-level directory. */
 
 #include "net_tess_opt_comp_objective_.h"
-#include<ANN/ANN.h>
+#include "neut/neut_structs/neut_nanoflann_struct.hpp"
 
 extern void net_polycomp (struct POLY Domain, struct SEEDSET SeedSet,
-			  ANNkd_tree ** pkdTree, struct POLY **pPoly,
-			  int *seed_changed, int seed_changedqty,
-			  struct TDYN *);
+                          NFCLOUD *pnf_cloud, NFTREE **pnf_index, struct POLY
+                          **pPoly, int *seed_changed, int seed_changedqty,
+                          struct TDYN *);
 
 void
 net_tess_opt_comp_objective_x_seedset (const double *x, struct TOPT *pTOpt)
@@ -67,7 +67,8 @@ net_tess_opt_comp_objective_poly (struct TOPT *pTOpt)
 
   ut_string_string ((char *) "custom", &((*pTOpt).SSet).weight);
 
-  ANNkd_tree *kdTree = NULL;
+  NFCLOUD nf_cloud;
+  NFTREE *nf_index = nullptr;
 
   neut_poly_set_zero (&DomPoly);
   if (!strcmp (((*pTOpt).SSet).Type, "standard"))
@@ -76,7 +77,7 @@ net_tess_opt_comp_objective_poly (struct TOPT *pTOpt)
     net_tess_poly ((*pTOpt).DomPer, 1, &DomPoly);
 
   net_polycomp (DomPoly, (*pTOpt).SSet,
-		&kdTree, &((*pTOpt).Poly),
+		&nf_cloud, &nf_index, &((*pTOpt).Poly),
 		(*pTOpt).TDyn.seedchanged, (*pTOpt).TDyn.seedchangedqty,
 		&((*pTOpt).TDyn));
 
@@ -96,8 +97,7 @@ net_tess_opt_comp_objective_poly (struct TOPT *pTOpt)
   }
   ut_array_1d_int_sort ((*pTOpt).cellchanged, (*pTOpt).cellchangedqty);
 
-  delete kdTree;
-  annClose ();
+  delete nf_index;
 
   neut_poly_free (&DomPoly);
 

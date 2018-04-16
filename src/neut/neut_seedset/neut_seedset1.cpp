@@ -3,6 +3,11 @@
 /* See the COPYING file in the top-level directory. */
 
 #include "neut_seedset_.h"
+#include "neut_structs/neut_nanoflann_struct.hpp"
+
+extern void neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD
+    *pnf_cloud);
+extern void neut_seedset_kdtree_build (NFCLOUD *pnf_cloud, NFTREE** pnf_tree);
 
 void
 neut_seedset_set_zero (struct SEEDSET *pSSet)
@@ -434,6 +439,16 @@ neut_seedset_bbox_size (struct SEEDSET SSet, double *psize)
              * (SSet.Size[0][1] - SSet.Size[0][0]);
   else
     abort ();
+
+  return;
+}
+
+void
+neut_seedset_kdtree (struct SEEDSET SSet, NFCLOUD *pnf_cloud,
+                     NFTREE **pnf_tree)
+{
+  neut_seedset_kdtree_cloud (SSet, pnf_cloud);
+  neut_seedset_kdtree_build (pnf_cloud, pnf_tree);
 
   return;
 }

@@ -3,7 +3,6 @@
 /* See the COPYING file in the top-level directory. */
 
 #include "net_tess_opt_comp_objective_fval_.h"
-#include<ANN/ANN.h>
 
 
 double

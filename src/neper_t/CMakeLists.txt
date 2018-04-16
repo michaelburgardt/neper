@@ -5,6 +5,14 @@
 cmake_minimum_required(VERSION 2.8)
 project(neper_t)
 
+# for nanoflann =======
+if (CMAKE_VERSION VERSION_LESS "3.1")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+else ()
+    set (CMAKE_CXX_STANDARD 11)
+endif ()
+add_definitions(-Wno-deprecated-declarations)
+
 option (HAVE_GSL         "Use the GNU Scientific Library (GSL)" ON )
 option (HAVE_NLOPT       "Use NLopt"                            ON )
 option (HAVE_LIBSCOTCH   "Use libscotch"                        OFF)
@@ -15,8 +23,6 @@ option (DEVEL_DEBUGGING_FLAG "Enable debugging compilation flag (OFF for product
 option (DEVEL_PROFILING   "Enable profiling (OFF for production use)" OFF)
 
 include_directories("${PROJECT_BINARY_DIR}")
-include_directories("${PROJECT_BINARY_DIR}/contrib/ann")
-include_directories("${PROJECT_SOURCE_DIR}/contrib/ann")
 
 add_definitions(-Wall -W)
 if (DEVEL_OPTIMIZATION)
@@ -168,7 +174,6 @@ add_library (neper_t
 set (EXTRA_LIBS ${EXTRA_LIBS} ut)
 set (EXTRA_LIBS ${EXTRA_LIBS} neut)
 set (EXTRA_LIBS ${EXTRA_LIBS} orilib)
-set (EXTRA_LIBS ${EXTRA_LIBS} ann)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 

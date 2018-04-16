@@ -3,6 +3,7 @@
 /* See the COPYING file in the top-level directory. */
 
 #include "neut_seedset_.h"
+#include "neut_structs/neut_nanoflann_struct.hpp"
 
 void
 neut_seedset_memcpy_general (struct SEEDSET SSetA, struct SEEDSET *pSSetB)
@@ -117,6 +118,30 @@ neut_seedset_memcpy_periodic (struct SEEDSET SSetA, struct SEEDSET *pSSetB)
 			      SSetA.PerSeedSlaveNb[i] + 1);
     }
   }
+
+  return;
+}
+
+void
+neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD *pnf_cloud)
+{
+  int i, j;
+
+  (*pnf_cloud).pts.resize (SSet.Nall);
+
+  for (i = 0; i < SSet.Nall; i++)
+    for (j = 0; j < 3; j++)
+      (*pnf_cloud).pts[i].p[j] = SSet.SeedCoo[i + 1][j];
+
+  return;
+}
+
+void
+neut_seedset_kdtree_build (NFCLOUD *pnf_cloud, NFTREE** pnf_tree)
+{
+  (*pnf_tree) = new NFTREE (3, *pnf_cloud);
+                      // KDTreeSingleIndexAdaptorParams (10 /* max leaf */ ));
+  (*pnf_tree)->buildIndex ();
 
   return;
 }
