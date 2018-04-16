@@ -4,9 +4,13 @@
 
 #include "net_tess3d_.h"
 #include<ANN/ANN.h>
+#include"neut/neut_structs/neut_nanoflann_struct.hpp"
+// #include"contrib/nanoflann/nanoflann.hpp"
 
 extern void net_polycomp (struct POLY Domain, struct SEEDSET SeedSet,
-			  ANNkd_tree ** pkdTree, struct POLY **pPoly,
+			  ANNkd_tree ** pkdTree,
+                          NFCLOUD *pnf_cloud, NFTREE **pnf_index,
+                          struct POLY **pPoly,
 			  int *seed_changed, int seed_changedqty,
 			  struct TDYN *);
 
@@ -18,6 +22,8 @@ net_tess3d (struct TESS PTess, int poly, struct SEEDSET SSet,
   struct POLY DomPoly, *Poly = NULL;
   struct TDYN TD;
   ANNkd_tree *kdTree = NULL;
+  NFTREE *nf_index = nullptr;
+  NFCLOUD nf_cloud;
 
   neut_tess_set_zero (pTess);
 
@@ -27,7 +33,7 @@ net_tess3d (struct TESS PTess, int poly, struct SEEDSET SSet,
 
   net_tess_poly (PTess, poly, &DomPoly);
 
-  net_polycomp (DomPoly, SSet, &kdTree, &Poly, NULL, -1, &TD);
+  net_polycomp (DomPoly, SSet, &kdTree, &nf_cloud, &nf_index, &Poly, NULL, -1, &TD);
 
   net_polys_tess (PTess.Level + 1, SSet, TessId, Poly, pTess);
 
@@ -41,6 +47,7 @@ net_tess3d (struct TESS PTess, int poly, struct SEEDSET SSet,
   neut_tdyn_free (&TD);
 
   delete kdTree;
+  delete nf_index;
   annClose ();
 
   return 0;

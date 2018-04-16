@@ -4,9 +4,11 @@
 
 #include"net_polycomp_poly_.h"
 #include<ANN/ANN.h>
+#include"neut/neut_structs/neut_nanoflann_struct.hpp"
 
 extern void net_polycomp_seed_tdyn (struct SEEDSET SSet, int id,
 				    int, ANNkd_tree * kdTree,
+                                    NFTREE **pnf_tree,
 				    struct TDYN *pTD);
 
 /* net_polycomp_poly searches out the polyhedron associated
@@ -14,7 +16,8 @@ extern void net_polycomp_seed_tdyn (struct SEEDSET SSet, int id,
 */
 void
 net_polycomp_poly (struct POLY Domain, struct SEEDSET SSet,
-		   ANNkd_tree * kdTree, int id, struct POLY
+		   ANNkd_tree *kdTree,
+                   NFTREE **pnf_tree, int id, struct POLY
 		   *pPoly, struct TDYN *pTD)
 {
   int i, j, cutqty;
@@ -47,7 +50,7 @@ net_polycomp_poly (struct POLY Domain, struct SEEDSET SSet,
   if (!SSet.LamEq)
   {
     gettimeofday (&time, NULL);
-    net_polycomp_seed_tdyn (SSet, id, 100, kdTree, pTD);
+    net_polycomp_seed_tdyn (SSet, id, 100, kdTree, pnf_tree, pTD);
     (*pTD).cell_neigh_dur += ut_time_subtract (&time, NULL);
 
     for (i = 2; i <= SSet.Nall; i++)
@@ -58,7 +61,7 @@ net_polycomp_poly (struct POLY Domain, struct SEEDSET SSet,
       {
 	gettimeofday (&time, NULL);
 	net_polycomp_seed_tdyn (SSet, id, 2 * (*pTD).neighqty[id], kdTree,
-				pTD);
+                                pnf_tree, pTD);
 	(*pTD).cell_neigh_dur += ut_time_subtract (&time, NULL);
       }
 

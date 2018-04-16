@@ -4,9 +4,13 @@
 
 #include"net_polycomp_.h"
 #include<ANN/ANN.h>
+#include"neut/neut_structs/neut_nanoflann_struct.hpp"
+extern void neut_seedset_kdtree (struct SEEDSET SSet, NFCLOUD *pnf_cloud,
+    NFTREE **pnf_tree);
 
-void net_polycomp_cells_updatecell (struct POLY Domain, struct SEEDSET SSet,
-				    ANNkd_tree *pkdTree, int cell,
+extern void net_polycomp_cells_updatecell (struct POLY Domain, struct SEEDSET SSet,
+				    ANNkd_tree *pkdTree,
+                                    NFTREE **pnf_tree, int cell,
 				    struct POLY **pPoly, struct TDYN *pTD);
 
 void
@@ -38,15 +42,26 @@ net_polycomp_inittdyn (struct POLY Domain, struct SEEDSET SSet,
 
 void
 net_polycomp_kdtree (struct SEEDSET SSet, ANNkd_tree ** pkdTree,
-		     struct TDYN *pTD)
+		     NFCLOUD *pnf_cloud, NFTREE **pnf_tree,
+                     struct TDYN *pTD)
 {
   struct timeval time;
 
   gettimeofday (&time, NULL);
 
-  if ((*pTD).iter > 1 && *pkdTree)
-    delete *pkdTree;
-  (*pkdTree) = new ANNkd_tree (SSet.SeedCoo + 1, SSet.Nall, SSet.Dim);
+  if (!strcmp ((*pTD).algoneigh, "ann"))
+  {
+    if ((*pTD).iter > 1 && *pkdTree)
+      delete *pkdTree;
+    (*pkdTree) = new ANNkd_tree (SSet.SeedCoo + 1, SSet.Nall, SSet.Dim);
+  }
+
+  else if (!strcmp ((*pTD).algoneigh, "nanoflann"))
+  {
+    if ((*pTD).iter > 1 && *pnf_tree)
+      delete *pnf_tree;
+    neut_seedset_kdtree (SSet, pnf_cloud, pnf_tree);
+  }
 
   (*pTD).cell_kdtree_dur = ut_time_subtract (&time, NULL);
 
@@ -110,8 +125,9 @@ net_polycomp_updatedseeds (struct SEEDSET SSet, struct TDYN *pTD,
 
 void
 net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
-                    ANNkd_tree *pkdTree, int *updatedseeds, int updatedseedqty,
-		    struct TDYN *pTD, struct POLY **pPoly)
+                    ANNkd_tree *pkdTree,
+                    NFTREE **pnf_tree, int *updatedseeds, int updatedseedqty,
+                    struct TDYN *pTD, struct POLY **pPoly)
 {
   int i;
   int oldneighqty, *oldneighs = NULL;
@@ -126,7 +142,7 @@ net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
   // them, but the current implementation is robust and kept simple.
   if ((*pTD).domcellqty == 1)
     for (i = 1; i <= SSet.N; i++)
-      net_polycomp_cells_updatecell (Domain, SSet, pkdTree, i, pPoly, pTD);
+      net_polycomp_cells_updatecell (Domain, SSet, pkdTree, pnf_tree, i, pPoly, pTD);
 
   // Recording old neighs of updatedseeds
   neut_polys_neighpolys (*pPoly, SSet, updatedseeds, updatedseedqty,
@@ -134,7 +150,7 @@ net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
 
   // Updating cells of updatedseeds
   for (i = 0; i < updatedseedqty; i++)
-    net_polycomp_cells_updatecell (Domain, SSet, pkdTree,
+    net_polycomp_cells_updatecell (Domain, SSet, pkdTree, pnf_tree,
 				   updatedseeds[i], pPoly, pTD);
 
   // Recording new neighs of updatedseeds
@@ -143,25 +159,25 @@ net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
 
   // Updating old first-neighbours of updatedseeds
   for (i = 0; i < oldneighqty; i++)
-    net_polycomp_cells_updatecell (Domain, SSet, pkdTree, oldneighs[i],
+    net_polycomp_cells_updatecell (Domain, SSet, pkdTree, pnf_tree, oldneighs[i],
 				   pPoly, pTD);
 
   // Updating new first-neighbours of updatedseeds
   for (i = 0; i < newneighqty; i++)
-    net_polycomp_cells_updatecell (Domain, SSet, pkdTree, newneighs[i],
+    net_polycomp_cells_updatecell (Domain, SSet, pkdTree, pnf_tree, newneighs[i],
 				   pPoly, pTD);
 
   // Updating second-and-more-neighbours of updateseeds (changedneighs)
   // We start from the second-neighbours, but third-and-more-neighbours
   // may be added to changedneighs along the way.
   for (i = 0; i < (*pTD).changedneighqty; i++)
-    net_polycomp_cells_updatecell (Domain, SSet, pkdTree,
+    net_polycomp_cells_updatecell (Domain, SSet, pkdTree, pnf_tree,
 				   (*pTD).changedneighs[i], pPoly, pTD);
 
   // If a cell is the full domain, updating all cells
   if ((*pTD).domcellqty == 1)
     for (i = 1; i <= SSet.N; i++)
-      net_polycomp_cells_updatecell (Domain, SSet, pkdTree, i, pPoly, pTD);
+      net_polycomp_cells_updatecell (Domain, SSet, pkdTree, pnf_tree, i, pPoly, pTD);
 
   // Free'ing memory
   ut_free_1d_int (oldneighs);

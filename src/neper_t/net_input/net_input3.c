@@ -18,7 +18,7 @@ net_input_options_default (struct IN_T *pIn)
   ut_string_string ("voronoi", &(*pIn).morphostring);
   ut_string_string ("default", &(*pIn).morphooptialgostring);
   ut_string_string ("default", &(*pIn).morphooptiinistring);
-  ut_string_string ("ann", &(*pIn).morphooptialgoneighstring);
+  ut_string_string ("nanoflann", &(*pIn).morphooptialgoneighstring);
   ut_string_string ("max(varnb,1000)", &(*pIn).morphooptialgomaxiterstring);
   ut_string_string ("default", &(*pIn).morphooptiobjectivestring);
   ut_string_string ("default", &(*pIn).morphooptigridstring);
