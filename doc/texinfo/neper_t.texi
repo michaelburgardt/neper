@@ -512,11 +512,11 @@ any, subplex@SEPNODEP{}praxis (lloyd for @option{-morpho centroidal})}
 
 @optsec{-morphooptialgoneigh, char_string,
 Specify the neighbour search algorithm. The available values are
-@samp{ann} (ANN) and
-@samp{qsort} (direct computation with qsort).  @samp{ann} is much
+@samp{nanoflann} (nanoflann) and
+@samp{qsort} (direct computation with qsort).  @samp{nanoflann} is much
 faster.
 ,
-any, ann}
+any, nanoflann}
 
 @optsec{-morphooptigrid, char_string,
 Specify the grids used to discretize the distributions. Provide the values using the syntax

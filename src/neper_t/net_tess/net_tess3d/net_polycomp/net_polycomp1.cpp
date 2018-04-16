@@ -3,18 +3,16 @@
 /* See the COPYING file in the top-level directory. */
 
 #include"net_polycomp_.h"
-#include<ANN/ANN.h>
 #include"neut/neut_structs/neut_nanoflann_struct.hpp"
 
 extern void net_polycomp_poly (struct POLY Domain, struct SEEDSET SSet,
-				   ANNkd_tree * kdTree, int PolyId,
+				   NFTREE **pnf_tree, int PolyId,
 				   struct POLY *pPoly, struct TDYN *pTD);
-extern void net_polycomp_kdtree (struct SEEDSET SSet, ANNkd_tree **
-				 pkdTree, NFCLOUD *pnf_cloud, NFTREE **pnf_tree,
+extern void net_polycomp_kdtree (struct SEEDSET SSet,
+				 NFCLOUD *pnf_cloud, NFTREE **pnf_tree,
                                  struct TDYN *pTD);
 extern void net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
-				ANNkd_tree *pkdTree, NFTREE **pnf_tree,
-                                int *updatedseeds,
+				NFTREE **pnf_tree, int *updatedseeds,
 				int updatedcellqty, struct TDYN *pTD,
 				struct POLY **pPoly);
 
@@ -23,7 +21,6 @@ extern void net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
  */
 void
 net_polycomp (struct POLY Domain, struct SEEDSET SSet,
-	      ANNkd_tree **pkdTree,
               NFCLOUD *pnf_cloud, NFTREE **pnf_tree,
               struct POLY **pPoly,
 	      int *updatedseeds_in, int updatedseedqty_in,
@@ -44,7 +41,7 @@ net_polycomp (struct POLY Domain, struct SEEDSET SSet,
   // Computing KD tree -------------------------------------------------
 
   if (strcmp ((*pTD).algoneigh, "qsort"))
-    net_polycomp_kdtree (SSet, pkdTree, pnf_cloud, pnf_tree, pTD);
+    net_polycomp_kdtree (SSet, pnf_cloud, pnf_tree, pTD);
 
   // Computing shifts --------------------------------------------------
 
@@ -57,7 +54,7 @@ net_polycomp (struct POLY Domain, struct SEEDSET SSet,
 
   // Calculating cells -------------------------------------------------
 
-  net_polycomp_cells (Domain, SSet, *pkdTree, pnf_tree,
+  net_polycomp_cells (Domain, SSet, pnf_tree,
                       updatedseeds, updatedseedqty, pTD, pPoly);
 
   // Closing ----------------------------------------------------------

@@ -23,8 +23,6 @@ option (DEVEL_DEBUGGING_FLAG "Enable debugging compilation flag (OFF for product
 option (DEVEL_PROFILING   "Enable profiling (OFF for production use)" OFF)
 
 include_directories("${PROJECT_BINARY_DIR}")
-include_directories("${PROJECT_BINARY_DIR}/contrib/ann")
-include_directories("${PROJECT_SOURCE_DIR}/contrib/ann")
 
 add_definitions(-Wall -W)
 if (DEVEL_OPTIMIZATION)
@@ -176,7 +174,6 @@ add_library (neper_t
 set (EXTRA_LIBS ${EXTRA_LIBS} ut)
 set (EXTRA_LIBS ${EXTRA_LIBS} neut)
 set (EXTRA_LIBS ${EXTRA_LIBS} orilib)
-set (EXTRA_LIBS ${EXTRA_LIBS} ann)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 

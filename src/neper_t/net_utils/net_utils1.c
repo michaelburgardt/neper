@@ -757,7 +757,7 @@ net_pts_convexhull (double **coos, int qty, int dim, struct NODES *pN, struct ME
   net_poly_tess (DomPoly, coo, &Dom);
   ut_string_string ("cube", &Dom.DomType);
 
-  net_tess3d (Dom, 1, SSet, "ann", 1, NULL, &Tess);
+  net_tess3d (Dom, 1, SSet, "nanoflann", 1, NULL, &Tess);
   neut_tess_init_domain_poly (&Tess, Dom, 1, NULL, NULL, NULL);
   if (dim == 2)
   {
