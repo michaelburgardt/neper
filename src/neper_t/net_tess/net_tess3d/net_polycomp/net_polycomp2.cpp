@@ -131,6 +131,7 @@ net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
   // below steps or setting other cells to void instead of computing
   // them, but the current implementation is robust and kept simple.
   if ((*pTD).domcellqty == 1)
+#pragma omp parallel for schedule(dynamic)
     for (i = 1; i <= SSet.N; i++)
       net_polycomp_cells_updatecell (Domain, SSet, pnf_tree, i, pPoly, pTD);
 
@@ -139,6 +140,7 @@ net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
 			 &oldneighs, &oldneighqty);
 
   // Updating cells of updatedseeds
+#pragma omp parallel for schedule(dynamic)
   for (i = 0; i < updatedseedqty; i++)
     net_polycomp_cells_updatecell (Domain, SSet, pnf_tree,
 				   updatedseeds[i], pPoly, pTD);
@@ -148,11 +150,13 @@ net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
 			 &newneighs, &newneighqty);
 
   // Updating old first-neighbours of updatedseeds
+#pragma omp parallel for schedule(dynamic)
   for (i = 0; i < oldneighqty; i++)
     net_polycomp_cells_updatecell (Domain, SSet, pnf_tree, oldneighs[i],
 				   pPoly, pTD);
 
   // Updating new first-neighbours of updatedseeds
+#pragma omp parallel for schedule(dynamic)
   for (i = 0; i < newneighqty; i++)
     net_polycomp_cells_updatecell (Domain, SSet, pnf_tree, newneighs[i],
 				   pPoly, pTD);
@@ -160,12 +164,14 @@ net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
   // Updating second-and-more-neighbours of updateseeds (changedneighs)
   // We start from the second-neighbours, but third-and-more-neighbours
   // may be added to changedneighs along the way.
+#pragma omp parallel for schedule(dynamic)
   for (i = 0; i < (*pTD).changedneighqty; i++)
     net_polycomp_cells_updatecell (Domain, SSet, pnf_tree,
 				   (*pTD).changedneighs[i], pPoly, pTD);
 
   // If a cell is the full domain, updating all cells
   if ((*pTD).domcellqty == 1)
+#pragma omp parallel for schedule(dynamic)
     for (i = 1; i <= SSet.N; i++)
       net_polycomp_cells_updatecell (Domain, SSet, pnf_tree, i, pPoly, pTD);
 
