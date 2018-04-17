@@ -119,6 +119,9 @@ neut_topt_set_zero (struct TOPT *pTOpt)
 
   gettimeofday (&((*pTOpt).end_time), NULL);
 
+  (*pTOpt).pnf_cloud = NULL;
+  (*pTOpt).pnf_tree = NULL;
+
   return;
 }
 

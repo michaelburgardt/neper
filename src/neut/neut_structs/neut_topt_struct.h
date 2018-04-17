@@ -164,8 +164,11 @@ struct TOPT
 
   struct TDYN TDyn;		// tessellation dynamics
 #ifdef HAVE_NLOPT
-  nlopt_opt opt;		/// NLopt object
+  nlopt_opt opt;		// NLopt object
 #endif
+
+  void *pnf_cloud;              // pointer to the nanoflann cloud
+  void *pnf_tree;               // pointer to the nanoflann tree
 };
 typedef struct TOPT TOPT;
 

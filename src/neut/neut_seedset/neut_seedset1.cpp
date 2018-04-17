@@ -8,6 +8,8 @@
 extern void neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD
     *pnf_cloud);
 extern void neut_seedset_kdtree_build (NFCLOUD *pnf_cloud, NFTREE** pnf_tree);
+extern void neut_seedset_kdtree_update (NFCLOUD *pnf_cloud, int* seedchangedqty, int seedchanged,
+                                        NFTREE** pnf_tree);
 
 void
 neut_seedset_set_zero (struct SEEDSET *pSSet)
@@ -449,6 +451,20 @@ neut_seedset_kdtree (struct SEEDSET SSet, NFCLOUD *pnf_cloud,
 {
   neut_seedset_kdtree_cloud (SSet, pnf_cloud);
   neut_seedset_kdtree_build (pnf_cloud, pnf_tree);
+
+  return;
+}
+
+void
+neut_seedset_kdtree_update (struct SEEDSET SSet, int *seedchanged,
+                            int seedchangedqty, NFCLOUD *pnf_cloud,
+                            NFTREE **pnf_tree)
+{
+  (void) seedchanged;
+  (void) seedchangedqty;
+  (void) pnf_tree;
+
+  neut_seedset_kdtree (SSet, pnf_cloud, pnf_tree);
 
   return;
 }

@@ -139,6 +139,33 @@ neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD *pnf_cloud)
 void
 neut_seedset_kdtree_build (NFCLOUD *pnf_cloud, NFTREE** pnf_tree)
 {
+  if (*pnf_tree)
+    delete *pnf_tree;
+  (*pnf_tree) = new NFTREE (3, *pnf_cloud);
+                      // KDTreeSingleIndexAdaptorParams (10 /* max leaf */ ));
+  (*pnf_tree)->buildIndex ();
+
+  return;
+}
+
+void
+neut_seedset_kdtree_update_cloud (struct SEEDSET SSet, int *seedchanged,
+                                  int seedchangedqty, NFCLOUD *pnf_cloud)
+{
+  for (int i = 0; i < seedchangedqty; i++)
+    ut_array_1d_memcpy ((*pnf_cloud).pts[seedchanged[i]].p, 3,
+                        SSet.SeedCoo[seedchanged[i] + 1]);
+
+  return;
+}
+
+void
+neut_seedset_kdtree_update (NFCLOUD *pnf_cloud, int *seedchanged,
+                            int seedchangedqty, NFTREE** pnf_tree)
+{
+  (void) seedchanged;
+  (void) seedchangedqty;
+
   (*pnf_tree) = new NFTREE (3, *pnf_cloud);
                       // KDTreeSingleIndexAdaptorParams (10 /* max leaf */ ));
   (*pnf_tree)->buildIndex ();

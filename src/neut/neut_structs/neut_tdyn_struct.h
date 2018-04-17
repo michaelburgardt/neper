@@ -40,6 +40,8 @@ extern "C"
     int varchangedqty;		// number of changed seed variables
     int seedchangedqty;		// current number of changed seeds
     int *seedchanged;		// current changed seeds
+    int seedmovedqty;		// current number of moved seeds
+    int *seedmoved;		// current moved seeds
     int cellchangedqty;		// current number of changed cells
     int *cellchanged;		// current changed cells
 

@@ -22,6 +22,8 @@ neut_tdyn_set_zero (struct TDYN *pTD)
   (*pTD).varchangedqty = 0;
   (*pTD).seedchangedqty = 0;
   (*pTD).seedchanged = NULL;
+  (*pTD).seedmovedqty = 0;
+  (*pTD).seedmoved = NULL;
   (*pTD).cellchangedqty = 0;
   (*pTD).cellchanged = NULL;
   (*pTD).cellvoidqty = 0;

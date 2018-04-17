@@ -6,6 +6,9 @@
 #include"neut/neut_structs/neut_nanoflann_struct.hpp"
 extern void neut_seedset_kdtree (struct SEEDSET SSet, NFCLOUD *pnf_cloud,
     NFTREE **pnf_tree);
+extern void neut_seedset_kdtree_update (struct SEEDSET SSet, int *seedchanged,
+                                        int seedchangedqty, NFCLOUD *pnf_cloud,
+                                        NFTREE **pnf_tree);
 
 extern void net_polycomp_cells_updatecell (struct POLY Domain, struct SEEDSET SSet,
                                     NFTREE **pnf_tree, int cell,
@@ -49,9 +52,11 @@ net_polycomp_kdtree (struct SEEDSET SSet,
 
   if (!strcmp ((*pTD).algoneigh, "nanoflann"))
   {
-    if ((*pTD).iter > 1 && *pnf_tree)
-      delete *pnf_tree;
-    neut_seedset_kdtree (SSet, pnf_cloud, pnf_tree);
+    if ((*pTD).iter == 1)
+      neut_seedset_kdtree (SSet, pnf_cloud, pnf_tree);
+    else if ((*pTD).seedmovedqty > 0)
+      neut_seedset_kdtree_update (SSet, (*pTD).seedmoved, (*pTD).seedmovedqty,
+                                  pnf_cloud, pnf_tree);
   }
 
   (*pTD).cell_kdtree_dur = ut_time_subtract (&time, NULL);
