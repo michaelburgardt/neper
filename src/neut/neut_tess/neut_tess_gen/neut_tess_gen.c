@@ -1736,7 +1736,7 @@ neut_tess_dom_pt_randpt_test (struct TESS Dom, struct POINT Point,
   double *ptcoo = ut_alloc_1d (3);
 
   status = 0;
-  if (Dom.FaceQty > 0 && neut_tess_point_inpoly (Dom, coo, 1) == 0)
+  if (Dom.FaceQty > 0 && neut_tess_point_inpoly_std (Dom, coo, 1) == 0)
     status = -2;
 
   else if (pdist)

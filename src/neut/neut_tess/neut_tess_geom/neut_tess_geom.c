@@ -803,62 +803,26 @@ neut_tess_centre (struct TESS Tess, double *centre)
 int
 neut_tess_point_inpoly_std (struct TESS Tess, double *coo, int nb)
 {
-  int i, j, status;
-  int *per = ut_alloc_1d_int (3);
-  double *faceeq = ut_alloc_1d (4);
-  double *coob = ut_alloc_1d (3);
-  int *Periodic = ut_alloc_1d_int (3);
-  double *PeriodicDist = ut_alloc_1d (3);
+  int i;
+  double coob[3];
+
+  ut_array_1d_memcpy (coob, 3, coo);
 
   if (Tess.Periodic)
-    ut_array_1d_int_memcpy (Periodic, 3, Tess.Periodic);
-  if (Tess.PeriodicDist)
-    ut_array_1d_memcpy (PeriodicDist, 3, Tess.PeriodicDist);
-
-  status = 0;
-  for (per[0] = -Periodic[0]; per[0] <= Periodic[0]; per[0]++)
-  {
-    for (per[1] = -Periodic[1]; per[1] <= Periodic[1]; per[1]++)
-    {
-      for (per[2] = -Periodic[2]; per[2] <= Periodic[2]; per[2]++)
+    for (i = 0; i < 3; i++)
+      if (Tess.Periodic[i])
       {
-	for (j = 0; j < 3; j++)
-	  coob[j] = coo[j] + per[j] * PeriodicDist[j];
-
-	status = 1;
-	for (i = 1; i <= Tess.PolyFaceQty[nb]; i++)
-	{
-	  for (j = 0; j < 4; j++)
-	    faceeq[j] =
-	      (double) Tess.PolyFaceOri[nb][i] *
-	      Tess.FaceEq[Tess.PolyFaceNb[nb][i]][j];
-
-	  if (ut_space_planeside_tol (faceeq, coob - 1, 1e-12) > 0)
-	  {
-	    status = 0;
-	    break;
-	  }
-	}
-
-	if (status)
-	  break;
+        coob[i] = fmod (coo[i], Tess.PeriodicDist[i]);
+        if (coob[i] < 0)
+          coob[i] += Tess.PeriodicDist[i];
       }
 
-      if (status)
-	break;
-    }
+  for (i = 1; i <= Tess.PolyFaceQty[nb]; i++)
+    if (Tess.PolyFaceOri[nb][i] *
+        ut_space_planeside_tol (Tess.FaceEq[Tess.PolyFaceNb[nb][i]], coob - 1, 1e-12) > 0)
+      return 0;
 
-    if (status)
-      break;
-  }
-
-  ut_free_1d (faceeq);
-  ut_free_1d_int (per);
-  ut_free_1d (coob);
-  ut_free_1d_int (Periodic);
-  ut_free_1d (PeriodicDist);
-
-  return status;
+  return 1;
 }
 
 int
