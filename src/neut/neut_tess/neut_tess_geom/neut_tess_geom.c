@@ -804,22 +804,22 @@ int
 neut_tess_point_inpoly_std (struct TESS Tess, double *coo, int nb)
 {
   int i;
-  double coob[3];
+  double coob[4];
 
-  ut_array_1d_memcpy (coob, 3, coo);
+  ut_array_1d_memcpy (coob + 1, 3, coo);
 
   if (Tess.Periodic)
     for (i = 0; i < 3; i++)
       if (Tess.Periodic[i])
       {
-        coob[i] = fmod (coo[i], Tess.PeriodicDist[i]);
-        if (coob[i] < 0)
-          coob[i] += Tess.PeriodicDist[i];
+        coob[i + 1] = fmod (coo[i], Tess.PeriodicDist[i]);
+        if (coob[i + 1] < 0)
+          coob[i + 1] += Tess.PeriodicDist[i];
       }
 
   for (i = 1; i <= Tess.PolyFaceQty[nb]; i++)
     if (Tess.PolyFaceOri[nb][i] *
-        ut_space_planeside_tol (Tess.FaceEq[Tess.PolyFaceNb[nb][i]], coob - 1, 1e-12) > 0)
+        ut_space_planeside_tol (Tess.FaceEq[Tess.PolyFaceNb[nb][i]], coob, 1e-12) > 0)
       return 0;
 
   return 1;
