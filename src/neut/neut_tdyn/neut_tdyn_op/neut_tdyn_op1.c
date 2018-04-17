@@ -52,6 +52,10 @@ neut_tdyn_set_zero (struct TDYN *pTD)
   (*pTD).var_dur = 0;
   (*pTD).seed_dur = 0;
   (*pTD).val_dur = 0;
+  (*pTD).val_init_dur = 0;
+  (*pTD).val_penalty_dur = 0;
+  (*pTD).val_val_dur = 0;
+  (*pTD).val_comp_dur = 0;
   (*pTD).total_dur = 0;
   (*pTD).cumtotal_dur = 0;
 

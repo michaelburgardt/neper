@@ -97,6 +97,10 @@ extern "C"
     double var_dur;			// x-filling duration
     double seed_dur;			// seedset-filling duration
     double val_dur;			// objective-function-value-computation duration
+    double val_init_dur;                //
+    double val_penalty_dur;             //
+    double val_val_dur;                 //
+    double val_comp_dur;                //
     double total_dur;			// total duration
     double cumtotal_dur;	        // cumulative total duration
   };

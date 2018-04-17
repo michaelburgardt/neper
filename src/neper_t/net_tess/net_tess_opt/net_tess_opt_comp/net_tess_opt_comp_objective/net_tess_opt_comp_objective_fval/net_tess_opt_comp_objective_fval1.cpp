@@ -9,13 +9,19 @@ double
 net_tess_opt_comp_objective_fval (struct TOPT *pTOpt)
 {
   int i;
+  struct timeval t1, t2, t3, t4, t5;
+
+  gettimeofday (&t1, NULL);
 
   // Initializing problem & computing penalties ------------------------
   net_tess_opt_comp_objective_fval_init (pTOpt);
 
-  // updating penalties for changed cells
+  gettimeofday (&t2, NULL);
 
+  // updating penalties for changed cells
   net_tess_opt_comp_objective_fval_cellpenalty (pTOpt);
+
+  gettimeofday (&t3, NULL);
 
   // Computing curcellval and curval -----------------------------------
   for (i = 0; i < (*pTOpt).tarqty; i++)
@@ -26,8 +32,17 @@ net_tess_opt_comp_objective_fval (struct TOPT *pTOpt)
       net_tess_opt_comp_objective_fval_gen (pTOpt, i);
   }
 
+  gettimeofday (&t4, NULL);
+
   // Computing objval --------------------------------------------------
   net_tess_opt_comp_objective_fval_comp (pTOpt);
+
+  gettimeofday (&t5, NULL);
+
+  (*pTOpt).TDyn.val_init_dur = ut_time_subtract (&t1, &t2);
+  (*pTOpt).TDyn.val_penalty_dur = ut_time_subtract (&t2, &t3);
+  (*pTOpt).TDyn.val_val_dur = ut_time_subtract (&t3, &t4);
+  (*pTOpt).TDyn.val_comp_dur = ut_time_subtract (&t4, &t5);
 
   return (*pTOpt).objval;
 }
