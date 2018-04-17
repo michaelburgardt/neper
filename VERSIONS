@@ -1,4 +1,4 @@
-New in 3.1.2-38-multithreading (17 Apr 2018):
+New in 3.1.2-39-tree_update (17 Apr 2018):
 - module -T: included multithreading, improved -morpho, added -morpho
   centroidtol, improved -morphooptiobjective, improved -transform crop, fixed
   -n from_morpho, added -transform addbuffer, renamed -datarpt* into -datavox*,

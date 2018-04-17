@@ -25,8 +25,13 @@ net_polycomp_cells_updatecell (struct POLY Domain, struct SEEDSET SSet,
                                NFTREE **pnf_tree, int cell,
 			       struct POLY **pPoly, struct TDYN *pTD)
 {
-  if (ut_array_1d_int_eltpos ((*pTD).cellchanged, (*pTD).cellchangedqty,
-			      cell) == -1)
+  int eltpos;
+
+#pragma omp critical
+  eltpos = ut_array_1d_int_eltpos ((*pTD).cellchanged, (*pTD).cellchangedqty,
+                                   cell);
+
+  if (eltpos == -1)
     net_polycomp_poly (Domain, SSet, pnf_tree, cell, (*pPoly) + cell, pTD);
 
   return;
