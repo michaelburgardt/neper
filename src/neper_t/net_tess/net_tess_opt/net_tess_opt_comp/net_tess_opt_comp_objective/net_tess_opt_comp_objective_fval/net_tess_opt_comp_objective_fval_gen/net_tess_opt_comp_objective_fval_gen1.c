@@ -9,6 +9,7 @@ net_tess_opt_comp_objective_fval_gen (struct TOPT *pTOpt, int var)
 {
   int i, cell;
 
+#pragma omp parallel for private(cell) schedule(dynamic)
   for (i = 0; i < (*pTOpt).cellchangedqty; i++)
   {
     cell = (*pTOpt).cellchanged[i];

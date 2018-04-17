@@ -76,14 +76,17 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_gen_legacy (struct TOPT *pTOp
   ut_array_1d_zero ((*pTOpt).curpdf[var].y,
 		    (*pTOpt).curpdf[var].size);
 
+#pragma omp parallel for private(i)
   for (j = 1; j <= (*pTOpt).CellQty; j++)
   {
     if ((*pTOpt).curcellpenalty[j] == 0)
       for (i = 0; i < (*pTOpt).curpdf[var].size; i++)
+#pragma omp atomic
 	(*pTOpt).curpdf[var].y[i] +=
 	  ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 		       (*pTOpt).curcellval[var][j][0]) / (*pTOpt).CellQty;
     else
+#pragma omp atomic
       (*pTOpt).curpenalty[var] += (*pTOpt).curcellpenalty[j];
   }
 
@@ -98,6 +101,7 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *p
   int i, j, cell;
   double val;
 
+#pragma omp parallel for private(i,cell,val) schedule(dynamic)
   for (j = 0; j < (*pTOpt).cellchangedqty; j++)
   {
     cell = (*pTOpt).cellchanged[j];
@@ -109,6 +113,7 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *p
 	val = ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 			   (*pTOpt).oldcellval[var][cell][0])
 			  / (*pTOpt).CellQty;
+#pragma omp atomic
 	(*pTOpt).curpdf[var].y[i] -= val;
 
 	// if we have passed the nominal value and the function has
@@ -126,6 +131,7 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *p
 	val = ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 			   (*pTOpt).curcellval[var][cell][0])
 			  / (*pTOpt).CellQty;
+#pragma omp atomic
 	(*pTOpt).curpdf[var].y[i] += val;
 
 	// if we have passed the nominal value and the function has
@@ -134,6 +140,7 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *p
 	    (*pTOpt).curcellval[var][cell][0] && val == 0)
 	  break;
       }
+#pragma omp atomic
     (*pTOpt).curpenalty[var] += (*pTOpt).curcellpenalty[cell];
   }
 
