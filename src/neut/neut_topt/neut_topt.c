@@ -122,6 +122,9 @@ neut_topt_set_zero (struct TOPT *pTOpt)
   (*pTOpt).pnf_cloud = NULL;
   (*pTOpt).pnf_tree = NULL;
 
+  (*pTOpt).ptid_seedid = NULL;
+  (*pTOpt).seedid_ptid = NULL;
+
   return;
 }
 

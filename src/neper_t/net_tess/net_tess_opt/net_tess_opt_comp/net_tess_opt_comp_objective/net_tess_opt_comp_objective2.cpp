@@ -6,7 +6,9 @@
 #include "neut/neut_structs/neut_nanoflann_struct.hpp"
 
 extern void net_polycomp (struct POLY Domain, struct SEEDSET SeedSet,
-                          NFCLOUD *pnf_cloud, NFTREE **pnf_index, struct POLY
+                          NFCLOUD *pnf_cloud, NFTREE **pnf_index,
+                          int** pptid_seedid, int** pseedid_ptid,
+                          struct POLY
                           **pPoly, int *seed_changed, int seed_changedqty,
                           struct TDYN *);
 
@@ -84,6 +86,8 @@ net_tess_opt_comp_objective_poly (struct TOPT *pTOpt)
   net_polycomp (DomPoly, (*pTOpt).SSet,
 		(NFCLOUD *) (*pTOpt).pnf_cloud,
                 (NFTREE **) (*pTOpt).pnf_tree,
+                &(*pTOpt).ptid_seedid,
+                &(*pTOpt).seedid_ptid,
                 &(*pTOpt).Poly,
 		(*pTOpt).TDyn.seedchanged, (*pTOpt).TDyn.seedchangedqty,
 		&(*pTOpt).TDyn);

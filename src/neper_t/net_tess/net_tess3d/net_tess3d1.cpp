@@ -8,6 +8,7 @@
 
 extern void net_polycomp (struct POLY Domain, struct SEEDSET SeedSet,
                           NFCLOUD *pnf_cloud, NFTREE **pnf_index,
+                          int** pptid_seedid, int** pseedid_ptid,
                           struct POLY **pPoly,
 			  int *seed_changed, int seed_changedqty,
 			  struct TDYN *);
@@ -30,7 +31,7 @@ net_tess3d (struct TESS PTess, int poly, struct SEEDSET SSet,
 
   net_tess_poly (PTess, poly, &DomPoly);
 
-  net_polycomp (DomPoly, SSet, &nf_cloud, &nf_index, &Poly, NULL, -1, &TD);
+  net_polycomp (DomPoly, SSet, &nf_cloud, &nf_index, NULL, NULL, &Poly, NULL, -1, &TD);
 
   net_polys_tess (PTess.Level + 1, SSet, TessId, Poly, pTess);
 

@@ -7,14 +7,15 @@
 
 extern void net_polycomp_seed_tdyn (struct SEEDSET SSet, int id,
 				    int, NFTREE **pnf_tree,
-				    struct TDYN *pTD);
+				    int *ptid_seedid, struct TDYN *pTD);
 
 /* net_polycomp_poly searches out the polyhedron associated
 * to the considered seed.
 */
 void
 net_polycomp_poly (struct POLY Domain, struct SEEDSET SSet,
-                   NFTREE **pnf_tree, int id, struct POLY
+                   NFTREE **pnf_tree, int *ptid_seedid,
+                   int id, struct POLY
 		   *pPoly, struct TDYN *pTD)
 {
   int i, j, cutqty;
@@ -47,7 +48,7 @@ net_polycomp_poly (struct POLY Domain, struct SEEDSET SSet,
   if (!SSet.LamEq)
   {
     gettimeofday (&time, NULL);
-    net_polycomp_seed_tdyn (SSet, id, 100, pnf_tree, pTD);
+    net_polycomp_seed_tdyn (SSet, id, 100, pnf_tree, ptid_seedid, pTD);
 #pragma omp atomic
     (*pTD).cell_neigh_dur += ut_time_subtract (&time, NULL);
 
@@ -59,7 +60,7 @@ net_polycomp_poly (struct POLY Domain, struct SEEDSET SSet,
       {
 	gettimeofday (&time, NULL);
 	net_polycomp_seed_tdyn (SSet, id, 2 * (*pTD).neighqty[id],
-                                pnf_tree, pTD);
+                                pnf_tree, ptid_seedid, pTD);
 	(*pTD).cell_neigh_dur += ut_time_subtract (&time, NULL);
       }
 

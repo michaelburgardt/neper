@@ -169,6 +169,8 @@ struct TOPT
 
   void *pnf_cloud;              // pointer to the nanoflann cloud
   void *pnf_tree;               // pointer to the nanoflann tree
+  int *ptid_seedid;             // seed corresponding to a point of the cloud
+  int *seedid_ptid;             // point of the cloud corresponding to a seed
 };
 typedef struct TOPT TOPT;
 

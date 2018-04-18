@@ -123,15 +123,24 @@ neut_seedset_memcpy_periodic (struct SEEDSET SSetA, struct SEEDSET *pSSetB)
 }
 
 void
-neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD *pnf_cloud)
+neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD *pnf_cloud,
+                           int** pptid_seedid, int** pseedid_ptid)
 {
   int i;
 
   (*pnf_cloud).pts.resize (SSet.Nall);
+  if (pptid_seedid)
+    (*pptid_seedid) = ut_alloc_1d_int (SSet.Nall);
+  if (pseedid_ptid)
+    (*pseedid_ptid) = ut_alloc_1d_int (SSet.Nall + 1);
 
   for (i = 0; i < SSet.Nall; i++)
+  {
     ut_array_1d_memcpy ((*pnf_cloud).pts[i].p, 3,
                         SSet.SeedCoo[i + 1]);
+    (*pptid_seedid)[i] = i + 1;
+    (*pseedid_ptid)[i + 1] = i;
+  }
 
   return;
 }
@@ -142,32 +151,6 @@ neut_seedset_kdtree_tree (NFCLOUD *pnf_cloud, NFTREE** pnf_tree)
   if (*pnf_tree)
     delete *pnf_tree;
   (*pnf_tree) = new NFTREE (3, *pnf_cloud);
-
-  return;
-}
-
-void
-neut_seedset_kdtree_update_cloud (struct SEEDSET SSet, int *seedmoved,
-                                  int seedmovedqty, NFCLOUD *pnf_cloud)
-{
-  for (int i = 0; i < seedmovedqty; i++)
-    ut_array_1d_memcpy ((*pnf_cloud).pts[seedmoved[i] - 1].p, 3,
-                        SSet.SeedCoo[seedmoved[i]]);
-
-  return;
-}
-
-
-void
-neut_seedset_kdtree_update_tree (struct SEEDSET SSet,
-                                 NFCLOUD *pnf_cloud, int *seedmoved,
-                                 int seedmovedqty, NFTREE** pnf_tree)
-{
-  (void) seedmoved;
-  (void) seedmovedqty;
-  (void) SSet;
-
-  neut_seedset_kdtree_tree (pnf_cloud, pnf_tree);
 
   return;
 }
