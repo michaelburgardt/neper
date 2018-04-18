@@ -34,5 +34,5 @@ struct NFCLOUD
   }
 };
 
-typedef nanoflann::KDTreeSingleIndexAdaptor < nanoflann::L2_Simple_Adaptor < double, NFCLOUD >, NFCLOUD, 3
+typedef nanoflann::KDTreeSingleIndexDynamicAdaptor < nanoflann::L2_Simple_Adaptor < double, NFCLOUD >, NFCLOUD, 3
 > NFTREE;

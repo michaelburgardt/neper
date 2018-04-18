@@ -25,8 +25,9 @@ net_polycomp_seed_tdyn (struct SEEDSET SSet, int id, int neighqty,
   {
     std::vector<size_t> ret_index((*pTD).neighqty[id]);
     std::vector<double> out_dist_sqr((*pTD).neighqty[id]);
-    neighqty = (*pnf_tree)->knnSearch (&((*pTD).neighrefcoo[id][0]), (*pTD).neighqty[id],
-                &ret_index[0], &out_dist_sqr[0]);
+    nanoflann::KNNResultSet<double> resultSet((*pTD).neighqty[id]);
+    resultSet.init(&ret_index[0], &out_dist_sqr[0]);
+    (*pnf_tree)->findNeighbors(resultSet, &((*pTD).neighrefcoo[id][0]), nanoflann::SearchParams(INT_MAX));
 
     for (i = 1; i <= (*pTD).neighqty[id]; i++)
       (*pTD).neighlist[id][i] = ret_index[i - 1];
