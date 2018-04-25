@@ -20,6 +20,9 @@ net_tess_opt_comp_objective_fval_gen_size (struct TOPT *pTOpt, int var,
 		       (*pTOpt).CellSCellQty[cell],
 		       (*pTOpt).curcellval[var][cell]);
 
+  if ((*pTOpt).CellSize)
+    (*pTOpt).CellSize[cell] = (*pTOpt).curcellval[var][cell][0];
+
   (*pTOpt).curcellval[var][cell][0] /= (*pTOpt).tarrefval[var];
 
   return;
@@ -30,16 +33,26 @@ net_tess_opt_comp_objective_fval_gen_diameq (struct TOPT *pTOpt, int var,
 						int cell)
 {
   if ((*pTOpt).Dim == 2)
+  {
     neut_polys_diameq_2d ((*pTOpt).Poly,
 			  (*pTOpt).CellSCellList[cell],
 			  (*pTOpt).CellSCellQty[cell],
 			  ((*pTOpt).Dom).PseudoSize,
 			  (*pTOpt).curcellval[var][cell]);
+
+    if ((*pTOpt).CellSize)
+      (*pTOpt).CellSize[cell] = M_PI / 4 * pow ((*pTOpt).curcellval[var][cell][0], 2);
+  }
   else
+  {
     neut_polys_diameq ((*pTOpt).Poly,
 		       (*pTOpt).CellSCellList[cell],
 		       (*pTOpt).CellSCellQty[cell],
 		       (*pTOpt).curcellval[var][cell]);
+
+    if ((*pTOpt).CellSize)
+      (*pTOpt).CellSize[cell] = M_PI / 6 * pow ((*pTOpt).curcellval[var][cell][0], 3);
+  }
 
   (*pTOpt).curcellval[var][cell][0] /= (*pTOpt).tarrefval[var];
 
@@ -48,26 +61,45 @@ net_tess_opt_comp_objective_fval_gen_diameq (struct TOPT *pTOpt, int var,
 
 void
 net_tess_opt_comp_objective_fval_gen_sphericity (struct TOPT *pTOpt,
-						     int var, int cell)
+                                                 int var, int cell)
 {
   if ((*pTOpt).Dim == 2)
-    neut_polys_sphericity_2d ((*pTOpt).Poly,
-			      (*pTOpt).CellSCellList[cell],
-			      (*pTOpt).CellSCellQty[cell],
-			      ((*pTOpt).Dom).PseudoSize,
-			      (*pTOpt).curcellval[var][cell]);
+  {
+    if ((*pTOpt).CellSize)
+      neut_polys_size_sphericity_2d ((*pTOpt).Poly,
+                                     (*pTOpt).CellSCellList[cell],
+                                     (*pTOpt).CellSCellQty[cell],
+                                     (*pTOpt).CellSize[cell],
+                                     (*pTOpt).curcellval[var][cell]);
+    else
+      neut_polys_sphericity_2d ((*pTOpt).Poly,
+                                (*pTOpt).CellSCellList[cell],
+                                (*pTOpt).CellSCellQty[cell],
+                                ((*pTOpt).Dom).PseudoSize,
+                                (*pTOpt).curcellval[var][cell]);
+  }
+
   else
-    neut_polys_sphericity ((*pTOpt).Poly,
-			   (*pTOpt).CellSCellList[cell],
-			   (*pTOpt).CellSCellQty[cell],
-			   (*pTOpt).curcellval[var][cell]);
+  {
+    if ((*pTOpt).CellSize)
+      neut_polys_size_sphericity ((*pTOpt).Poly,
+                                  (*pTOpt).CellSCellList[cell],
+                                  (*pTOpt).CellSCellQty[cell],
+                                  (*pTOpt).CellSize[cell],
+                                  (*pTOpt).curcellval[var][cell]);
+    else
+      neut_polys_sphericity ((*pTOpt).Poly,
+                             (*pTOpt).CellSCellList[cell],
+                             (*pTOpt).CellSCellQty[cell],
+                             (*pTOpt).curcellval[var][cell]);
+  }
 
   return;
 }
 
 void
 net_tess_opt_comp_objective_fval_gen_convexity (struct TOPT *pTOpt,
-						    int var, int cell)
+                                                int var, int cell)
 {
   neut_polys_convexity ((*pTOpt).Poly,
 			(*pTOpt).CellSCellList[cell],

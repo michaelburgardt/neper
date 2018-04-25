@@ -8,7 +8,11 @@ void
 net_tess_opt_comp_objective_fval_gen (struct TOPT *pTOpt, int var)
 {
   int i, cell;
+  struct timeval t1, t2, t3;
 
+  gettimeofday (&t1, NULL);
+
+#pragma omp parallel for private(cell) schedule(dynamic)
   for (i = 0; i < (*pTOpt).cellchangedqty; i++)
   {
     cell = (*pTOpt).cellchanged[i];
@@ -39,6 +43,8 @@ net_tess_opt_comp_objective_fval_gen (struct TOPT *pTOpt, int var)
     }
   }
 
+  gettimeofday (&t2, NULL);
+
   if (!strcmp ((*pTOpt).tartype[var], "stat"))
     net_tess_opt_comp_objective_fval_gen_stat (pTOpt, var);
   else
@@ -49,6 +55,11 @@ net_tess_opt_comp_objective_fval_gen (struct TOPT *pTOpt, int var)
     printf ("(*pTOpt).curval[%d] is not-a-number.\n", var);
     ut_error_reportbug ();
   }
+
+  gettimeofday (&t3, NULL);
+
+  (*pTOpt).TDyn.val_val_cellval_dur += ut_time_subtract (&t1, &t2);
+  (*pTOpt).TDyn.val_val_comp_dur += ut_time_subtract (&t2, &t3);
 
 return;
 }

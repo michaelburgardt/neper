@@ -19,6 +19,10 @@ net_tess_opt_init_domain (struct IN_T In, struct TESS PTess, int cell,
 {
   (*pTOpt).Dim = In.dim;
   neut_tess_poly_tess (PTess, cell, &((*pTOpt).Dom));
+  net_tess_poly ((*pTOpt).Dom, 1, &(*pTOpt).DomPoly);
+  if (PTess.Level == 0 && !strcmp (PTess.DomType, "cube"))
+    ut_string_string ("cube", &(*pTOpt).DomType);
+
   if (ut_array_1d_int_sum (In.periodic, 3) > 0)
     net_tess_perdomain (In, PTess, cell, &((*pTOpt).DomPer));
 
@@ -522,6 +526,9 @@ net_tess_opt_init_target (struct IN_T In, struct MTESS MTess,
 
     if (strcmp ((*pTOpt).tarvar[i], "tesr") && (*pTOpt).tarcellvalqty[i] == 0)
       abort ();
+
+    if (!strcmp ((*pTOpt).tarvar[i], "size") || !strcmp ((*pTOpt).tarvar[i], "diameq"))
+      (*pTOpt).CellSize = ut_alloc_1d ((*pTOpt).CellQty + 1);
   }
 
   if ((*pTOpt).CellQty <= 0)

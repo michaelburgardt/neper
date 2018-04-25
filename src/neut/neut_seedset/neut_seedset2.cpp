@@ -123,25 +123,32 @@ neut_seedset_memcpy_periodic (struct SEEDSET SSetA, struct SEEDSET *pSSetB)
 }
 
 void
-neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD *pnf_cloud)
+neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD *pnf_cloud,
+                           int** pptid_seedid, int** pseedid_ptid)
 {
-  int i, j;
+  int i;
 
   (*pnf_cloud).pts.resize (SSet.Nall);
+  (*pptid_seedid) = ut_alloc_1d_int (SSet.Nall);
+  (*pseedid_ptid) = ut_alloc_1d_int (SSet.Nall + 1);
 
   for (i = 0; i < SSet.Nall; i++)
-    for (j = 0; j < 3; j++)
-      (*pnf_cloud).pts[i].p[j] = SSet.SeedCoo[i + 1][j];
+  {
+    ut_array_1d_memcpy ((*pnf_cloud).pts[i].p, 3,
+                        SSet.SeedCoo[i + 1]);
+    (*pptid_seedid)[i] = i + 1;
+    (*pseedid_ptid)[i + 1] = i;
+  }
 
   return;
 }
 
 void
-neut_seedset_kdtree_build (NFCLOUD *pnf_cloud, NFTREE** pnf_tree)
+neut_seedset_kdtree_tree (NFCLOUD *pnf_cloud, NFTREE** pnf_tree)
 {
+  if (*pnf_tree)
+    delete *pnf_tree;
   (*pnf_tree) = new NFTREE (3, *pnf_cloud);
-                      // KDTreeSingleIndexAdaptorParams (10 /* max leaf */ ));
-  (*pnf_tree)->buildIndex ();
 
   return;
 }

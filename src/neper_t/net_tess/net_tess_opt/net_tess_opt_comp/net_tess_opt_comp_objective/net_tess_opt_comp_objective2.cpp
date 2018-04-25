@@ -6,7 +6,9 @@
 #include "neut/neut_structs/neut_nanoflann_struct.hpp"
 
 extern void net_polycomp (struct POLY Domain, struct SEEDSET SeedSet,
-                          NFCLOUD *pnf_cloud, NFTREE **pnf_index, struct POLY
+                          NFCLOUD *pnf_cloud, NFTREE **pnf_index,
+                          int** pptid_seedid, int** pseedid_ptid,
+                          struct POLY
                           **pPoly, int *seed_changed, int seed_changedqty,
                           struct TDYN *);
 
@@ -17,6 +19,7 @@ net_tess_opt_comp_objective_x_seedset (const double *x, struct TOPT *pTOpt)
 
   (*pTOpt).TDyn.varchangedqty = 0;
   (*pTOpt).TDyn.seedchangedqty = 0;
+  (*pTOpt).TDyn.seedmovedqty = 0;
 
   for (i = 0; i < (*pTOpt).xqty; i++)
     if ((*pTOpt).iter <= 1 || (*((*pTOpt).x_pvar[i])) != x[i])
@@ -25,11 +28,18 @@ net_tess_opt_comp_objective_x_seedset (const double *x, struct TOPT *pTOpt)
       *((*pTOpt).x_pvar[i]) = x[i];
       ut_array_1d_int_list_addelt (&(*pTOpt).TDyn.seedchanged,
 	  &(*pTOpt).TDyn.seedchangedqty, (*pTOpt).x_seed[i]);
+      if ((*pTOpt).x_var[i] != 3)
+        ut_array_1d_int_list_addelt (&(*pTOpt).TDyn.seedmoved,
+            &(*pTOpt).TDyn.seedmovedqty, (*pTOpt).x_seed[i]);
     }
 
   ut_array_1d_int_sort_uniq ((*pTOpt).TDyn.seedchanged,
 			     (*pTOpt).TDyn.seedchangedqty,
 			     &(*pTOpt).TDyn.seedchangedqty);
+
+  ut_array_1d_int_sort_uniq ((*pTOpt).TDyn.seedmoved,
+			     (*pTOpt).TDyn.seedmovedqty,
+			     &(*pTOpt).TDyn.seedmovedqty);
 
   for (i = 0; i < (*pTOpt).TDyn.seedchangedqty; i++)
   {
@@ -67,9 +77,6 @@ net_tess_opt_comp_objective_poly (struct TOPT *pTOpt)
 
   ut_string_string ((char *) "custom", &((*pTOpt).SSet).weight);
 
-  NFCLOUD nf_cloud;
-  NFTREE *nf_index = nullptr;
-
   neut_poly_set_zero (&DomPoly);
   if (!strcmp (((*pTOpt).SSet).Type, "standard"))
     net_tess_poly ((*pTOpt).Dom, 1, &DomPoly);
@@ -77,9 +84,13 @@ net_tess_opt_comp_objective_poly (struct TOPT *pTOpt)
     net_tess_poly ((*pTOpt).DomPer, 1, &DomPoly);
 
   net_polycomp (DomPoly, (*pTOpt).SSet,
-		&nf_cloud, &nf_index, &((*pTOpt).Poly),
+		(NFCLOUD *) (*pTOpt).pnf_cloud,
+                (NFTREE **) (*pTOpt).pnf_tree,
+                &(*pTOpt).ptid_seedid,
+                &(*pTOpt).seedid_ptid,
+                &(*pTOpt).Poly,
 		(*pTOpt).TDyn.seedchanged, (*pTOpt).TDyn.seedchangedqty,
-		&((*pTOpt).TDyn));
+		&(*pTOpt).TDyn);
 
   (*pTOpt).scellchangedqty = ((*pTOpt).TDyn).cellchangedqty;
   (*pTOpt).scellchanged = ut_realloc_1d_int ((*pTOpt).scellchanged,
@@ -96,8 +107,6 @@ net_tess_opt_comp_objective_poly (struct TOPT *pTOpt)
 				 &((*pTOpt).cellchangedqty), cell);
   }
   ut_array_1d_int_sort ((*pTOpt).cellchanged, (*pTOpt).cellchangedqty);
-
-  delete nf_index;
 
   neut_poly_free (&DomPoly);
 

@@ -5,9 +5,12 @@
 #include "neut_seedset_.h"
 #include "neut_structs/neut_nanoflann_struct.hpp"
 
-extern void neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD
-    *pnf_cloud);
-extern void neut_seedset_kdtree_build (NFCLOUD *pnf_cloud, NFTREE** pnf_tree);
+extern void neut_seedset_kdtree_cloud (struct SEEDSET SSet,
+                                       NFCLOUD *pnf_cloud, int** pptid_seedid,
+                                       int** pseedid_ptid);
+extern void neut_seedset_kdtree_tree (NFCLOUD *pnf_cloud, NFTREE** pnf_tree);
+extern void neut_seedset_kdtree_update (NFCLOUD *pnf_cloud, int* seedmovedqty, int seedmoved,
+                                        NFTREE** pnf_tree);
 
 void
 neut_seedset_set_zero (struct SEEDSET *pSSet)
@@ -445,10 +448,46 @@ neut_seedset_bbox_size (struct SEEDSET SSet, double *psize)
 
 void
 neut_seedset_kdtree (struct SEEDSET SSet, NFCLOUD *pnf_cloud,
-                     NFTREE **pnf_tree)
+                     NFTREE **pnf_tree,
+                     int** pptid_seedid,
+                     int** pseedid_ptid)
 {
-  neut_seedset_kdtree_cloud (SSet, pnf_cloud);
-  neut_seedset_kdtree_build (pnf_cloud, pnf_tree);
+  neut_seedset_kdtree_cloud (SSet, pnf_cloud, pptid_seedid, pseedid_ptid);
+  neut_seedset_kdtree_tree (pnf_cloud, pnf_tree);
+
+  return;
+}
+
+void
+neut_seedset_kdtree_update (struct SEEDSET SSet, int *seedmoved,
+                            int seedmovedqty, NFCLOUD *pnf_cloud,
+                            NFTREE **pnf_tree,
+                            int** pptid_seedid,
+                            int** pseedid_ptid)
+{
+  int seed, newpt, oldpt;
+  int ptqty = (*pnf_cloud).pts.size ();
+
+  (*pnf_cloud).pts.resize (ptqty + seedmovedqty);
+  (*pptid_seedid) = ut_realloc_1d_int (*pptid_seedid, ptqty + seedmovedqty);
+
+  for (int i = 0; i < seedmovedqty; i++)
+  {
+    seed = seedmoved[i];
+    oldpt = (*pseedid_ptid)[seed];
+    (*pnf_tree)->removePoint(oldpt);
+    // to my understanding, this should not be necessary, but it turns out that
+    // with the current implementation, a removed point can be returned as
+    // neighbours by findNeighbors
+    ut_array_1d_set_3 ((*pnf_cloud).pts[oldpt].p, DBL_MAX, DBL_MAX, DBL_MAX);
+
+    newpt = ptqty + i;
+    ut_array_1d_memcpy ((*pnf_cloud).pts[newpt].p, 3,
+                        SSet.SeedCoo[seedmoved[i]]);
+    (*pnf_tree)->addPoints(newpt, newpt);
+    (*pptid_seedid)[newpt] = seed;
+    (*pseedid_ptid)[seed] = newpt;
+  }
 
   return;
 }

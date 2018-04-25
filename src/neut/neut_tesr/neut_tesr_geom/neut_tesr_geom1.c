@@ -543,9 +543,9 @@ neut_tesr_perpos_pos (struct TESR Tesr, int *per, int *pos, int *pos2)
 {
   int i;
 
-  ut_array_1d_int_memcpy (pos2, 3, pos);
+  ut_array_1d_int_memcpy (pos2, Tesr.Dim, pos);
 
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < Tesr.Dim; i++)
     if (pos[i] < 1 || pos[i] > Tesr.size[i])
     {
       if (!per || per[i])

@@ -7,7 +7,8 @@
 
 void
 net_polycomp_seed_tdyn (struct SEEDSET SSet, int id, int neighqty,
-                        NFTREE **pnf_tree, struct TDYN *pTD)
+                        NFTREE **pnf_tree, int *ptid_seedid,
+                        struct TDYN *pTD)
 {
   int i;
 
@@ -25,11 +26,13 @@ net_polycomp_seed_tdyn (struct SEEDSET SSet, int id, int neighqty,
   {
     std::vector<size_t> ret_index((*pTD).neighqty[id]);
     std::vector<double> out_dist_sqr((*pTD).neighqty[id]);
-    neighqty = (*pnf_tree)->knnSearch (&((*pTD).neighrefcoo[id][0]), (*pTD).neighqty[id],
-                &ret_index[0], &out_dist_sqr[0]);
+    nanoflann::KNNResultSet<double> resultSet((*pTD).neighqty[id]);
+    resultSet.init(&ret_index[0], &out_dist_sqr[0]);
+    (*pnf_tree)->findNeighbors(resultSet, &((*pTD).neighrefcoo[id][0]),
+                               nanoflann::SearchParams(INT_MAX));
 
     for (i = 1; i <= (*pTD).neighqty[id]; i++)
-      (*pTD).neighlist[id][i] = ret_index[i - 1];
+      (*pTD).neighlist[id][i] = ptid_seedid[ret_index[i - 1]];
 
     // squared distances, so taking sqrt ()
     for (i = 1; i <= (*pTD).neighqty[id]; i++)
@@ -49,15 +52,15 @@ net_polycomp_seed_tdyn (struct SEEDSET SSet, int id, int neighqty,
     for (i = 1; i <= (*pTD).neighqty[id]; i++)
       (*pTD).neighdist[id][i] = dist[(*pTD).neighlist[id][i] + 1];
 
+    ut_array_1d_int_addval ((*pTD).neighlist[id] + 1,
+                            (*pTD).neighqty[id], 1, (*pTD).neighlist[id] + 1);
+
     ut_free_1d (dist);
     ut_free_1d_int (index);
   }
 
   else
     ut_error_reportbug ();
-
-  ut_array_1d_int_addval ((*pTD).neighlist[id] + 1,
-			  (*pTD).neighqty[id], 1, (*pTD).neighlist[id] + 1);
 
   return;
 }

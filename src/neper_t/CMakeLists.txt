@@ -69,10 +69,10 @@ add_library (neper_t
 ./net_tess/net_tess_lam//net_tess_lam_seed/net_tess_lam_seed2.c
 ./net_tess/net_tess_lam//net_tess_lam_seed/net_tess_lam_seed3.c
 ./net_tess/net_tess_lam//net_tess_lam_seed/net_tess_lam_seed4.c
-./net_tess/net_tess_opt/net_tess_opt1.c
-./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init1.c
-./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init2.c
-./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init3.c
+./net_tess/net_tess_opt/net_tess_opt1.cpp
+./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init1.cpp
+./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init2.cpp
+./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init3.cpp
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_tesrobj/net_tess_opt_init_tesrobj1.c
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_tesrobj/net_tess_opt_init_tesrobj2.c
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_tesrobj/net_tess_opt_init_tesrobj3.c
@@ -87,6 +87,7 @@ add_library (neper_t
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_sset/net_tess_opt_init_sset_multiseed/net_tess_opt_init_sset_multiseed1.c
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_sset/net_tess_opt_init_sset_coo/net_tess_opt_init_sset_coo1.c
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_sset/net_tess_opt_init_sset_coo/net_tess_opt_init_sset_coo2.c
+./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_sset/net_tess_opt_init_sset_coo/net_tess_opt_init_sset_coo3.c
 ./net_tess/net_tess_opt/net_tess_opt_comp/net_tess_opt_comp1.c
 ./net_tess/net_tess_opt/net_tess_opt_comp/net_tess_opt_comp2.c
 ./net_tess/net_tess_opt/net_tess_opt_comp/net_tess_opt_comp3.c

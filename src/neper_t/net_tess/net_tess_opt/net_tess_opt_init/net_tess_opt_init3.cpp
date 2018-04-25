@@ -14,7 +14,7 @@ net_tess_opt_init_target_cellqty (struct IN_T In, struct MTESS MTess,
   char *tmp2 = ut_alloc_1d_char (100);
   char* expr = In.n[Tess.Level + 1];
 
-  neut_tess_expr_vars_vals (Tess, expr, NULL, NULL, NULL, "cell",
+  neut_tess_expr_vars_vals (Tess, expr, NULL, NULL, NULL, (char *) "cell",
                             poly, &vars, &vals, NULL, &varqty);
 
   neut_mtess_tess_poly_mid (MTess, Tess, poly, &tmp2);
@@ -47,7 +47,7 @@ net_tess_opt_init_parms_algo (struct IN_T In, int level, struct MTESS MTess,
 
 #ifdef HAVE_NLOPT
   int i;
-  (*pTOpt).algo = calloc ((*pTOpt).algoqty, sizeof (nlopt_algorithm));
+  (*pTOpt).algo = (nlopt_algorithm*) calloc ((*pTOpt).algoqty, sizeof (nlopt_algorithm));
 
   for (i = 0; i < (*pTOpt).algoqty; i++)
   {

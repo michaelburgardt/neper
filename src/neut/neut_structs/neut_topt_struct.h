@@ -15,7 +15,9 @@ struct TOPT
 
   // domain and general
   int CellQty;			// number of cells
+  char *DomType;                // type of domain (same as Dom.DomType)
   struct TESS Dom;		// domain (1-cell tessellation)
+  struct POLY DomPoly;		// domain as a POLY
   struct TESS DomPer;		// 3x3x3-scale domain (for periodicity)
 
   // specified inputs
@@ -60,6 +62,7 @@ struct TOPT
   // seeds and tessellation
   struct SEEDSET SSet;		// Seed set
   struct POLY *Poly;		// set of polys
+  double *CellSize;             // Poly sum (volume or area) (!= NULL / stored if known)
 
   // distribution information
   struct FCT *curpdf;		// current PDF, smoothed
@@ -164,8 +167,13 @@ struct TOPT
 
   struct TDYN TDyn;		// tessellation dynamics
 #ifdef HAVE_NLOPT
-  nlopt_opt opt;		/// NLopt object
+  nlopt_opt opt;		// NLopt object
 #endif
+
+  void *pnf_cloud;              // pointer to the nanoflann cloud
+  void *pnf_tree;               // pointer to the nanoflann tree
+  int *ptid_seedid;             // seed corresponding to a point of the cloud
+  int *seedid_ptid;             // point of the cloud corresponding to a seed
 };
 typedef struct TOPT TOPT;
 

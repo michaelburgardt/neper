@@ -1,9 +1,11 @@
-New in 3.1.2-34 (16 Apr 2018):
-- module -T: improved -morpho, added -morpho centroidtol, improved
+New in 3.1.2-52 (25 Apr 2018):
+- module -T: improved code and included multithreading for a significant speed
+  up, improved -morpho, added -morpho centroidtol, improved
   -morphooptiobjective, improved -transform crop, fixed -n from_morpho, added
   -transform addbuffer, renamed -datarpt* into -datavox*, added -transform
-  renumber, added -domain stdtriangle, added **oridata to the tesr file,
-  added -statvox, speed up tesr generation, minor fixes.
+  renumber, added -domain stdtriangle, added **oridata to the tesr file, added
+  -statvox, speed up tesr generation, added -morphooptilogtime val_ keys, minor
+  fixes.
 - module -V: improved msh reading, added -datapointrad arr, added -datavox
   options.
 - general: replaced ANN by nanoflann for nearest neighbour search.

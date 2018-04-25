@@ -173,6 +173,7 @@ extern "C"
 ///
 ///
   extern int neut_tess_point_inpoly (struct TESS Tess, double *, int);
+  extern int neut_tess_point_inpoly_std (struct TESS Tess, double *, int);
 
 /// \brief Determine whether a point is within a face
 ///

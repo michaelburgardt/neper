@@ -71,19 +71,32 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_update (struct TOPT *pTOpt, i
 void
 net_tess_opt_comp_objective_fval_gen_stat_smoothed_gen_legacy (struct TOPT *pTOpt, int var)
 {
-  int i, j;
+  int i, j, posmin, posmax;
+  double xmin, xmax;
 
   ut_array_1d_zero ((*pTOpt).curpdf[var].y,
 		    (*pTOpt).curpdf[var].size);
 
+#pragma omp parallel for private(i,xmin,xmax,posmin,posmax) schedule(dynamic)
   for (j = 1; j <= (*pTOpt).CellQty; j++)
   {
     if ((*pTOpt).curcellpenalty[j] == 0)
-      for (i = 0; i < (*pTOpt).curpdf[var].size; i++)
+    {
+      xmin = (*pTOpt).curcellval[var][j][0] + (*pTOpt).cvl[var].min;
+      xmax = (*pTOpt).curcellval[var][j][0] + (*pTOpt).cvl[var].max;
+      posmin = ut_fct_x_pos ((*pTOpt).curpdf[var], xmin);
+      posmax = ut_fct_x_pos ((*pTOpt).curpdf[var], xmax);
+      if (posmin < 1 || posmax + 1 >= (*pTOpt).curpdf[var].size)
+        abort ();
+
+      for (i = posmin - 1; i <= posmax + 1; i++)
+#pragma omp atomic
 	(*pTOpt).curpdf[var].y[i] +=
 	  ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 		       (*pTOpt).curcellval[var][j][0]) / (*pTOpt).CellQty;
+    }
     else
+#pragma omp atomic
       (*pTOpt).curpenalty[var] += (*pTOpt).curcellpenalty[j];
   }
 
@@ -95,45 +108,56 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_gen_legacy (struct TOPT *pTOp
 void
 net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *pTOpt, int var)
 {
-  int i, j, cell;
-  double val;
+  int i, j, cell, posmin, posmax;
+  double val, xmin, xmax;
 
+#pragma omp parallel for private(i,cell,val,xmin,xmax,posmin,posmax) schedule(dynamic)
   for (j = 0; j < (*pTOpt).cellchangedqty; j++)
   {
     cell = (*pTOpt).cellchanged[j];
 
     // removing old contribution to curpdf
     if ((*pTOpt).oldcellpenalty[cell] == 0)
-      for (i = 0; i < (*pTOpt).curpdf[var].size; i++)
+    {
+      xmin = (*pTOpt).oldcellval[var][cell][0] + (*pTOpt).cvl[var].min;
+      xmax = (*pTOpt).oldcellval[var][cell][0] + (*pTOpt).cvl[var].max;
+      posmin = ut_fct_x_pos ((*pTOpt).curpdf[var], xmin);
+      posmax = ut_fct_x_pos ((*pTOpt).curpdf[var], xmax);
+      if (posmin < 1 || posmax + 1 >= (*pTOpt).curpdf[var].size)
+        abort ();
+
+      for (i = posmin - 1; i <= posmax + 1; i++)
       {
 	val = ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 			   (*pTOpt).oldcellval[var][cell][0])
 			  / (*pTOpt).CellQty;
+#pragma omp atomic
 	(*pTOpt).curpdf[var].y[i] -= val;
-
-	// if we have passed the nominal value and the function has
-	// reached 0, stopping.
-	if ((*pTOpt).curpdf[var].x[i] >
-	    (*pTOpt).oldcellval[var][cell][0] && val == 0)
-	  break;
       }
+    }
+#pragma omp atomic
     (*pTOpt).curpenalty[var] -= (*pTOpt).oldcellpenalty[cell];
 
     // adding new contribution to curpdf
     if ((*pTOpt).curcellpenalty[cell] == 0)
-      for (i = 0; i < (*pTOpt).curpdf[var].size; i++)
+    {
+      xmin = (*pTOpt).curcellval[var][cell][0] + (*pTOpt).cvl[var].min;
+      xmax = (*pTOpt).curcellval[var][cell][0] + (*pTOpt).cvl[var].max;
+      posmin = ut_fct_x_pos ((*pTOpt).curpdf[var], xmin);
+      posmax = ut_fct_x_pos ((*pTOpt).curpdf[var], xmax);
+      if (posmin < 1 || posmax + 1 >= (*pTOpt).curpdf[var].size)
+        abort ();
+
+      for (i = posmin - 1; i <= posmax + 1; i++)
       {
 	val = ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 			   (*pTOpt).curcellval[var][cell][0])
 			  / (*pTOpt).CellQty;
+#pragma omp atomic
 	(*pTOpt).curpdf[var].y[i] += val;
-
-	// if we have passed the nominal value and the function has
-	// reached 0, stopping.
-	if ((*pTOpt).curpdf[var].x[i] >
-	    (*pTOpt).curcellval[var][cell][0] && val == 0)
-	  break;
       }
+    }
+#pragma omp atomic
     (*pTOpt).curpenalty[var] += (*pTOpt).curcellpenalty[cell];
   }
 

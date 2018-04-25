@@ -5,16 +5,14 @@
 #include"net_polycomp_.h"
 #include"neut/neut_structs/neut_nanoflann_struct.hpp"
 
-extern void net_polycomp_poly (struct POLY Domain, struct SEEDSET SSet,
-				   NFTREE **pnf_tree, int PolyId,
-				   struct POLY *pPoly, struct TDYN *pTD);
 extern void net_polycomp_kdtree (struct SEEDSET SSet,
 				 NFCLOUD *pnf_cloud, NFTREE **pnf_tree,
+                                 int** pptid_seedid, int** pseedid_ptid,
                                  struct TDYN *pTD);
 extern void net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
-				NFTREE **pnf_tree, int *updatedseeds,
-				int updatedcellqty, struct TDYN *pTD,
-				struct POLY **pPoly);
+				NFTREE **pnf_tree, int *ptid_seedid,
+                                int *updatedseeds, int updatedcellqty,
+                                struct TDYN *pTD, struct POLY **pPoly);
 
 /* net_polycomp builds the set of Voronoi polyhedra from the set
  * of seed and the initial domain.
@@ -22,6 +20,7 @@ extern void net_polycomp_cells (struct POLY Domain, struct SEEDSET SSet,
 void
 net_polycomp (struct POLY Domain, struct SEEDSET SSet,
               NFCLOUD *pnf_cloud, NFTREE **pnf_tree,
+              int **pptid_seedid, int** pseedid_ptid,
               struct POLY **pPoly,
 	      int *updatedseeds_in, int updatedseedqty_in,
 	      struct TDYN *pTD)
@@ -41,7 +40,7 @@ net_polycomp (struct POLY Domain, struct SEEDSET SSet,
   // Computing KD tree -------------------------------------------------
 
   if (strcmp ((*pTD).algoneigh, "qsort"))
-    net_polycomp_kdtree (SSet, pnf_cloud, pnf_tree, pTD);
+    net_polycomp_kdtree (SSet, pnf_cloud, pnf_tree, pptid_seedid, pseedid_ptid, pTD);
 
   // Computing shifts --------------------------------------------------
 
@@ -54,7 +53,7 @@ net_polycomp (struct POLY Domain, struct SEEDSET SSet,
 
   // Calculating cells -------------------------------------------------
 
-  net_polycomp_cells (Domain, SSet, pnf_tree,
+  net_polycomp_cells (Domain, SSet, pnf_tree, *pptid_seedid,
                       updatedseeds, updatedseedqty, pTD, pPoly);
 
   // Closing ----------------------------------------------------------
