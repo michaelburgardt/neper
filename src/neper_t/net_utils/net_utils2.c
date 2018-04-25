@@ -14,7 +14,7 @@ net_tess_tesr_cell (struct TESS Tess, int cell, struct TESR *pTesr)
 
   neut_tess_cell_bbox (Tess, cell, bbox);
 
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < Tess.Dim; i++)
     for (j = 0; j < 2; j++)
     {
       (*pTesr).CellBBox[cell][i][j] = ut_num_d2ri (ceil (bbox[i][j] / (*pTesr).vsize[i] + 1e-6));

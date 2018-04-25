@@ -598,17 +598,17 @@ neut_tess_cell_bbox (struct TESS Tess, int cell, double **size)
 {
   int i, j, verqty, *vers = NULL;
 
-  if (Tess.Dim != 3)
-    abort ();
-
   neut_tess_cell_vers (Tess, cell, &vers, &verqty);
 
   /* Searching the tessellation bounding box */
-  size[0][0] = size[1][0] = size[2][0] = DBL_MAX;
-  size[0][1] = size[1][1] = size[2][1] = -DBL_MAX;
+  for (i = 0; i < Tess.Dim; i++)
+  {
+    size[i][0] = DBL_MAX;
+    size[i][1] = -DBL_MAX;
+  }
 
   for (i = 0; i < verqty; i++)
-    for (j = 0; j < 3; j++)
+    for (j = 0; j < Tess.Dim; j++)
     {
       size[j][0] = ut_num_min (size[j][0], Tess.VerCoo[vers[i]][j]);
       size[j][1] = ut_num_max (size[j][1], Tess.VerCoo[vers[i]][j]);
@@ -938,7 +938,7 @@ neut_tess_point_inface (struct TESS Tess, double *coo, int face)
     {
       for (per[1] = -Periodic[1]; per[1] <= Periodic[1]; per[1]++)
       {
-	for (j = 0; j < 3; j++)
+	for (j = 0; j < Tess.Dim; j++)
 	  coob[j] = coo[j] + per[j] * PeriodicDist[j];
 
 	if (ut_space_triangle_point_in (centre, Tess.VerCoo[ver1],

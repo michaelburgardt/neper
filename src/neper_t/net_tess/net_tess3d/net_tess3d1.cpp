@@ -22,6 +22,7 @@ net_tess3d (struct TESS PTess, int poly, struct SEEDSET SSet,
   struct TDYN TD;
   NFTREE *nf_index = nullptr;
   NFCLOUD nf_cloud;
+  int *seedid_ptid = NULL, *ptid_seedid = NULL;
 
   neut_tess_set_zero (pTess);
 
@@ -31,7 +32,7 @@ net_tess3d (struct TESS PTess, int poly, struct SEEDSET SSet,
 
   net_tess_poly (PTess, poly, &DomPoly);
 
-  net_polycomp (DomPoly, SSet, &nf_cloud, &nf_index, NULL, NULL, &Poly, NULL, -1, &TD);
+  net_polycomp (DomPoly, SSet, &nf_cloud, &nf_index, &ptid_seedid, &seedid_ptid, &Poly, NULL, -1, &TD);
 
   net_polys_tess (PTess.Level + 1, SSet, TessId, Poly, pTess);
 
@@ -45,6 +46,8 @@ net_tess3d (struct TESS PTess, int poly, struct SEEDSET SSet,
   neut_tdyn_free (&TD);
 
   delete nf_index;
+  ut_free_1d_int (seedid_ptid);
+  ut_free_1d_int (ptid_seedid);
 
   return 0;
 }

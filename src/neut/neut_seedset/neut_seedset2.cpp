@@ -129,10 +129,8 @@ neut_seedset_kdtree_cloud (struct SEEDSET SSet, NFCLOUD *pnf_cloud,
   int i;
 
   (*pnf_cloud).pts.resize (SSet.Nall);
-  if (pptid_seedid)
-    (*pptid_seedid) = ut_alloc_1d_int (SSet.Nall);
-  if (pseedid_ptid)
-    (*pseedid_ptid) = ut_alloc_1d_int (SSet.Nall + 1);
+  (*pptid_seedid) = ut_alloc_1d_int (SSet.Nall);
+  (*pseedid_ptid) = ut_alloc_1d_int (SSet.Nall + 1);
 
   for (i = 0; i < SSet.Nall; i++)
   {
