@@ -50,7 +50,7 @@ net_tess_opt_init_sset_coo_centre (struct TOPT *pTOpt, gsl_rng *r,
     do
     {
       iter++;
-      status = neut_tess_dom_pt_randpt_cluster ((*pTOpt).Dom, Point, r,
+      status = net_tess_opt_init_sset_coo_centre_randpt_cluster ((*pTOpt).Dom, Point, r,
 						Point2, 0, coo[iter],
 						dist + iter);
 
@@ -83,7 +83,7 @@ net_tess_opt_init_sset_coo_centre (struct TOPT *pTOpt, gsl_rng *r,
           || (*pTOpt).tarcellval[pos][cell][(*pTOpt).tarcellvalqty[pos] - 1] < 1000)
         ut_array_1d_memcpy (centre, (*pTOpt).Dim, (*pTOpt).tarcellval[pos][cell]);
       else
-        neut_tess_dom_pt_randpt_pick ((*pTOpt).Dom, Point, r, centre);
+        net_tess_opt_init_sset_coo_centre_randpt_pick ((*pTOpt).Dom, Point, r, centre);
     }
     else
       abort ();

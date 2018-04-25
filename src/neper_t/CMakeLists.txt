@@ -87,6 +87,7 @@ add_library (neper_t
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_sset/net_tess_opt_init_sset_multiseed/net_tess_opt_init_sset_multiseed1.c
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_sset/net_tess_opt_init_sset_coo/net_tess_opt_init_sset_coo1.c
 ./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_sset/net_tess_opt_init_sset_coo/net_tess_opt_init_sset_coo2.c
+./net_tess/net_tess_opt/net_tess_opt_init/net_tess_opt_init_sset/net_tess_opt_init_sset_coo/net_tess_opt_init_sset_coo3.c
 ./net_tess/net_tess_opt/net_tess_opt_comp/net_tess_opt_comp1.c
 ./net_tess/net_tess_opt/net_tess_opt_comp/net_tess_opt_comp2.c
 ./net_tess/net_tess_opt/net_tess_opt_comp/net_tess_opt_comp3.c
