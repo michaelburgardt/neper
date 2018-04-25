@@ -21,6 +21,8 @@ net_tess_tesr_cell (struct TESS Tess, int cell, struct TESR *pTesr)
       if (bbox[i][j] < (*pTesr).vsize[i] * (*pTesr).size[i] + 1e-6)
         (*pTesr).CellBBox[cell][i][j] = ut_num_min ((*pTesr).CellBBox[cell][i][j], (*pTesr).size[i]);
     }
+  if (Tess.Dim == 2)
+    ut_array_1d_int_set_2 ((*pTesr).CellBBox[cell][2], 1, 1);
 
   for (k = (*pTesr).CellBBox[cell][2][0]; k <= (*pTesr).CellBBox[cell][2][1]; k++)
     for (j = (*pTesr).CellBBox[cell][1][0]; j <= (*pTesr).CellBBox[cell][1][1]; j++)
@@ -29,7 +31,6 @@ net_tess_tesr_cell (struct TESS Tess, int cell, struct TESR *pTesr)
 	ut_array_1d_int_set_3 (pos, i, j, k);
         neut_tesr_perpos_pos (*pTesr, Tess.Periodic, pos, pos);
 	neut_tesr_pos_coo (*pTesr, pos, coo);
-
 	if (neut_tess_point_incell (Tess, coo, cell) == 1)
 	  (*pTesr).VoxCell[pos[0]][pos[1]][pos[2]] = cell;
       }
