@@ -5,20 +5,23 @@
 #include "net_tess_opt_init_sset_coo_.h"
 
 int
-net_tess_opt_init_sset_coo_centre_randpt (struct TESS Dom, struct POINT Point,
+net_tess_opt_init_sset_coo_centre_randpt (struct TOPT *pTOpt, struct POINT Point,
 			 gsl_rng *r, double rad, double penetration,
 			 double *coo, double *pdist)
 {
-  int status;
+  int status = 0;
 
-  net_tess_opt_init_sset_coo_centre_randpt_pick (Dom, Point, r, coo);
-  status = net_tess_opt_init_sset_coo_centre_randpt_test (Dom, Point, rad, penetration, coo, pdist);
+  net_tess_opt_init_sset_coo_centre_randpt_pick (Point, r, coo);
+
+  if (!(*pTOpt).DomType || strcmp ((*pTOpt).DomType, "cube"))
+    status = net_tess_opt_init_sset_coo_centre_randpt_test ((*pTOpt).DomPoly,
+                                          Point, rad, penetration, coo, pdist);
 
   return status;
 }
 
 int
-net_tess_opt_init_sset_coo_centre_randpt_cluster (struct TESS Dom, struct POINT Point,
+net_tess_opt_init_sset_coo_centre_randpt_cluster (struct POLY DomPoly, struct POINT Point,
 				 gsl_rng *r, struct POINT Point2,
 				 double penetration,
 				 double *coo, double *pdist)
@@ -27,17 +30,13 @@ net_tess_opt_init_sset_coo_centre_randpt_cluster (struct TESS Dom, struct POINT 
   double rad2, *coo2 = ut_alloc_1d (3);
   double *val = ut_alloc_1d (Point2.PointQty + 1);
 
-  net_tess_opt_init_sset_coo_centre_randpt_pick (Dom, Point, r, coo);
-
-  (void) rad2;
-  (void) i;
-  (void) penetration;
+  net_tess_opt_init_sset_coo_centre_randpt_pick (Point, r, coo);
 
   for (i = 1; i <= Point2.PointQty; i++)
   {
     ut_array_1d_add (coo, Point2.PointCoo[i], 3, coo2);
     rad2 = Point2.PointRad[i];
-    status = net_tess_opt_init_sset_coo_centre_randpt_test (Dom, Point, rad2, penetration,
+    status = net_tess_opt_init_sset_coo_centre_randpt_test (DomPoly, Point, rad2, penetration,
 					   coo2, val + i);
   }
 
@@ -50,14 +49,10 @@ net_tess_opt_init_sset_coo_centre_randpt_cluster (struct TESS Dom, struct POINT 
 }
 
 int
-net_tess_opt_init_sset_coo_centre_randpt_pick (struct TESS Dom, struct POINT Point,
-			      gsl_rng *r, double *coo)
+net_tess_opt_init_sset_coo_centre_randpt_pick (struct POINT Point,
+                                               gsl_rng *r, double *coo)
 {
   int i;
-  struct POLY Poly;
-
-  neut_poly_set_zero (&Poly);
-  net_tess_poly (Dom, 1, &Poly);
 
   // do not change the below loop to keep 3 gsl_rng_uniform calls /
   // centre for all dimensions.
@@ -68,13 +63,11 @@ net_tess_opt_init_sset_coo_centre_randpt_pick (struct TESS Dom, struct POINT Poi
   for (i = Point.Dim; i < 3; i++)
     coo[i] = ut_array_1d_mean (Point.BBox[i], 2);
 
-  neut_poly_free (&Poly);
-
   return 0;
 }
 
 int
-net_tess_opt_init_sset_coo_centre_randpt_test (struct TESS Dom, struct POINT Point,
+net_tess_opt_init_sset_coo_centre_randpt_test (struct POLY DomPoly, struct POINT Point,
 			      double rad,
 			      double penetration, double *coo,
 			      double *pdist)
@@ -84,7 +77,7 @@ net_tess_opt_init_sset_coo_centre_randpt_test (struct TESS Dom, struct POINT Poi
   double *ptcoo = ut_alloc_1d (3);
 
   status = 0;
-  if (Dom.FaceQty > 0 && neut_tess_point_inpoly_std (Dom, coo, 1) == 0)
+  if (DomPoly.FaceQty > 0 && neut_poly_point_in (DomPoly, coo) == 0)
     status = -2;
 
   else if (pdist)

@@ -15,7 +15,9 @@ struct TOPT
 
   // domain and general
   int CellQty;			// number of cells
+  char *DomType;                // type of domain (same as Dom.DomType)
   struct TESS Dom;		// domain (1-cell tessellation)
+  struct POLY DomPoly;		// domain as a POLY
   struct TESS DomPer;		// 3x3x3-scale domain (for periodicity)
 
   // specified inputs

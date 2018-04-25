@@ -9,7 +9,9 @@ neut_topt_set_zero (struct TOPT *pTOpt)
 {
   (*pTOpt).Dim = 0;
   (*pTOpt).CellQty = 0;
+  (*pTOpt).DomType = NULL;
   neut_tess_set_zero (&(*pTOpt).Dom);
+  neut_poly_set_zero (&(*pTOpt).DomPoly);
   neut_tess_set_zero (&(*pTOpt).DomPer);
   neut_seedset_set_zero (&(*pTOpt).SSet);
   (*pTOpt).Poly = NULL;
@@ -250,7 +252,9 @@ neut_topt_free (struct TOPT *pTOpt)
 
   neut_topt_set_zero (pTOpt);
 
+  ut_free_1d_char ((*pTOpt).DomType);
   neut_tess_free (&(*pTOpt).Dom);
+  neut_poly_free (&(*pTOpt).DomPoly);
   neut_tess_free (&(*pTOpt).DomPer);
   neut_poly_array_free (&(*pTOpt).Poly, (*pTOpt).SSet.N);
   ut_free_1d ((*pTOpt).CellSize);
