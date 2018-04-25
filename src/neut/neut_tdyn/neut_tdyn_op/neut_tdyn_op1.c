@@ -57,6 +57,8 @@ neut_tdyn_set_zero (struct TDYN *pTD)
   (*pTD).val_init_dur = 0;
   (*pTD).val_penalty_dur = 0;
   (*pTD).val_val_dur = 0;
+  (*pTD).val_val_cellval_dur = 0;
+  (*pTD).val_val_comp_dur = 0;
   (*pTD).val_comp_dur = 0;
   (*pTD).total_dur = 0;
   (*pTD).cumtotal_dur = 0;

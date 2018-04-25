@@ -157,6 +157,10 @@ neut_tdyn_fprintf_time (struct TDYN TDyn)
       fprintf (TDyn.logtime_fp, "%.6f", TDyn.val_penalty_dur);
     else if (!strcmp (vars[i], "val_val"))
       fprintf (TDyn.logtime_fp, "%.6f", TDyn.val_val_dur);
+    else if (!strcmp (vars[i], "val_val_cellval"))
+      fprintf (TDyn.logtime_fp, "%.6f", TDyn.val_val_cellval_dur);
+    else if (!strcmp (vars[i], "val_val_comp"))
+      fprintf (TDyn.logtime_fp, "%.6f", TDyn.val_val_comp_dur);
     else if (!strcmp (vars[i], "val_comp"))
       fprintf (TDyn.logtime_fp, "%.6f", TDyn.val_comp_dur);
     else if (!strcmp (vars[i], "val"))

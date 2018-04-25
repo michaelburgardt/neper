@@ -23,6 +23,8 @@ net_tess_opt_comp_objective_fval (struct TOPT *pTOpt)
 
   gettimeofday (&t3, NULL);
 
+  (*pTOpt).TDyn.val_val_cellval_dur = 0;
+  (*pTOpt).TDyn.val_val_comp_dur = 0;
   // Computing curcellval and curval -----------------------------------
   for (i = 0; i < (*pTOpt).tarqty; i++)
   {

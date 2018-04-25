@@ -60,6 +60,7 @@ struct TOPT
   // seeds and tessellation
   struct SEEDSET SSet;		// Seed set
   struct POLY *Poly;		// set of polys
+  double *CellSize;             // Poly sum (volume or area) (!= NULL / stored if known)
 
   // distribution information
   struct FCT *curpdf;		// current PDF, smoothed

@@ -522,6 +522,9 @@ net_tess_opt_init_target (struct IN_T In, struct MTESS MTess,
 
     if (strcmp ((*pTOpt).tarvar[i], "tesr") && (*pTOpt).tarcellvalqty[i] == 0)
       abort ();
+
+    if (!strcmp ((*pTOpt).tarvar[i], "size") || !strcmp ((*pTOpt).tarvar[i], "diameq"))
+      (*pTOpt).CellSize = ut_alloc_1d ((*pTOpt).CellQty + 1);
   }
 
   if ((*pTOpt).CellQty <= 0)

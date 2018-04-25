@@ -102,6 +102,8 @@ extern "C"
     double val_init_dur;                //
     double val_penalty_dur;             //
     double val_val_dur;                 //
+    double val_val_cellval_dur;         //
+    double val_val_comp_dur;            //
     double val_comp_dur;                //
     double total_dur;			// total duration
     double cumtotal_dur;	        // cumulative total duration
