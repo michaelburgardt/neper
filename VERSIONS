@@ -1,4 +1,4 @@
-New in 3.1.2-45-tree_update (25 Apr 2018):
+New in 3.1.2-46-tree_update (25 Apr 2018):
 - module -T: improved code and included multithreading for a significant speed
   up, improved -morpho, added -morpho centroidtol, improved
   -morphooptiobjective, improved -transform crop, fixed -n from_morpho, added
