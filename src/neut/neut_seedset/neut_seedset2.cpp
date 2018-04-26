@@ -152,3 +152,33 @@ neut_seedset_kdtree_tree (NFCLOUD *pnf_cloud, NFTREE** pnf_tree)
 
   return;
 }
+
+void
+neut_seedset_kdtree_update_seed (struct SEEDSET SSet, int seed,
+                                 NFCLOUD *pnf_cloud,
+                                 NFTREE **pnf_tree,
+                                 int** pptid_seedid,
+                                 int** pseedid_ptid)
+{
+  int newpt, oldpt;
+
+  oldpt = (*pseedid_ptid)[seed];
+  (*pnf_tree)->removePoint(oldpt);
+
+  (*pnf_cloud).pts.resize ((*pnf_cloud).pts.size () + 1);
+  // to my understanding, this should not be necessary, but it turns out that
+  // with the current implementation, a removed point can be returned as
+  // neighbours by findNeighbors
+  ut_array_1d_set_3 ((*pnf_cloud).pts[oldpt].p, DBL_MAX, DBL_MAX, DBL_MAX);
+
+  newpt = (*pnf_cloud).pts.size () - 1;
+  ut_array_1d_memcpy ((*pnf_cloud).pts[newpt].p, 3,
+                      SSet.SeedCoo[seed]);
+  (*pnf_tree)->addPoints(newpt, newpt);
+
+  (*pptid_seedid) = ut_realloc_1d_int (*pptid_seedid, (*pnf_cloud).pts.size ());
+  (*pptid_seedid)[newpt] = seed;
+  (*pseedid_ptid)[seed] = newpt;
+
+  return;
+}
