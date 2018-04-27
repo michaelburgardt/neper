@@ -312,6 +312,8 @@ factor, to log values only at specific iteration numbers.
   @item @code{val_init}        @tab time for (objective function) value update / initialization
   @item @code{val_penalty}     @tab time for (objective function) value update / penalty computation
   @item @code{val_val}         @tab time for (objective function) value update / value computation
+  @item @code{val_val_cellval} @tab time for (objective function) value update / value computation / cell values
+  @item @code{val_val_comp}    @tab time for (objective function) value update / value computation / computation
   @item @code{val_comp}        @tab time for (objective function) value update / computation
   @item @code{total}           @tab total time
   @item @code{cumtotal}        @tab cumulative total time
