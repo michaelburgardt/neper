@@ -77,7 +77,6 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_gen_legacy (struct TOPT *pTOp
   ut_array_1d_zero ((*pTOpt).curpdf[var].y,
 		    (*pTOpt).curpdf[var].size);
 
-#pragma omp parallel for private(i,xmin,xmax,posmin,posmax) schedule(dynamic)
   for (j = 1; j <= (*pTOpt).CellQty; j++)
   {
     if ((*pTOpt).curcellpenalty[j] == 0)
@@ -89,14 +88,13 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_gen_legacy (struct TOPT *pTOp
       if (posmin < 1 || posmax + 1 >= (*pTOpt).curpdf[var].size)
         abort ();
 
+#pragma omp parallel for private(i) schedule(dynamic)
       for (i = posmin - 1; i <= posmax + 1; i++)
-#pragma omp atomic
 	(*pTOpt).curpdf[var].y[i] +=
 	  ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 		       (*pTOpt).curcellval[var][j][0]) / (*pTOpt).CellQty;
     }
     else
-#pragma omp atomic
       (*pTOpt).curpenalty[var] += (*pTOpt).curcellpenalty[j];
   }
 
@@ -109,9 +107,8 @@ void
 net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *pTOpt, int var)
 {
   int i, j, cell, posmin, posmax;
-  double val, xmin, xmax;
+  double xmin, xmax;
 
-#pragma omp parallel for private(i,cell,val,xmin,xmax,posmin,posmax) schedule(dynamic)
   for (j = 0; j < (*pTOpt).cellchangedqty; j++)
   {
     cell = (*pTOpt).cellchanged[j];
@@ -126,16 +123,13 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *p
       if (posmin < 1 || posmax + 1 >= (*pTOpt).curpdf[var].size)
         abort ();
 
+#pragma omp parallel for private(i) schedule(dynamic)
       for (i = posmin - 1; i <= posmax + 1; i++)
-      {
-	val = ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
+	(*pTOpt).curpdf[var].y[i] -=
+          ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 			   (*pTOpt).oldcellval[var][cell][0])
 			  / (*pTOpt).CellQty;
-#pragma omp atomic
-	(*pTOpt).curpdf[var].y[i] -= val;
-      }
     }
-#pragma omp atomic
     (*pTOpt).curpenalty[var] -= (*pTOpt).oldcellpenalty[cell];
 
     // adding new contribution to curpdf
@@ -148,16 +142,13 @@ net_tess_opt_comp_objective_fval_gen_stat_smoothed_update_legacy (struct TOPT *p
       if (posmin < 1 || posmax + 1 >= (*pTOpt).curpdf[var].size)
         abort ();
 
+#pragma omp parallel for private(i) schedule(dynamic)
       for (i = posmin - 1; i <= posmax + 1; i++)
-      {
-	val = ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
+	(*pTOpt).curpdf[var].y[i] +=
+          ut_fct_eval ((*pTOpt).cvl[var], (*pTOpt).curpdf[var].x[i] -
 			   (*pTOpt).curcellval[var][cell][0])
 			  / (*pTOpt).CellQty;
-#pragma omp atomic
-	(*pTOpt).curpdf[var].y[i] += val;
-      }
     }
-#pragma omp atomic
     (*pTOpt).curpenalty[var] += (*pTOpt).curcellpenalty[cell];
   }
 
