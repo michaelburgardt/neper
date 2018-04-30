@@ -118,6 +118,7 @@ neut_nodes_free (struct NODES *pNodes)
       (*pNodes).DupNodeQty = 0;
     }
   }
+
   neut_nodes_set_zero (pNodes);
 
   return;
