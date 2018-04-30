@@ -8,7 +8,7 @@ void
 nem_meshing_3D (struct IN_M In, struct MESHPARA MeshPara,
 		struct TESS Tess, struct NODES *pNodes, struct MESH *Mesh)
 {
-  int i, id, polyqty, *poly = NULL;
+  int i, id, polyqty, *poly = NULL, qty;
   double allowed_t, max_elapsed_t = 0;
   char *message = NULL;
   struct MULTIM Multim;
@@ -36,6 +36,7 @@ nem_meshing_3D (struct IN_M In, struct MESHPARA MeshPara,
     // polys to mesh; default is 'all'
     neut_tess_expr_polylist (Tess, In.meshpoly, &poly, &polyqty);
 
+    qty = 0;
 #pragma omp parallel for schedule(dynamic) private(i,id)
     for (i = 0; i < polyqty; i++)
       if (Tess.PolyFaceQty[poly[i]] > 0)
@@ -46,7 +47,8 @@ nem_meshing_3D (struct IN_M In, struct MESHPARA MeshPara,
                              &ctrlc_t, &allowed_t, &max_elapsed_t, Tess,
                              pNodes, Mesh, N + id, M + id, id);
 
-        nem_meshing_3D_progress (Multim, i + 1, polyqty, message);
+#pragma omp critical
+        nem_meshing_3D_progress (Multim, ++qty, polyqty, message);
 
         if (In.mesh3dreport)
           nem_meshing_3D_report_poly (Multim, id);

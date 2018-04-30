@@ -9,7 +9,7 @@ nem_meshing_2D (struct IN_M In, struct MESHPARA MeshPara,
 		struct TESS Tess, struct NODES RNodes, struct MESH *RMesh,
 		struct NODES *pNodes, struct MESH *Mesh)
 {
-  int i, id, faceqty, *face = NULL;
+  int i, id, faceqty, *face = NULL, qty;
   double allowed_t, max_elapsed_t = 0;
   char *message = ut_alloc_1d_char (128);
   struct MULTIM Multim;
@@ -36,6 +36,7 @@ nem_meshing_2D (struct IN_M In, struct MESHPARA MeshPara,
   nem_meshing_2D_progress (Multim, 0, Tess.FaceQty, message);
 
   allowed_t = In.mesh2dmaxtime;
+  qty = 0;
 #pragma omp parallel for schedule(dynamic) private(i,id)
   for (i = 0; i < faceqty; i++)
     if (Tess.FaceVerQty[face[i]] > 0)
@@ -47,7 +48,8 @@ nem_meshing_2D (struct IN_M In, struct MESHPARA MeshPara,
                            RNodes, RMesh, pNodes, Mesh, N + id,
                            M + id, master_id + id, id);
 
-      nem_meshing_2D_progress (Multim, i + 1, faceqty, message);
+#pragma omp critical
+      nem_meshing_2D_progress (Multim, ++qty, faceqty, message);
     }
 
   // Recording face mesh in global mesh
