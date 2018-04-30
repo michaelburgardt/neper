@@ -1,4 +1,4 @@
-New in 3.1.2-55 (27 Apr 2018):
+New in 3.1.2-56-multithreading (30 Apr 2018):
 - module -T: improved code and included multithreading for a significant speed
   up, improved -morpho, added -morpho centroidtol, improved
   -morphooptiobjective, improved -transform crop, fixed -n from_morpho, added
@@ -6,7 +6,8 @@ New in 3.1.2-55 (27 Apr 2018):
   renumber, added -domain stdtriangle, added **oridata to the tesr file, added
   -statvox, speed up tesr generation, added -morphooptilogtime val_ keys, minor
   fixes.
-- module -V: improved msh reading, added -datapointrad arr, added -datavox
+- module -V: included multithreading for a significant speed up,
+  improved msh reading, added -datapointrad arr, added -datavox
   options.
 - general: replaced ANN by nanoflann for nearest neighbour search.
 - documentation: small fixes.
