@@ -242,9 +242,9 @@ nem_mesh_3d_gmsh (struct TESS Tess, int poly, struct NODES Nodes,
   double clmod;
   int redo, iter;
 
-  sprintf (filename, "%s/tmp%d.geo", tmp, getpid ());
-  sprintf (filename_surf, "%s/tmp%d-surf.msh", tmp, getpid ());
-  sprintf (filename_msh, "%s/tmp%d.msh", tmp, getpid ());
+  sprintf (filename, "%s/tmp%d-%d.geo", tmp, getpid (), omp_get_thread_num ());
+  sprintf (filename_surf, "%s/tmp%d-%d-surf.msh", tmp, getpid (), omp_get_thread_num ());
+  sprintf (filename_msh, "%s/tmp%d-%d.msh", tmp, getpid (), omp_get_thread_num ());
 
   double speed = 0.2;
 
