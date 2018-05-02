@@ -800,6 +800,21 @@ neut_tess_centre (struct TESS Tess, double *centre)
   return;
 }
 
+void
+neut_tess_bboxcentre (struct TESS Tess, double *centre)
+{
+  int i;
+  double **bbox = ut_alloc_2d (3, 2);
+
+  neut_tess_bbox (Tess, bbox);
+  for (i = 0; i < Tess.Dim; i++)
+    centre[i] = 0.5 * (bbox[i][1] - bbox[i][0]);
+
+  ut_free_2d (bbox, 3);
+
+  return;
+}
+
 int
 neut_tess_point_inpoly_std (struct TESS Tess, double *coo, int nb)
 {
