@@ -1097,8 +1097,8 @@ option off.
 
 @opt{-cameracoo, char_string:char_string:char_string,
 Specify the camera coordinates.
-By default@comma{} the camera is shifted by a vector @dfn{v} from the
-tessellation or mesh centre.  The coordinates of vector @var{v} are
+By default@comma{} the camera is shifted by a vector @dfn{v} from the centre of
+the bounding box of the tessellation or mesh.  The coordinates of vector @var{v} are
 denoted as @dfn{vx}@comma{} @dfn{vy} and @dfn{vz} (@w{= 3.462}@comma{}
 -5.770 and 4.327@comma{} respectively@comma{} in 3D and
 0@comma{} 0 and 8@comma{} respectively@comma{} in 2D and 1D).

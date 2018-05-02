@@ -13,7 +13,7 @@ nev_camera_tess_expr_coo (struct TESS Tess, char *expr, double *coo)
   nev_camera_v (Tess.Dim, v);
 
   if (strchr (expr, 'x') || strchr (expr, 'y') || strchr (expr, 'z'))
-    neut_tess_centre (Tess, X);
+    neut_tess_bboxcentre (Tess, X);
 
   nev_camera_expr_coo (X, v, expr, coo);
 

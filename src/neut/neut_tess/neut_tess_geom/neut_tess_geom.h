@@ -143,6 +143,7 @@ extern "C"
 ///
 ///
   extern void neut_tess_centre (struct TESS Tess, double *);
+  extern void neut_tess_bboxcentre (struct TESS Tess, double *);
 
 /// \brief Get the bounding box of a TESS
 ///
