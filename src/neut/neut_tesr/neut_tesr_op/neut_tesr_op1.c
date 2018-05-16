@@ -281,6 +281,78 @@ neut_tesr_scale (struct TESR *pTesr, double scale1, double scale2,
 }
 
 void
+neut_tesr_rotate (struct TESR *pTesr, double **g)
+{
+  int i, j, k, posold[3];
+  double c[3], coonew[3], cooold[3], tmp[3], tmp2[3], **ginv = ol_g_alloc ();
+  struct TESR Tesr2;
+
+  ol_g_inverse (g, ginv);
+
+  neut_tesr_set_zero (&Tesr2);
+
+  neut_tesr_memcpy_parms (*pTesr, &Tesr2);
+  neut_tesr_alloc (&Tesr2, (*pTesr).Dim, (*pTesr).size, (*pTesr).vsize);
+
+  neut_tesr_centre (Tesr2, c);
+
+#pragma omp parallel for private(i,j,k,tmp,tmp2,coonew,cooold,posold)
+  for (k = 1; k <= Tesr2.size[2]; k++)
+  {
+    coonew[2] = (k - 0.5) * Tesr2.vsize[2];
+    for (j = 1; j <= Tesr2.size[1]; j++)
+    {
+      coonew[1] = (j - 0.5) * Tesr2.vsize[1];
+      for (i = 1; i <= Tesr2.size[0]; i++)
+      {
+        coonew[0] = (i - 0.5) * Tesr2.vsize[0];
+
+        ut_array_1d_sub (c, coonew, 3, tmp);
+        ol_g_vect_vect (g, tmp, tmp2);
+        ut_array_1d_add (tmp2, c, 3, cooold);
+
+        neut_tesr_point_pos (*pTesr, cooold, posold);
+        if (neut_tesr_pos_valid (*pTesr, posold))
+          Tesr2.VoxCell[i][j][k] = (*pTesr).VoxCell[posold[0]][posold[1]][posold[2]];
+      }
+    }
+  }
+
+  if ((*pTesr).CellOri)
+  {
+    double *q = ol_q_alloc ();
+    ol_g_q (g, q);
+    for (i = 1; i <= Tesr2.CellQty; i++)
+      ol_q_q_q (Tesr2.CellOri[i], q, Tesr2.CellOri[i]);
+
+    ol_q_free (q);
+  }
+
+  if ((*pTesr).CellBBox)
+    neut_tesr_init_cellbbox (pTesr);
+
+  if ((*pTesr).CellCoo)
+    neut_tesr_init_cellcoo (pTesr);
+
+  if ((*pTesr).CellVol)
+    neut_tesr_init_cellvol (pTesr);
+
+  if ((*pTesr).CellConvexity)
+    neut_tesr_init_cellconvexity (pTesr);
+
+  if ((*pTesr).SeedCoo)
+    for (i = 1; i <= (*pTesr).CellQty; i++)
+      ol_g_vect_vect (ginv, (*pTesr).SeedCoo[i], (*pTesr).SeedCoo[i]);
+
+  neut_tesr_free (pTesr);
+  neut_tesr_memcpy (Tesr2, pTesr);
+  neut_tesr_free (&Tesr2);
+  ol_g_free (ginv);
+
+  return;
+}
+
+void
 neut_tesr_rasterscale (struct TESR *pTesr, double scale1, double scale2,
 		       double scale3)
 {

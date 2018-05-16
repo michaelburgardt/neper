@@ -716,3 +716,11 @@ neut_tesr_var_dim (int dim, char *entity, char *var, int *pdim)
 
   return;
 }
+
+int
+neut_tesr_pos_valid (struct TESR Tesr, int *pos)
+{
+  return (pos[0] >= 1 && pos[0] <= Tesr.size[0] &&
+          pos[1] >= 1 && pos[1] <= Tesr.size[1] &&
+          pos[2] >= 1 && pos[2] <= Tesr.size[2]);
+}

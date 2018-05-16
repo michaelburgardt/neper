@@ -48,6 +48,8 @@ extern "C"
   extern int neut_tesr_expr_val_all (struct TESR Tesr, char *entity,
 				     char *expr, double **val, int *valqty, char **ptype);
 
+  extern int neut_tesr_pos_valid (struct TESR Tesr, int *pos);
+
 #endif				/* NEUT_VOX_GEN_H */
 
 #ifdef __cplusplus

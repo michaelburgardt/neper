@@ -622,7 +622,7 @@ along directions @var{x}@comma{} @code{@var{y}} and
 @code{@var{z}}@comma{} respectively. For a 2D tessellation@comma{}
 @code{@var{z_fact}} can be omitted.@*
 @math{@bullet{}} @samp{rotate(@var{axis_x}@comma{}@var{axis_y}@comma{}@var{axis_z}@comma{}@var{angle})}
-for a rotation about an axis/angle pair.@*
+for a rotation about the centre and by an axis/angle pair.@*
 The following transformations apply to a raster tessellation:@*
 @math{@bullet{}} @samp{@code{renumber}} renumbers a tessellation to remove empty cells.@*
 @math{@bullet{}} @samp{@code{crop:@var{shape}(@var{parameters})}} crops the raster tessellation by a shape@comma{} where @samp{@var{shape}(@var{parameters})} can be @samp{cube(@var{xmin}@comma{}@var{xmax}@comma{}@var{ymin}@comma{}@var{ymax}@comma{}@var{zmin}@comma{}@var{zmax})} or @samp{cylinder(@var{centre_x}@comma{}@var{centre_y}@comma{}@var{diameter})} (the axis is z).  The values can be any mathematical expression based on the variables defined in @ref{Raster Tessellation Keys} (see general). @*
@@ -643,6 +643,8 @@ intersection with tessellation @file{@var{tess_file}}.@*
 adds a buffer of @code{@var{buffx}} void voxels on both sides in the x direction@comma{}
 a buffer of @code{@var{buffy}} void voxels on both sides in the y direction and
 a buffer of @code{@var{buffz}} void voxels on both sides in the z direction.@*
+@math{@bullet{}} @samp{rotate(@var{axis_x}@comma{}@var{axis_y}@comma{}@var{axis_z}@comma{}@var{angle})}
+for a rotation about the centre and by an axis/angle pair (a buffer may be added beforehand@comma{} using @samp{@code{addbuffer}}).@*
 @math{@bullet{}} @samp{@code{2d}} transforms a 3D tessellation with 1 voxel along z into a 2D tessellation.@*
 Several transformations can be applied successively by combining them @w{with @samp{@SEPNODEP}}.
 ,
