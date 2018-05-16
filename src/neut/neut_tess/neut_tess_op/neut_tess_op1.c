@@ -426,27 +426,41 @@ neut_tess_rotate (struct TESS *pTess, double **g)
 {
   int i;
   double c[3];
+  double **ginv = ol_g_alloc ();
 
+  ol_g_inverse (g, ginv);
   neut_tess_centre (*pTess, c);
 
   neut_tess_shift (pTess, -c[0], -c[1], -c[2]);
 
   for (i = 1; i <= (*pTess).VerQty; i++)
-    ol_g_vect_vect (g, (*pTess).VerCoo[i], (*pTess).VerCoo[i]);
+    ol_g_vect_vect (ginv, (*pTess).VerCoo[i], (*pTess).VerCoo[i]);
 
   for (i = 1; i <= (*pTess).FaceQty; i++)
   {
-    ol_g_vect_vect (g, (*pTess).FaceEq[i] + 1, (*pTess).FaceEq[i] + 1);
-    ol_g_vect_vect (g, (*pTess).FacePtCoo[i], (*pTess).FacePtCoo[i]);
+    ol_g_vect_vect (ginv, (*pTess).FaceEq[i] + 1, (*pTess).FaceEq[i] + 1);
+    ol_g_vect_vect (ginv, (*pTess).FacePtCoo[i], (*pTess).FacePtCoo[i]);
   }
 
   for (i = 1; i <= (*pTess).DomVerQty; i++)
-    ol_g_vect_vect (g, (*pTess).DomVerCoo[i], (*pTess).DomVerCoo[i]);
+    ol_g_vect_vect (ginv, (*pTess).DomVerCoo[i], (*pTess).DomVerCoo[i]);
 
   for (i = 1; i <= (*pTess).DomFaceQty; i++)
-    ol_g_vect_vect (g, (*pTess).DomFaceEq[i] + 1, (*pTess).DomFaceEq[i] + 1);
+    ol_g_vect_vect (ginv, (*pTess).DomFaceEq[i] + 1, (*pTess).DomFaceEq[i] + 1);
 
   neut_tess_shift (pTess, c[0], c[1], c[2]);
+
+  if ((*pTess).CellOri)
+  {
+    double *q = ol_q_alloc ();
+    ol_g_q (g, q);
+    for (i = 1; i <= (*pTess).CellQty; i++)
+      ol_q_q_q ((*pTess).CellOri[i], q, (*pTess).CellOri[i]);
+
+    ol_q_free (q);
+  }
+
+  ol_g_free (ginv);
 
   return;
 }
