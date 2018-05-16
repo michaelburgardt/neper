@@ -12,7 +12,7 @@ net_tess_opt_init_sset_coo_cluster (int dim, gsl_rng *r2, int qty, double dist,
   (*pPoint).Dim = dim;
 
   if (qty == 1)
-    neut_point_addpoint (pPoint, NULL, 0);
+    neut_point_addpoint (pPoint, NULL, rad);
 
   else
   {
