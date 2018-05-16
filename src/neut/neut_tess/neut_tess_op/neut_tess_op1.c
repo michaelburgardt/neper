@@ -425,6 +425,11 @@ void
 neut_tess_rotate (struct TESS *pTess, double **g)
 {
   int i;
+  double c[3];
+
+  neut_tess_centre (*pTess, c);
+
+  neut_tess_shift (pTess, -c[0], -c[1], -c[2]);
 
   for (i = 1; i <= (*pTess).VerQty; i++)
     ol_g_vect_vect (g, (*pTess).VerCoo[i], (*pTess).VerCoo[i]);
@@ -440,6 +445,8 @@ neut_tess_rotate (struct TESS *pTess, double **g)
 
   for (i = 1; i <= (*pTess).DomFaceQty; i++)
     ol_g_vect_vect (g, (*pTess).DomFaceEq[i] + 1, (*pTess).DomFaceEq[i] + 1);
+
+  neut_tess_shift (pTess, c[0], c[1], c[2]);
 
   return;
 }
