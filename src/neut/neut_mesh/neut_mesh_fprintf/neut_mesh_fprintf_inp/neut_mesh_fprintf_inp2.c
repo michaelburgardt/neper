@@ -67,7 +67,7 @@ neut_mesh_fprintf_inp_mesh2d (FILE *file, struct MESH Mesh2D,
     if (Mesh2D.EltOrder == 1)
     {
       if (!type || !strcmp (type, "standard"))
-	fprintf (file, "C2D4\n");
+	fprintf (file, "CPE4\n");
       else if (!strcmp (type, "cohesive"))
 	fprintf (file, "COH2D4\n");
       else
@@ -86,7 +86,7 @@ neut_mesh_fprintf_inp_mesh2d (FILE *file, struct MESH Mesh2D,
     else
     {
       if (!type || !strcmp (type, "standard"))
-	fprintf (file, "C2D8\n");
+	fprintf (file, "CPE8\n");
       else if (!strcmp (type, "cohesive"))
 	fprintf (file, "COH2D8\n");
       else
